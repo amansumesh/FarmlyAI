@@ -59,6 +59,7 @@ Save to `{@artifacts_path}/plan.md`.
 The following steps break down the Farmly AI MVP implementation based on the 4 delivery phases outlined in `spec.md`. Each step is designed to be a coherent unit of work with clear verification criteria.
 
 ### [ ] Step: Project Foundation Setup
+<!-- chat-id: e6491e33-bf59-415e-904f-10e9a44a8a77 -->
 
 **Objective**: Initialize the monorepo project structure with all necessary tooling and configurations.
 
