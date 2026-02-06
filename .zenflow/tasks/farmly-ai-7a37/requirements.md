@@ -35,13 +35,29 @@ Farmly AI is a **voice-first, multilingual AI agricultural advisory system** des
 
 ## 2. Target Users
 
-### Primary Persona: Ramesh Kumar
+### Primary Persona: Ramesh Kumar (North/West India)
 - **Demographics**: 45 years old, 3 acres in rural Maharashtra
 - **Education**: Primary school (5th grade)
 - **Digital Literacy**: Uses feature phone, limited smartphone experience
-- **Language**: Marathi primary, limited Hindi, no English
+- **Language**: Hindi primary, no English
 - **Pain Points**: Cannot read complex apps, misses disease symptoms early, unaware of schemes
 - **Goals**: Increase yield by 20%, reduce losses, get fair market prices
+
+### Secondary Persona: Murugan (South India - Tamil Nadu)
+- **Demographics**: 38 years old, 4 acres in rural Tamil Nadu
+- **Education**: 8th grade
+- **Digital Literacy**: Uses smartphone for WhatsApp
+- **Language**: Tamil primary, limited English, no Hindi
+- **Pain Points**: Existing apps are in Hindi/English, cannot access local crop advice
+- **Goals**: Adopt modern farming techniques, connect with local agricultural experts
+
+### Tertiary Persona: Ravi Kumar (South India - Karnataka)
+- **Demographics**: 42 years old, 5 acres in Karnataka
+- **Education**: 10th grade
+- **Digital Literacy**: Comfortable with smartphone apps
+- **Language**: Kannada primary, understands Telugu and Tamil, limited Hindi
+- **Pain Points**: Market price information not localized, disease detection doesn't work for regional crops
+- **Goals**: Maximize profit through better market timing, reduce crop losses
 
 ### MVP User Flow Assumption
 **Decision**: For the hackathon MVP, we'll design for smartphone users first, with voice as the primary input method to accommodate low literacy. Feature phone support (SMS) is deferred to post-hackathon.
@@ -62,15 +78,17 @@ Farmly AI is a **voice-first, multilingual AI agricultural advisory system** des
 - Response is spoken back with option to replay
 - Text fallback for manual input
 
-**Languages**: Hindi (primary), English (fallback)  
+**Languages**: Hindi, Tamil, Malayalam, Telugu, Kannada, English (fallback)  
 **Success Criteria**: 
-- Voice recognition accuracy >90% for agricultural terms
+- Voice recognition accuracy >90% for agricultural terms across all supported languages
 - Query-to-response time <3 seconds
+- UI text available in all 5 regional languages + English
 
 **Technical Notes**:
-- Use Web Speech API for browser-native STT
-- Google Cloud Speech API as fallback
-- Text-to-Speech via Web Speech API or Google TTS
+- Use Google Cloud Speech API for all Indic languages (better accuracy than Web Speech API)
+- Google Cloud Text-to-Speech for all supported languages
+- Language auto-detection or manual selection during onboarding
+- NLP model must support multilingual intent recognition
 
 #### Feature 2: AI-Powered Crop Disease Detection
 **Description**: Computer vision for instant disease identification via camera
@@ -160,16 +178,22 @@ Farmly AI is a **voice-first, multilingual AI agricultural advisory system** des
 
 ### 4.1 First-Time User Onboarding
 1. User opens app URL on smartphone
-2. Language selection screen (Hindi/English with icons)
-3. Audio introduction: "Welcome to Farmly AI..."
+2. Language selection screen with visual icons:
+   - **हिन्दी** (Hindi)
+   - **தமிழ்** (Tamil)
+   - **മലയാളം** (Malayalam)
+   - **తెలుగు** (Telugu)
+   - **ಕನ್ನಡ** (Kannada)
+   - **English**
+3. Audio introduction in selected language: "Welcome to Farmly AI..." (localized)
 4. Phone number + OTP verification
-5. Voice-guided farm profile setup:
+5. Voice-guided farm profile setup (all prompts in selected language):
    - "Where is your farm located?" (capture GPS or manual entry)
-   - "What crop are you growing?" (voice or dropdown)
+   - "What crop are you growing?" (voice or dropdown with regional crop names)
    - "How much land?" (voice or slider: 1-10 acres)
    - "What is your soil type?" (options: loamy, clay, sandy)
-6. Tutorial: "Tap microphone and ask your question"
-7. Suggested first query: "What should I do for my tomato crop?"
+6. Tutorial: "Tap microphone and ask your question" (in selected language)
+7. Suggested first query in user's language (e.g., Hindi: "What should I do for my tomato crop?", Tamil: "என் தக்காளி பயிருக்கு என்ன செய்ய வேண்டும்?")
 
 **Time**: 2-3 minutes
 
@@ -178,14 +202,14 @@ Farmly AI is a **voice-first, multilingual AI agricultural advisory system** des
 2. Instruction animation shows how to capture affected leaf (close-up, good lighting)
 3. User takes photo or uploads from gallery
 4. Loading screen: "Analyzing image..." (2-3 seconds)
-5. Results display:
-   - Disease name in Hindi + English
+5. Results display (in user's selected language + scientific name):
+   - Disease name: "தக்காளி இலை சுருள் வைரஸ்" (Tamil) / "Tomato Leaf Curl Virus"
    - Confidence: 98%
-   - Severity: Moderate
-6. Treatment recommendations:
-   - **Organic**: Neem oil spray (2ml per liter, spray evening)
-   - **Chemical**: [Product name] (dosage, safety precautions)
-   - **Prevention**: Remove infected leaves, improve ventilation
+   - Severity: Moderate (மிதமான)
+6. Treatment recommendations (localized):
+   - **Organic**: Neem oil spray (2ml per liter, spray evening) - வேப்ப எண்ணெய்
+   - **Chemical**: [Product name] (dosage, safety precautions) - localized
+   - **Prevention**: Remove infected leaves, improve ventilation - localized
 7. Option to save, share, or ask follow-up question
 
 **Time**: 30-45 seconds
@@ -475,24 +499,39 @@ The MVP is considered **COMPLETE** when:
 - **Language**: Hindi
 - **Use Case**: Disease detection, market prices
 
-### Profile 2: Lakshmi Devi
-- **Location**: Bangalore Rural, Karnataka
-- **Crop**: Rice (3 acres)
+### Profile 2: Murugan
+- **Location**: Coimbatore, Tamil Nadu
+- **Crop**: Rice (4 acres)
 - **Soil**: Clay
-- **Language**: Hindi/Kannada
-- **Use Case**: Weather advisory, irrigation scheduling
+- **Language**: Tamil
+- **Use Case**: Disease detection, weather advisory
 
-### Profile 3: Suresh Patel
-- **Location**: Nashik, Maharashtra
-- **Crop**: Onion (2 acres)
-- **Soil**: Sandy loam
-- **Language**: Marathi/Hindi
-- **Use Case**: Government schemes, market intelligence
+### Profile 3: Ravi Kumar
+- **Location**: Mysore, Karnataka
+- **Crop**: Sugarcane (5 acres)
+- **Soil**: Red soil
+- **Language**: Kannada
+- **Use Case**: Market intelligence, government schemes
+
+### Profile 4: Venu Gopal
+- **Location**: Wayanad, Kerala
+- **Crop**: Pepper (2 acres)
+- **Soil**: Laterite
+- **Language**: Malayalam
+- **Use Case**: Disease detection, organic farming advice
+
+### Profile 5: Rajesh Reddy
+- **Location**: Guntur, Andhra Pradesh
+- **Crop**: Cotton (6 acres)
+- **Soil**: Black cotton soil
+- **Language**: Telugu
+- **Use Case**: Pest management, market prices
 
 ---
 
 ## Appendix B: Sample Voice Queries (Expected to Handle)
 
+### Hindi Queries
 1. "Tamatar ke patte pe dabbe dikh rahe hain, kya karun?"  
    _(Spots on tomato leaves, what to do?)_
 
@@ -502,11 +541,45 @@ The MVP is considered **COMPLETE** when:
 3. "Sarkar ki koi yojana hai kya?"  
    _(Is there any government scheme?)_
 
-4. "Pani kab dena chahiye?"  
-   _(When should I water?)_
+### Tamil Queries
+4. "தக்காளி இலையில் புள்ளிகள் தெரிகிறது, என்ன செய்வது?"  
+   _(Spots appearing on tomato leaves, what to do?)_
 
-5. "Khaad kaunsi daalun?"  
-   _(Which fertilizer should I apply?)_
+5. "இன்றைய சந்தை விலை என்ன?"  
+   _(What is today's market price?)_
+
+6. "அரசு திட்டம் ஏதாவது உள்ளதா?"  
+   _(Is there any government scheme?)_
+
+### Malayalam Queries
+7. "തക്കാളി ഇലയിൽ പാടുകൾ കാണുന്നു, എന്ത് ചെയ്യണം?"  
+   _(Spots on tomato leaves, what to do?)_
+
+8. "ഇന്നത്തെ മാർക്കറ്റ് വില എന്താണ്?"  
+   _(What is today's market price?)_
+
+9. "എന്തെങ്കിലും സർക്കാർ പദ്ധതി ഉണ്ടോ?"  
+   _(Is there any government scheme?)_
+
+### Telugu Queries
+10. "టమాటా ఆకులపై మచ్చలు కనిపిస్తున్నాయి, ఏం చేయాలి?"  
+    _(Spots on tomato leaves, what to do?)_
+
+11. "ఈరోజు మార్కెట్ ధర ఎంత?"  
+    _(What is today's market price?)_
+
+12. "ప్రభుత్వ పథకం ఏదైనా ఉందా?"  
+    _(Is there any government scheme?)_
+
+### Kannada Queries
+13. "ಟೊಮೇಟೊ ಎಲೆಗಳ ಮೇಲೆ ಕಲೆಗಳು ಕಾಣುತ್ತಿವೆ, ಏನು ಮಾಡಬೇಕು?"  
+    _(Spots on tomato leaves, what to do?)_
+
+14. "ಇಂದಿನ ಮಾರುಕಟ್ಟೆ ಬೆಲೆ ಎಷ್ಟು?"  
+    _(What is today's market price?)_
+
+15. "ಯಾವುದಾದರೂ ಸರ್ಕಾರಿ ಯೋಜನೆ ಇದೆಯೇ?"  
+    _(Is there any government scheme?)_
 
 ---
 
