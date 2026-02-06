@@ -16,8 +16,32 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+app.get('/health', async (_req, res) => {
+  const health = {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    db: 'disconnected',
+    redis: 'disconnected'
+  };
+
+  try {
+    // Check MongoDB connection
+    const mongoose = await import('mongoose');
+    if (mongoose.default.connection.readyState === 1) {
+      health.db = 'connected';
+    }
+
+    // Check Redis connection
+    const { redisClient } = await import('./utils/redis.js');
+    if (redisClient.isOpen) {
+      health.redis = 'connected';
+    }
+
+    res.json(health);
+  } catch (error) {
+    logger.error('Health check error:', error);
+    res.status(500).json({ ...health, status: 'error' });
+  }
 });
 
 app.get('/', (_req, res) => {

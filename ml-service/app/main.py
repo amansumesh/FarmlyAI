@@ -30,9 +30,18 @@ async def root():
 
 @app.get("/health")
 async def health():
+    import os.path
+    from datetime import datetime
+    
+    model_path = os.getenv("MODEL_PATH", "./models/plant_disease_model.h5")
+    model_exists = os.path.exists(model_path)
+    
     return {
         "status": "ok",
-        "model_loaded": False
+        "timestamp": datetime.utcnow().isoformat(),
+        "model_loaded": model_exists,
+        "model_path": model_path,
+        "version": "1.0.0"
     }
 
 if __name__ == "__main__":

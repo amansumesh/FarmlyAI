@@ -9,6 +9,9 @@
     "start": "node dist/index.js",
     "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
     "typecheck": "tsc --noEmit",
+    "init:db": "tsx scripts/init-db.ts",
+    "test:db": "tsx scripts/test-db.ts",
+    "test:redis": "tsx scripts/test-redis.ts",
     "seed:schemes": "tsx scripts/seed-schemes.ts"
   },
   "dependencies": {
