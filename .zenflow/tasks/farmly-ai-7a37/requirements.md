@@ -1,9 +1,11 @@
 # Product Requirements Document - Farmly AI (Hackathon MVP)
 
-**Version**: 1.0  
+**Version**: 1.1  
 **Date**: February 2026  
 **Project Type**: Hackathon Submission (24-48 Hours)  
 **Target**: AgriTech + AI/ML Category
+
+**Document Purpose**: This PRD is an MVP-focused implementation specification derived from the comprehensive Product Requirements Document provided in the task description. It narrows scope to features achievable within a 24-48 hour hackathon timeline while maintaining the core innovation pillars.
 
 ---
 
@@ -78,17 +80,25 @@ Farmly AI is a **voice-first, multilingual AI agricultural advisory system** des
 - Response is spoken back with option to replay
 - Text fallback for manual input
 
-**Languages**: Hindi, Tamil, Malayalam, Telugu, Kannada, English (fallback)  
-**Success Criteria**: 
-- Voice recognition accuracy >90% for agricultural terms across all supported languages
-- Query-to-response time <3 seconds
-- UI text available in all 5 regional languages + English
+**Languages (Total: 6)**: 
+- **Regional**: Hindi, Tamil, Malayalam, Telugu, Kannada (5 languages)
+- **Fallback**: English
 
-**Technical Notes**:
-- Use Google Cloud Speech API for all Indic languages (better accuracy than Web Speech API)
-- Google Cloud Text-to-Speech for all supported languages
-- Language auto-detection or manual selection during onboarding
-- NLP model must support multilingual intent recognition
+**Success Criteria**: 
+- Voice recognition accuracy >90% for agricultural terms across all 6 supported languages
+- Query-to-response time <3 seconds
+- Complete UI localization in all 6 languages
+
+**Technical Specification**:
+- **STT (Speech-to-Text)**: Google Cloud Speech-to-Text API
+  - Supports all 6 languages with agricultural vocabulary
+  - Free tier: 60 minutes/month (sufficient for demo)
+  - Fallback: Web Speech API for English only (free, unlimited)
+- **TTS (Text-to-Speech)**: Google Cloud Text-to-Speech API
+  - Regional voices for all 5 Indian languages
+  - Free tier: 4 million characters/month (sufficient for demo)
+- **Language Selection**: Manual selection during onboarding (6-option screen)
+- **NLP Intent Recognition**: Multilingual BERT model or rule-based system with translated patterns
 
 #### Feature 2: AI-Powered Crop Disease Detection
 **Description**: Computer vision for instant disease identification via camera
@@ -343,28 +353,33 @@ Farmly AI is a **voice-first, multilingual AI agricultural advisory system** des
 
 ## 8. Open Questions & Decisions Needed
 
-### 8.1 Clarifications Required
+### 8.1 Clarifications Resolved
 
-**Question 1**: What is the primary demo language?
-- **Options**: Hindi only, or Hindi + one regional language (Marathi/Kannada)?
-- **Impact**: Development time vs. demo impressiveness
-- **Recommendation**: Start with Hindi only, add Marathi if time permits
+**Question 1 [RESOLVED]**: What is the primary demo language?
+- **User Decision**: Support all 5 major South Indian languages + Hindi + English (6 total)
+- **Languages**: Hindi, Tamil, Malayalam, Telugu, Kannada, English
+- **Impact**: Increased development effort for translations and TTS/STT integration
+- **Implementation**: Use Google Cloud APIs for consistent quality across all languages
 
 **Question 2**: Should we use real farmer data for demo or synthetic profiles?
 - **Options**: Create realistic synthetic data vs. recruit 1-2 real farmers to test
 - **Impact**: Demo authenticity vs. development time
 - **Recommendation**: Synthetic data for MVP, real farmer testimonial video (pre-recorded)
 
-**Question 3**: Disease detection - client-side or server-side inference?
-- **Options**: TensorFlow.js (works offline) vs. Cloud API (easier integration)
-- **Impact**: Offline capability vs. development complexity
-- **Recommendation**: Start with cloud API, migrate to TF.js if time permits
+**Question 3 [DECIDED]**: Disease detection - client-side or server-side inference?
+- **Decision**: Server-side inference initially, client-side as stretch goal
+- **Primary**: Python FastAPI backend with TensorFlow/PyTorch
+- **Stretch Goal**: TensorFlow.js for offline capability
+- **Rationale**: Server-side is faster to implement and allows larger, more accurate models
 
-### 8.2 Assumptions Made (Proceeding Without User Input)
+### 8.2 Assumptions Made and Decisions
 
-**Assumption 1**: Using Google Cloud free tier for STT/TTS
-- **Rationale**: Best accuracy for Indic languages, 60 min/month free sufficient for demo
-- **Alternative**: Web Speech API (inconsistent Indic language support)
+**Decision 1**: Using Google Cloud APIs for Voice (NOT Web Speech API)
+- **STT**: Google Cloud Speech-to-Text API for all 6 languages
+- **TTS**: Google Cloud Text-to-Speech API for all 6 languages
+- **Rationale**: Consistent quality across all Indic languages, free tier sufficient for hackathon demo
+- **Cost Control**: 60 min STT + 4M characters TTS free/month
+- **Alternative Rejected**: Web Speech API (poor/no support for Tamil, Malayalam, Telugu, Kannada)
 
 **Assumption 2**: Mobile-first responsive design, not separate native app
 - **Rationale**: Faster development, cross-platform, PWA meets "works like native" requirement
@@ -468,18 +483,18 @@ The MVP is considered **COMPLETE** when:
 5. Deploy to Vercel (continuous deployment setup)
 
 ### Phase 2 (Hours 13-24): Core Features
-1. Voice interface (Web Speech API, Hindi STT/TTS)
-2. Disease detection (integrate pre-trained model)
-3. Weather API integration
-4. Basic advisory logic (rule-based)
-5. Market price API integration
+1. Voice interface (Google Cloud Speech API for all 6 languages)
+2. Disease detection (integrate pre-trained model via backend API)
+3. Weather API integration (OpenWeatherMap)
+4. Basic advisory logic (rule-based system)
+5. Market price API integration (Agmarknet)
 
-### Phase 3 (Hours 25-36): Polish & Integration
-1. Government schemes database and matching
-2. User history/saved queries
-3. UI polish (loading states, error handling)
-4. Mobile testing and fixes
-5. Performance optimization
+### Phase 3 (Hours 25-36): Localization & Polish
+1. Complete UI translations for all 6 languages
+2. Government schemes database and matching
+3. Test voice interface in all 6 languages
+4. UI polish (loading states, error handling, language-specific formatting)
+5. Mobile testing on multiple devices and language settings
 
 ### Phase 4 (Hours 37-48): Demo Prep
 1. Create demo data and test scenarios
