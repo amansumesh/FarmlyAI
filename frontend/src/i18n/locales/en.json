@@ -1,0 +1,69 @@
+{
+  "common": {
+    "next": "Next",
+    "back": "Back",
+    "skip": "Skip",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "done": "Done",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "onboarding": {
+    "welcome": "Welcome to Farmly AI",
+    "subtitle": "Your smart farming assistant",
+    "selectLanguage": "Select Your Language",
+    "languagePrompt": "Choose the language you're most comfortable with",
+    "setupProfile": "Set Up Your Farm Profile",
+    "locationTitle": "Farm Location",
+    "locationPrompt": "Help us locate your farm",
+    "useCurrentLocation": "Use Current Location",
+    "enterManually": "Enter Manually",
+    "address": "Address",
+    "state": "State",
+    "district": "District",
+    "cropsTitle": "Your Crops",
+    "cropsPrompt": "What do you grow?",
+    "selectCrops": "Select your crops",
+    "landSizeTitle": "Land Size",
+    "landSizePrompt": "How much land do you farm?",
+    "acres": "Acres",
+    "enterLandSize": "Enter land size in acres",
+    "soilTypeTitle": "Soil Type",
+    "soilTypePrompt": "What type of soil do you have?",
+    "soilTypes": {
+      "loamy": "Loamy Soil",
+      "clay": "Clay Soil",
+      "sandy": "Sandy Soil",
+      "red": "Red Soil",
+      "black": "Black Soil",
+      "laterite": "Laterite Soil"
+    },
+    "allSet": "You're All Set!",
+    "readyMessage": "Your profile is complete. Let's start farming smarter!",
+    "goToHome": "Go to Home"
+  },
+  "crops": {
+    "rice": "Rice",
+    "wheat": "Wheat",
+    "cotton": "Cotton",
+    "sugarcane": "Sugarcane",
+    "tomato": "Tomato",
+    "potato": "Potato",
+    "onion": "Onion",
+    "chili": "Chili",
+    "maize": "Maize",
+    "soybean": "Soybean",
+    "groundnut": "Groundnut",
+    "pulses": "Pulses",
+    "mango": "Mango",
+    "banana": "Banana"
+  },
+  "errors": {
+    "locationFailed": "Failed to get your location. Please enter manually.",
+    "saveFailed": "Failed to save profile. Please try again.",
+    "networkError": "Network error. Please check your connection."
+  }
+}
