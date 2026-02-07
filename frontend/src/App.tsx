@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
@@ -15,35 +16,56 @@ const queryClient = new QueryClient({
   },
 });
 
-function App() {
-  const { isAuthenticated } = useAuthStore();
+function AppRouter() {
+  const { isAuthenticated, user } = useAuthStore();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      if (!user.onboardingCompleted) {
+        navigate('/onboarding', { replace: true });
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
+
+  return (
+    <Routes>
+      <Route 
+        path="/" 
+        element={
+          isAuthenticated 
+            ? user?.onboardingCompleted 
+              ? <Navigate to="/home" replace /> 
+              : <Navigate to="/onboarding" replace />
+            : <LoginPage />
+        } 
+      />
+      <Route
+        path="/onboarding"
+        element={
+          <ProtectedRoute>
+            <OnboardingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute requireOnboarding>
+            <HomePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
+
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Routes>
-          <Route 
-            path="/" 
-            element={isAuthenticated ? <Navigate to="/home" replace /> : <LoginPage />} 
-          />
-          <Route
-            path="/onboarding"
-            element={
-              <ProtectedRoute>
-                <OnboardingPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <HomePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <AppRouter />
       </BrowserRouter>
     </QueryClientProvider>
   );
