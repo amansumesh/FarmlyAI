@@ -15,6 +15,8 @@
     "seed:schemes": "tsx scripts/seed-schemes.ts"
   },
   "dependencies": {
+    "@google-cloud/speech": "^6.3.0",
+    "@google-cloud/text-to-speech": "^5.2.0",
     "@vercel/blob": "^2.2.0",
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
