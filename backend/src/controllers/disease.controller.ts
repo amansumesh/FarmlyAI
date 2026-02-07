@@ -52,6 +52,15 @@ export const detectDisease = async (req: Request, res: Response) => {
     const imageBase64 = file.buffer.toString('base64');
     const mlResponse = await MLService.detectDisease(imageBase64);
 
+    const normalizeSeverity = (severity: string): 'low' | 'moderate' | 'high' | 'critical' => {
+      const validSeverities = ['low', 'moderate', 'high', 'critical'];
+      if (validSeverities.includes(severity)) {
+        return severity as 'low' | 'moderate' | 'high' | 'critical';
+      }
+      // Default to 'moderate' for uncertain or invalid values
+      return 'moderate';
+    };
+
     const predictions = mlResponse.predictions.map((pred) => ({
       disease: pred.disease,
       diseaseLocal: TreatmentService.getLocalizedDiseaseName(
@@ -60,7 +69,7 @@ export const detectDisease = async (req: Request, res: Response) => {
       ),
       crop: pred.crop,
       confidence: pred.confidence,
-      severity: pred.severity as 'low' | 'moderate' | 'high' | 'critical',
+      severity: normalizeSeverity(pred.severity),
     }));
 
     const topPrediction = predictions[0] || {
