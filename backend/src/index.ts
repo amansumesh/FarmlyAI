@@ -7,6 +7,7 @@ import { connectRedis } from './utils/redis.js';
 import { logger } from './utils/logger.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
+import diseaseRoutes from './routes/disease.routes.js';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/disease', diseaseRoutes);
 
 app.get('/health', async (_req, res) => {
   const health = {

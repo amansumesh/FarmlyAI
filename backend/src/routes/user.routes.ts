@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { userController } from '../controllers/user.controller.js';
-import { authMiddleware } from '../middleware/auth.middleware.js';
+import { authenticateToken } from '../middleware/auth.middleware.js';
 
 const router: ReturnType<typeof Router> = Router();
 
-router.get('/profile', authMiddleware, userController.getProfile.bind(userController));
+router.get('/profile', authenticateToken, userController.getProfile.bind(userController));
 
-router.put('/profile', authMiddleware, userController.updateProfile.bind(userController));
+router.put('/profile', authenticateToken, userController.updateProfile.bind(userController));
 
 export default router;

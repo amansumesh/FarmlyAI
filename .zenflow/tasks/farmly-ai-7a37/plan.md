@@ -238,7 +238,8 @@ curl -X POST https://ml.farmly-ai.railway.app/ml/detect-disease \
 
 ---
 
-### [ ] Step: Disease Detection - API Integration
+### [x] Step: Disease Detection - API Integration
+<!-- chat-id: 6a1f0720-6449-4f6b-8632-be8e77fd2a93 -->
 
 **Objective**: Connect backend API to ML service and implement file upload handling.
 

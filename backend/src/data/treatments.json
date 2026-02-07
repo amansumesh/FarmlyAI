@@ -1,0 +1,266 @@
+{
+  "treatments": {
+    "Tomato Late Blight": {
+      "organic": [
+        "Remove and destroy infected leaves immediately",
+        "Apply copper-based fungicide (Bordeaux mixture)",
+        "Improve air circulation by proper spacing",
+        "Water at base, avoid overhead irrigation"
+      ],
+      "chemical": [
+        "Spray Mancozeb 75% WP @ 2.5g/liter",
+        "Apply Chlorothalonil 75% WP @ 2g/liter",
+        "Use Metalaxyl + Mancozeb @ 2.5g/liter"
+      ],
+      "preventive": [
+        "Use resistant varieties",
+        "Maintain proper plant spacing (60cm)",
+        "Avoid working in wet fields",
+        "Rotate crops annually"
+      ]
+    },
+    "Tomato Early Blight": {
+      "organic": [
+        "Remove infected lower leaves",
+        "Apply neem oil spray (5ml/liter)",
+        "Use baking soda solution (1 tablespoon/liter)",
+        "Mulch around plants to prevent soil splash"
+      ],
+      "chemical": [
+        "Spray Mancozeb 75% WP @ 2.5g/liter every 7-10 days",
+        "Apply Azoxystrobin 23% SC @ 1ml/liter",
+        "Use Copper oxychloride 50% WP @ 3g/liter"
+      ],
+      "preventive": [
+        "Practice crop rotation (3-year cycle)",
+        "Remove plant debris after harvest",
+        "Water at soil level only",
+        "Use disease-free seeds"
+      ]
+    },
+    "Tomato Leaf Curl": {
+      "organic": [
+        "Remove infected plants immediately",
+        "Control whitefly with neem oil (5ml/liter)",
+        "Use yellow sticky traps for whiteflies",
+        "Spray garlic extract solution"
+      ],
+      "chemical": [
+        "Control whitefly with Imidacloprid 17.8% SL @ 0.5ml/liter",
+        "Apply Thiamethoxam 25% WG @ 0.2g/liter",
+        "Use Acetamiprid 20% SP @ 0.2g/liter"
+      ],
+      "preventive": [
+        "Use virus-resistant varieties",
+        "Install insect-proof nets",
+        "Remove weeds that harbor whiteflies",
+        "Maintain field sanitation"
+      ]
+    },
+    "Rice Blast": {
+      "organic": [
+        "Apply Pseudomonas fluorescens @ 10g/liter",
+        "Use Trichoderma viride @ 5g/liter",
+        "Spray cow urine solution (1:10 dilution)",
+        "Remove infected leaves"
+      ],
+      "chemical": [
+        "Spray Tricyclazole 75% WP @ 0.6g/liter",
+        "Apply Isoprothiolane 40% EC @ 1.5ml/liter",
+        "Use Carbendazim 50% WP @ 1g/liter"
+      ],
+      "preventive": [
+        "Use resistant varieties",
+        "Avoid excessive nitrogen fertilization",
+        "Maintain proper water management",
+        "Treat seeds with fungicide"
+      ]
+    },
+    "Rice Bacterial Blight": {
+      "organic": [
+        "Remove infected leaves and burn",
+        "Apply copper oxychloride @ 3g/liter",
+        "Drain water from field temporarily",
+        "Use bio-agents like Pseudomonas"
+      ],
+      "chemical": [
+        "Spray Streptocycline 300ppm + Copper oxychloride 2.5g/liter",
+        "Apply Plantomycin @ 1g/liter",
+        "Use Copper hydroxide 77% WP @ 3g/liter"
+      ],
+      "preventive": [
+        "Use certified disease-free seeds",
+        "Avoid injury to plants during cultivation",
+        "Balance nitrogen fertilization",
+        "Use resistant varieties"
+      ]
+    },
+    "Wheat Rust": {
+      "organic": [
+        "Remove infected leaves",
+        "Apply sulfur-based fungicide",
+        "Improve air circulation",
+        "Use resistant varieties"
+      ],
+      "chemical": [
+        "Spray Propiconazole 25% EC @ 1ml/liter",
+        "Apply Tebuconazole 25% EC @ 1ml/liter",
+        "Use Mancozeb 75% WP @ 2.5g/liter"
+      ],
+      "preventive": [
+        "Plant rust-resistant varieties",
+        "Adjust sowing time",
+        "Remove volunteer wheat plants",
+        "Practice crop rotation"
+      ]
+    },
+    "Cotton Leaf Curl": {
+      "organic": [
+        "Remove infected plants",
+        "Control whitefly with neem oil",
+        "Use yellow sticky traps",
+        "Apply neem seed kernel extract"
+      ],
+      "chemical": [
+        "Control whitefly with Imidacloprid @ 0.5ml/liter",
+        "Apply Thiamethoxam @ 0.2g/liter",
+        "Use Acetamiprid @ 0.2g/liter"
+      ],
+      "preventive": [
+        "Grow CLCuV-resistant varieties",
+        "Plant barrier crops (maize, sorghum)",
+        "Remove infected plants early",
+        "Destroy cotton crop residue"
+      ]
+    },
+    "Potato Late Blight": {
+      "organic": [
+        "Remove infected foliage",
+        "Apply copper fungicide",
+        "Improve drainage",
+        "Use resistant varieties"
+      ],
+      "chemical": [
+        "Spray Metalaxyl + Mancozeb @ 2.5g/liter",
+        "Apply Cymoxanil + Mancozeb @ 2g/liter",
+        "Use Dimethomorph @ 1ml/liter"
+      ],
+      "preventive": [
+        "Use certified disease-free seed tubers",
+        "Hill up properly to protect tubers",
+        "Avoid overhead irrigation",
+        "Destroy cull piles"
+      ]
+    },
+    "Chili Leaf Curl": {
+      "organic": [
+        "Remove and destroy infected plants",
+        "Control whitefly and aphids with neem oil",
+        "Use reflective mulches",
+        "Apply biopesticides"
+      ],
+      "chemical": [
+        "Control vectors with Imidacloprid @ 0.5ml/liter",
+        "Apply Dimethoate 30% EC @ 2ml/liter",
+        "Use Thiamethoxam @ 0.2g/liter"
+      ],
+      "preventive": [
+        "Use virus-free seeds",
+        "Install yellow sticky traps",
+        "Maintain proper spacing",
+        "Remove weed hosts"
+      ]
+    },
+    "Healthy": {
+      "organic": [
+        "Continue regular monitoring",
+        "Apply compost or organic fertilizer",
+        "Maintain good irrigation practices"
+      ],
+      "chemical": [
+        "No chemical treatment needed",
+        "Continue regular NPK fertilization schedule"
+      ],
+      "preventive": [
+        "Continue current practices",
+        "Regular crop monitoring",
+        "Maintain field hygiene",
+        "Use balanced nutrition"
+      ]
+    }
+  },
+  "diseaseNames": {
+    "en": {
+      "Tomato Late Blight": "Tomato Late Blight",
+      "Tomato Early Blight": "Tomato Early Blight",
+      "Tomato Leaf Curl": "Tomato Leaf Curl Virus",
+      "Rice Blast": "Rice Blast Disease",
+      "Rice Bacterial Blight": "Rice Bacterial Blight",
+      "Wheat Rust": "Wheat Rust",
+      "Cotton Leaf Curl": "Cotton Leaf Curl Virus",
+      "Potato Late Blight": "Potato Late Blight",
+      "Chili Leaf Curl": "Chili Leaf Curl Virus",
+      "Healthy": "Healthy Plant"
+    },
+    "hi": {
+      "Tomato Late Blight": "टमाटर का अंगमारी रोग",
+      "Tomato Early Blight": "टमाटर का अर्ली ब्लाइट",
+      "Tomato Leaf Curl": "टमाटर पत्ती मोड़ वायरस",
+      "Rice Blast": "धान का झुलसा रोग",
+      "Rice Bacterial Blight": "धान का जीवाणु अंगमारी",
+      "Wheat Rust": "गेहूं का रतुआ रोग",
+      "Cotton Leaf Curl": "कपास पत्ती मोड़ वायरस",
+      "Potato Late Blight": "आलू का अंगमारी रोग",
+      "Chili Leaf Curl": "मिर्च पत्ती मोड़ वायरस",
+      "Healthy": "स्वस्थ पौधा"
+    },
+    "ta": {
+      "Tomato Late Blight": "தக்காளி இறுதி வாட்டம்",
+      "Tomato Early Blight": "தக்காளி ஆரம்ப வாட்டம்",
+      "Tomato Leaf Curl": "தக்காளி இலை சுருள் வைரஸ்",
+      "Rice Blast": "நெல் வெடிப்பு நோய்",
+      "Rice Bacterial Blight": "நெல் பாக்டீரியா வாட்டம்",
+      "Wheat Rust": "கோதுமை துரு நோய்",
+      "Cotton Leaf Curl": "பருத்தி இலை சுருள் வைரஸ்",
+      "Potato Late Blight": "உருளைக்கிழங்கு வாட்டம்",
+      "Chili Leaf Curl": "மிளகாய் இலை சுருள் வைரஸ்",
+      "Healthy": "ஆரோக்கியமான செடி"
+    },
+    "ml": {
+      "Tomato Late Blight": "തക്കാളി ലേറ്റ് ബ്ലൈറ്റ്",
+      "Tomato Early Blight": "തക്കാളി എർലി ബ്ലൈറ്റ്",
+      "Tomato Leaf Curl": "തക്കാളി ഇല ചുരുൾ വൈറസ്",
+      "Rice Blast": "നെല്ല് ബ്ലാസ്റ്റ് രോഗം",
+      "Rice Bacterial Blight": "നെല്ല് ബാക്ടീരിയൽ ബ്ലൈറ്റ്",
+      "Wheat Rust": "ഗോതമ്പ് തുരുമ്പ്",
+      "Cotton Leaf Curl": "പരുത്തി ഇല ചുരുൾ വൈറസ്",
+      "Potato Late Blight": "ഉരുളക്കിഴങ്ങ് ബ്ലൈറ്റ്",
+      "Chili Leaf Curl": "മുളക് ഇല ചുരുൾ വൈറസ്",
+      "Healthy": "ആരോഗ്യമുള്ള ചെടി"
+    },
+    "te": {
+      "Tomato Late Blight": "టమోటా లేట్ బ్లైట్",
+      "Tomato Early Blight": "టమోటా ఎర్లీ బ్లైట్",
+      "Tomato Leaf Curl": "టమోటా ఆకు ముడత వైరస్",
+      "Rice Blast": "వరి బ్లాస్ట్ వ్యాధి",
+      "Rice Bacterial Blight": "వరి బాక్టీరియల్ బ్లైట్",
+      "Wheat Rust": "గోధుమ రస్ట్",
+      "Cotton Leaf Curl": "పత్తి ఆకు ముడత వైరస్",
+      "Potato Late Blight": "బంగాళాదుంప బ్లైట్",
+      "Chili Leaf Curl": "మిర్చి ఆకు ముడత వైరస్",
+      "Healthy": "ఆరోగ్యకరమైన మొక్క"
+    },
+    "kn": {
+      "Tomato Late Blight": "ಟೊಮೇಟೊ ಲೇಟ್ ಬ್ಲೈಟ್",
+      "Tomato Early Blight": "ಟೊಮೇಟೊ ಅರ್ಲಿ ಬ್ಲೈಟ್",
+      "Tomato Leaf Curl": "ಟೊಮೇಟೊ ಎಲೆ ಸುರುಳಿ ವೈರಸ್",
+      "Rice Blast": "ಭತ್ತ ಬ್ಲಾಸ್ಟ್ ರೋಗ",
+      "Rice Bacterial Blight": "ಭತ್ತ ಬ್ಯಾಕ್ಟೀರಿಯಲ್ ಬ್ಲೈಟ್",
+      "Wheat Rust": "ಗೋಧಿ ತುಕ್ಕು",
+      "Cotton Leaf Curl": "ಹತ್ತಿ ಎಲೆ ಸುರುಳಿ ವೈರಸ್",
+      "Potato Late Blight": "ಆಲೂಗಡ್ಡೆ ಬ್ಲೈಟ್",
+      "Chili Leaf Curl": "ಮೆಣಸಿನಕಾಯಿ ಎಲೆ ಸುರುಳಿ ವೈರಸ್",
+      "Healthy": "ಆರೋಗ್ಯಕರ ಸಸ್ಯ"
+    }
+  }
+}

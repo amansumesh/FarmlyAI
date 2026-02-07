@@ -4,7 +4,7 @@ import { User } from '../models/user.model.js';
 import { logger } from '../utils/logger.js';
 import { AuthRequest } from '../types/auth.types.js';
 
-export const authMiddleware = async (
+export const authenticateToken = async (
   req: AuthRequest,
   res: Response,
   next: NextFunction
@@ -58,5 +58,6 @@ export const authMiddleware = async (
       success: false,
       message: error instanceof Error ? error.message : 'Authentication failed'
     });
+    return;
   }
 };
