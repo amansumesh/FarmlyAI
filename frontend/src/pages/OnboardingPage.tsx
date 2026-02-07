@@ -5,6 +5,7 @@ import { LanguageSelector } from '../components/common/LanguageSelector';
 import { Button } from '../components/common/Button';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { useUserStore } from '../store/userStore';
+import { useAuthStore } from '../store/authStore';
 import { cn } from '../utils/cn';
 
 type OnboardingStep = 'language' | 'location' | 'crops' | 'landSize' | 'soilType' | 'complete';
@@ -20,6 +21,7 @@ export const OnboardingPage: React.FC = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const { updateProfile, loading: userLoading } = useUserStore();
+  const { setUser, user: authUser } = useAuthStore();
   const { latitude, longitude, error: geoError, loading: geoLoading, getCurrentLocation } = useGeolocation();
 
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('language');
@@ -112,6 +114,15 @@ export const OnboardingPage: React.FC = () => {
         },
         onboardingCompleted: true
       });
+
+      // Update auth store's user object
+      if (authUser) {
+        setUser({
+          ...authUser,
+          language: selectedLanguage as 'hi' | 'ta' | 'ml' | 'te' | 'kn' | 'en',
+          onboardingCompleted: true
+        });
+      }
 
       setCurrentStep('complete');
     } catch (err) {
