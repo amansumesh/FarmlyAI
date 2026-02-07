@@ -18,7 +18,7 @@ i18n
       kn: { translation: kn },
       en: { translation: en }
     },
-    lng: 'hi',
+    lng: localStorage.getItem('i18nextLng') || 'en',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false
