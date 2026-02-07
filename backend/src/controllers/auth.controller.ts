@@ -77,8 +77,11 @@ export class AuthController {
         user = await User.create({
           phoneNumber,
           phoneVerified: true,
-          language: 'hi', // Default language
-          onboardingCompleted: false
+          language: 'hi',
+          onboardingCompleted: false,
+          farmProfile: {
+            crops: []
+          }
         });
         logger.info(`New user created: ${phoneNumber}`);
       } else {

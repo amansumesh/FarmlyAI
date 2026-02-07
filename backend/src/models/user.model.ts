@@ -42,12 +42,10 @@ const userSchema = new Schema<IUser>({
     location: {
       type: {
         type: String,
-        enum: ['Point'],
-        default: 'Point'
+        enum: ['Point']
       },
       coordinates: {
-        type: [Number],
-        default: undefined
+        type: [Number]
       },
       address: String,
       state: String,
@@ -79,7 +77,7 @@ const userSchema = new Schema<IUser>({
   timestamps: true
 });
 
-// Create geospatial index (phoneNumber unique index is created by schema definition)
-userSchema.index({ 'farmProfile.location': '2dsphere' });
+// Create geospatial index (sparse to only index documents with location data)
+userSchema.index({ 'farmProfile.location': '2dsphere' }, { sparse: true });
 
 export const User = mongoose.model<IUser>('User', userSchema);
