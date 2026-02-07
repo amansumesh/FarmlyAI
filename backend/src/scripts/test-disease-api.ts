@@ -76,7 +76,7 @@ async function testDiseaseDetectionEndpoint() {
     formData.append('image', blob, 'test.jpg');
     formData.append('language', 'en');
 
-    const response = await axios.post(
+    await axios.post(
       `${API_BASE_URL}/api/disease/detect`,
       formData,
       {

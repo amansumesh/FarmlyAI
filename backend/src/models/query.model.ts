@@ -12,7 +12,7 @@ export interface IQuery extends Document {
   response: {
     text: string;
     audioUrl?: string;
-    data?: any;
+    data?: Record<string, unknown>;
   };
   intent?: string;
   processingTimeMs: number;

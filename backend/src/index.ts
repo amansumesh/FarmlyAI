@@ -8,6 +8,7 @@ import { logger } from './utils/logger.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import diseaseRoutes from './routes/disease.routes.js';
+import queryRoutes from './routes/query.routes.js';
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/disease', diseaseRoutes);
+app.use('/api/query', queryRoutes);
 
 app.get('/health', async (_req, res) => {
   const health = {

@@ -1,5 +1,25 @@
-import rateLimit from 'express-rate-limit';
+import rateLimit, { Options } from 'express-rate-limit';
 import { Request, Response } from 'express';
+
+export const rateLimiter = (options: Partial<Options> = {}) => {
+  const defaultOptions: Partial<Options> = {
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req: Request) => {
+      return req.user?.userId || req.ip || 'anonymous';
+    },
+    handler: (_req: Request, res: Response) => {
+      res.status(429).json({
+        success: false,
+        message: 'Too many requests. Please try again later.',
+      });
+    },
+  };
+
+  return rateLimit({ ...defaultOptions, ...options });
+};
 
 export const diseaseDetectionLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
