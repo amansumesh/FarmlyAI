@@ -315,7 +315,7 @@ db.diseaseDetections.find({"userId": ObjectId("<user_id>")})
 
 ---
 
-### [ ] Step: Voice Interface - Google Cloud Integration
+### [x] Step: Voice Interface - Google Cloud Integration
 <!-- chat-id: f57896de-ebfa-4405-8676-a06b8a9ebd9b -->
 
 **Objective**: Integrate Google Cloud Speech-to-Text and Text-to-Speech.

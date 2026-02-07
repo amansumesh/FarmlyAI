@@ -39,7 +39,7 @@ async function testMongoDBConnection() {
     console.log('✓ Write operation successful');
     
     const retrieved = await testCollection.findOne({ test: true });
-    console.log('✓ Read operation successful');
+    console.log('✓ Read operation successful', retrieved ? '(Document found)' : '');
     
     await testCollection.deleteOne({ test: true });
     console.log('✓ Delete operation successful');

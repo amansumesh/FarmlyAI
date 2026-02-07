@@ -25,8 +25,8 @@ async function initializeDatabase() {
     try {
       await db.createCollection('users');
       console.log('✓ Users collection created');
-    } catch (error: any) {
-      if (error.codeName === 'NamespaceExists') {
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'codeName' in error && error.codeName === 'NamespaceExists') {
         console.log('✓ Users collection already exists');
       } else {
         throw error;
@@ -52,8 +52,8 @@ async function initializeDatabase() {
     try {
       await db.createCollection('queries');
       console.log('✓ Queries collection created');
-    } catch (error: any) {
-      if (error.codeName === 'NamespaceExists') {
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'codeName' in error && error.codeName === 'NamespaceExists') {
         console.log('✓ Queries collection already exists');
       } else {
         throw error;
@@ -72,8 +72,8 @@ async function initializeDatabase() {
     try {
       await db.createCollection('diseasedetections');
       console.log('✓ Disease detections collection created');
-    } catch (error: any) {
-      if (error.codeName === 'NamespaceExists') {
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'codeName' in error && error.codeName === 'NamespaceExists') {
         console.log('✓ Disease detections collection already exists');
       } else {
         throw error;
@@ -92,8 +92,8 @@ async function initializeDatabase() {
     try {
       await db.createCollection('schemes');
       console.log('✓ Schemes collection created');
-    } catch (error: any) {
-      if (error.codeName === 'NamespaceExists') {
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'codeName' in error && error.codeName === 'NamespaceExists') {
         console.log('✓ Schemes collection already exists');
       } else {
         throw error;

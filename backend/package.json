@@ -12,6 +12,7 @@
     "init:db": "tsx scripts/init-db.ts",
     "test:db": "tsx scripts/test-db.ts",
     "test:redis": "tsx scripts/test-redis.ts",
+    "test:voice": "tsx scripts/test-voice-api.ts",
     "seed:schemes": "tsx scripts/seed-schemes.ts"
   },
   "dependencies": {
