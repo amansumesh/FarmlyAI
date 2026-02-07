@@ -276,6 +276,7 @@ db.diseaseDetections.find({"userId": ObjectId("<user_id>")})
 ---
 
 ### [ ] Step: Disease Detection - Frontend
+<!-- chat-id: ca63e9e5-8baa-4761-b4c3-d45d464e4c55 -->
 
 **Objective**: Build user interface for disease detection with camera capture.
 
