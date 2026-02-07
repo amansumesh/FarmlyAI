@@ -121,7 +121,8 @@ curl https://ml.farmly-ai.railway.app/health
 
 ---
 
-### [ ] Step: Authentication System
+### [x] Step: Authentication System
+<!-- chat-id: 0a9b9e6c-be35-45f5-8c9c-ea5a5fc3105c -->
 
 **Objective**: Implement OTP-based authentication with JWT tokens.
 
