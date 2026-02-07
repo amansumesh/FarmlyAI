@@ -199,7 +199,8 @@ db.users.findOne({"phoneNumber": "+919876543210"})
 
 ---
 
-### [ ] Step: Disease Detection - ML Backend
+### [x] Step: Disease Detection - ML Backend
+<!-- chat-id: 5f130454-093b-4938-8715-ceefbdc10f0c -->
 
 **Objective**: Build and deploy the ML service for crop disease detection.
 

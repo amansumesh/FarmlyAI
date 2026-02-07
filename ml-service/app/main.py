@@ -1,8 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import uvicorn
 import os
 from dotenv import load_dotenv
+from datetime import datetime
+
+from app.services.inference import DiseaseDetectionService
 
 load_dotenv()
 
@@ -20,30 +24,102 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+use_mock = os.getenv("USE_MOCK_MODEL", "true").lower() == "true"
+disease_service = DiseaseDetectionService(use_mock=use_mock)
+
+class DiseaseDetectionRequest(BaseModel):
+    image_base64: str
+    top_k: int = 3
+
+class DiseaseDetectionResponse(BaseModel):
+    success: bool
+    predictions: list = None
+    top_prediction: dict = None
+    inference_time_ms: int = None
+    total_time_ms: int = None
+    preprocess_time_ms: int = None
+    model_version: str = None
+    model_type: str = None
+    error: str = None
+    error_type: str = None
+
 @app.get("/")
 async def root():
     return {
         "message": "Farmly AI ML Service",
         "version": "1.0.0",
-        "status": "running"
+        "status": "running",
+        "endpoints": [
+            "/health",
+            "/ml/detect-disease",
+            "/ml/service-info"
+        ]
     }
 
 @app.get("/health")
 async def health():
-    import os.path
-    from datetime import datetime
-    
-    model_path = os.getenv("MODEL_PATH", "./models/plant_disease_model.h5")
-    model_exists = os.path.exists(model_path)
+    health_status = disease_service.health_check()
     
     return {
-        "status": "ok",
+        "status": health_status.get("status", "unknown"),
         "timestamp": datetime.utcnow().isoformat(),
-        "model_loaded": model_exists,
-        "model_path": model_path,
+        "model_loaded": health_status.get("model_loaded", False),
+        "inference_working": health_status.get("inference_working", False),
+        "model_version": health_status.get("model_version", "unknown"),
         "version": "1.0.0"
     }
 
+@app.post("/ml/detect-disease", response_model=DiseaseDetectionResponse)
+async def detect_disease(request: DiseaseDetectionRequest):
+    """
+    Detect crop disease from base64 encoded image
+    
+    Args:
+        request: Disease detection request with base64 image
+        
+    Returns:
+        Disease predictions with confidence scores and treatment recommendations
+    """
+    try:
+        if not request.image_base64:
+            raise HTTPException(status_code=400, detail="image_base64 is required")
+        
+        if request.top_k < 1 or request.top_k > 10:
+            raise HTTPException(status_code=400, detail="top_k must be between 1 and 10")
+        
+        result = disease_service.detect_disease(
+            image_base64=request.image_base64,
+            top_k=request.top_k
+        )
+        
+        if not result.get("success"):
+            error_type = result.get("error_type", "unknown_error")
+            if error_type == "validation_error":
+                raise HTTPException(status_code=400, detail=result.get("error"))
+            else:
+                raise HTTPException(status_code=500, detail=result.get("error"))
+        
+        return DiseaseDetectionResponse(**result)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
+@app.get("/ml/service-info")
+async def service_info():
+    """
+    Get ML service information
+    
+    Returns:
+        Service configuration and model information
+    """
+    try:
+        info = disease_service.get_service_info()
+        return info
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get service info: {str(e)}")
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port, reload=True)
