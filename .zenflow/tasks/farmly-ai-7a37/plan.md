@@ -161,6 +161,7 @@ curl -X POST https://api.farmly-ai.vercel.app/api/auth/send-otp \
 ---
 
 ### [ ] Step: User Onboarding Flow
+<!-- chat-id: adae022a-2622-4226-bda4-f25a8af06125 -->
 
 **Objective**: Create onboarding experience for new users to setup their farm profile.
 

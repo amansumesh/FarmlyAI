@@ -1,14 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import { jwtService } from '../services/jwt.service.js';
 import { User } from '../models/user.model.js';
 import { logger } from '../utils/logger.js';
-
-export interface AuthRequest extends Request {
-  user?: {
-    userId: string;
-    phoneNumber: string;
-  };
-}
+import { AuthRequest } from '../types/auth.types.js';
 
 export const authMiddleware = async (
   req: AuthRequest,
