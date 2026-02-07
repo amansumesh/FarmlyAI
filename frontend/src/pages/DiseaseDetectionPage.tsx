@@ -55,11 +55,12 @@ export const DiseaseDetectionPage: React.FC = () => {
 
       setResult(response);
       setPageState('result');
-    } catch (err: any) {
+    } catch (err) {
       console.error('Disease detection error:', err);
+      const error = err as { response?: { data?: { message?: string } }; message?: string };
       setError(
-        err.response?.data?.message ||
-          err.message ||
+        error.response?.data?.message ||
+          error.message ||
           t('disease.errors.analysisFailed')
       );
       setPageState('error');

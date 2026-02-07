@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { HomePage } from './pages/HomePage';
+import { DiseaseDetectionPage } from './pages/DiseaseDetectionPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { useAuthStore } from './store/authStore';
 
@@ -53,6 +54,14 @@ function AppRouter() {
         element={
           <ProtectedRoute requireOnboarding>
             <HomePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/disease"
+        element={
+          <ProtectedRoute requireOnboarding>
+            <DiseaseDetectionPage />
           </ProtectedRoute>
         }
       />
