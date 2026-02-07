@@ -79,8 +79,7 @@ const userSchema = new Schema<IUser>({
   timestamps: true
 });
 
-// Create indexes
-userSchema.index({ phoneNumber: 1 }, { unique: true });
+// Create geospatial index (phoneNumber unique index is created by schema definition)
 userSchema.index({ 'farmProfile.location': '2dsphere' });
 
 export const User = mongoose.model<IUser>('User', userSchema);

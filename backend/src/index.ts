@@ -1,7 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import dotenv from 'dotenv';
 import { connectDB } from './utils/db.js';
 import { connectRedis } from './utils/redis.js';
 import { logger } from './utils/logger.js';
@@ -9,8 +11,6 @@ import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import diseaseRoutes from './routes/disease.routes.js';
 import queryRoutes from './routes/query.routes.js';
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -65,7 +65,13 @@ app.get('/', (_req, res) => {
 async function startServer() {
   try {
     await connectDB();
-    await connectRedis();
+    
+    // Try Redis but don't fail if it's not available
+    try {
+      await connectRedis();
+    } catch (redisError) {
+      logger.warn('Redis connection failed, continuing without cache:', redisError);
+    }
     
     app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);
