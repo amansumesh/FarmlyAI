@@ -9,7 +9,7 @@ class DiseaseService {
     formData.append('image', request.image);
     formData.append('language', request.language);
 
-    const response = await axiosInstance.post<DiseaseDetectionResponse>(
+    const response = await axiosInstance.post<{ success: boolean; detection: any }>(
       `${API_URL}/api/disease/detect`,
       formData,
       {
@@ -18,7 +18,49 @@ class DiseaseService {
         },
       }
     );
-    return response.data;
+    
+    // Transform backend response to match frontend types
+    const detection = response.data.detection;
+    
+    // Transform recommendations from object to array
+    const recommendations = [];
+    
+    if (detection.recommendations?.organic) {
+      recommendations.push({
+        type: 'organic' as const,
+        title: 'Organic Treatment',
+        description: 'Natural and organic solutions',
+        steps: detection.recommendations.organic
+      });
+    }
+    
+    if (detection.recommendations?.chemical) {
+      recommendations.push({
+        type: 'chemical' as const,
+        title: 'Chemical Treatment',
+        description: 'Chemical pesticides and fungicides',
+        steps: detection.recommendations.chemical
+      });
+    }
+    
+    if (detection.recommendations?.preventive) {
+      recommendations.push({
+        type: 'preventive' as const,
+        title: 'Preventive Measures',
+        description: 'Prevent future occurrences',
+        steps: detection.recommendations.preventive
+      });
+    }
+    
+    return {
+      _id: detection.id,
+      userId: detection.userId || '',
+      imageUrl: detection.imageUrl,
+      predictions: detection.predictions,
+      recommendations,
+      localizedDisease: detection.topPrediction?.diseaseLocal,
+      createdAt: new Date().toISOString()
+    };
   }
 
   async getHistory(): Promise<DiseaseDetectionResponse[]> {

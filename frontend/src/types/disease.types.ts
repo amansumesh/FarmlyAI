@@ -2,7 +2,7 @@ export interface DiseasePrediction {
   disease: string;
   crop: string;
   confidence: number;
-  severity: 'low' | 'moderate' | 'high';
+  severity: 'low' | 'moderate' | 'high' | 'critical';
 }
 
 export interface TreatmentRecommendation {

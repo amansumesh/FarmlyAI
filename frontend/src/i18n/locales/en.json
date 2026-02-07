@@ -96,7 +96,8 @@
     "severity": {
       "low": "Low Severity",
       "moderate": "Moderate",
-      "high": "High Severity"
+      "high": "High Severity",
+      "critical": "Critical"
     },
     "instructions": {
       "title": "How to get the best results:",

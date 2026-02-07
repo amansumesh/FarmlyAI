@@ -27,16 +27,18 @@ export const DiseaseResult: React.FC<DiseaseResultProps> = ({
   const topPrediction = predictions[0];
   const confidencePercentage = Math.round(topPrediction.confidence * 100);
 
-  const severityStyles = {
+  const severityStyles: Record<string, string> = {
     low: 'bg-green-100 text-green-800 border-green-300',
     moderate: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-    high: 'bg-red-100 text-red-800 border-red-300',
+    high: 'bg-orange-100 text-orange-800 border-orange-300',
+    critical: 'bg-red-100 text-red-800 border-red-300',
   };
 
-  const severityIcons = {
+  const severityIcons: Record<string, string> = {
     low: '✓',
     moderate: '⚠',
     high: '⚠️',
+    critical: '🚨',
   };
 
   return (
