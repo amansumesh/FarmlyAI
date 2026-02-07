@@ -68,3 +68,7 @@ dmypy.json
 # ML Models (uncomment if models are too large for git)
 # ml-service/models/*.pth
 # ml-service/models/*.h5
+
+# Uploaded images (local development)
+backend/uploads/
+uploads/
