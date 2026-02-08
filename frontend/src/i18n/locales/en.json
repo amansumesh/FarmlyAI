@@ -222,5 +222,26 @@
       "loadFailed": "Failed to load schemes. Please try again.",
       "profileIncomplete": "Please complete your farm profile first"
     }
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Farm Profile",
+    "changeLanguage": "Change Language",
+    "logout": "Logout",
+    "phoneNumber": "Phone Number",
+    "language": "Language",
+    "notSet": "Not set",
+    "version": "Farmly AI v1.0",
+    "tagline": "Smart Farming Platform"
+  },
+  "history": {
+    "title": "Recent Activity",
+    "viewAll": "View All",
+    "noQueries": "No queries yet",
+    "noQueriesDescription": "Start by using the voice assistant or disease detection",
+    "justNow": "Just now",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago",
+    "daysAgo": "{{count}}d ago"
   }
 }

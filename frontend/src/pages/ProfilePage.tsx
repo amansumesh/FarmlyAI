@@ -46,7 +46,7 @@ export const ProfilePage: React.FC = () => {
       
       <div className="max-w-3xl mx-auto px-4 py-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">
-          Profile
+          {t('profile.title')}
         </h1>
 
         <div className="bg-white rounded-lg shadow-md divide-y divide-gray-200">
@@ -60,7 +60,7 @@ export const ProfilePage: React.FC = () => {
                   {user.phoneNumber}
                 </p>
                 <p className="text-sm text-gray-500 capitalize">
-                  Language: {user.language}
+                  {t('profile.language')}: {user.language}
                 </p>
               </div>
             </div>
@@ -68,7 +68,7 @@ export const ProfilePage: React.FC = () => {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Phone Number
+                  {t('profile.phoneNumber')}
                 </label>
                 <p className="text-gray-900">{user.phoneNumber}</p>
               </div>
@@ -81,7 +81,7 @@ export const ProfilePage: React.FC = () => {
                     </label>
                     <p className="text-gray-900">
                       {user.farmProfile.location?.address || 
-                       (user.farmProfile.location ? `${user.farmProfile.location.lat}, ${user.farmProfile.location.lon}` : 'Not set')}
+                       (user.farmProfile.location ? `${user.farmProfile.location.lat}, ${user.farmProfile.location.lon}` : t('profile.notSet'))}
                     </p>
                   </div>
 
@@ -116,7 +116,7 @@ export const ProfilePage: React.FC = () => {
                         {t('onboarding.soilTypeTitle')}
                       </label>
                       <p className="text-gray-900 capitalize">
-                        {t(`onboarding.soilTypes.${user.farmProfile.soilType}`)}
+                        {user.farmProfile.soilType ? t(`onboarding.soilTypes.${user.farmProfile.soilType}`) : t('profile.notSet')}
                       </p>
                     </div>
                   </div>
@@ -134,7 +134,7 @@ export const ProfilePage: React.FC = () => {
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
-              Edit Farm Profile
+              {t('profile.editProfile')}
             </Button>
 
             <Button
@@ -145,7 +145,7 @@ export const ProfilePage: React.FC = () => {
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
               </svg>
-              Change Language
+              {t('profile.changeLanguage')}
             </Button>
 
             {showLanguageSelector && (
@@ -166,14 +166,14 @@ export const ProfilePage: React.FC = () => {
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
-              Logout
+              {t('profile.logout')}
             </Button>
           </div>
         </div>
 
         <div className="mt-6 text-center text-sm text-gray-500">
-          <p>Farmly AI v1.0</p>
-          <p className="mt-1">Smart Farming Platform</p>
+          <p>{t('profile.version')}</p>
+          <p className="mt-1">{t('profile.tagline')}</p>
         </div>
       </div>
 

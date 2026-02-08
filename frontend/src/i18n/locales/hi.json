@@ -192,5 +192,26 @@
       "loadFailed": "योजनाएं लोड करने में विफल। कृपया पुनः प्रयास करें।",
       "profileIncomplete": "कृपया पहले अपनी खेत की प्रोफ़ाइल पूरी करें"
     }
+  },
+  "profile": {
+    "title": "प्रोफ़ाइल",
+    "editProfile": "खेत प्रोफ़ाइल संपादित करें",
+    "changeLanguage": "भाषा बदलें",
+    "logout": "लॉग आउट",
+    "phoneNumber": "फ़ोन नंबर",
+    "language": "भाषा",
+    "notSet": "सेट नहीं है",
+    "version": "फार्मली एआई v1.0",
+    "tagline": "स्मार्ट खेती प्लेटफॉर्म"
+  },
+  "history": {
+    "title": "हाल की गतिविधि",
+    "viewAll": "सभी देखें",
+    "noQueries": "अभी तक कोई प्रश्न नहीं",
+    "noQueriesDescription": "वॉयस असिस्टेंट या रोग पहचान का उपयोग करके शुरू करें",
+    "justNow": "अभी",
+    "minutesAgo": "{{count}}मि पहले",
+    "hoursAgo": "{{count}}घं पहले",
+    "daysAgo": "{{count}}दि पहले"
   }
 }

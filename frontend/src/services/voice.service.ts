@@ -1,5 +1,5 @@
 import axios from '../utils/axios';
-import { VoiceQueryResult } from '../types/voice.types';
+import { VoiceQueryResult, QueryHistoryResponse } from '../types/voice.types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
@@ -19,6 +19,28 @@ class VoiceService {
       }
     );
 
+    return response.data;
+  }
+
+  async getQueryHistory(params?: {
+    page?: number;
+    limit?: number;
+    type?: 'voice' | 'text' | 'disease_detection';
+  }): Promise<QueryHistoryResponse> {
+    const searchParams = new URLSearchParams();
+    if (params?.page) searchParams.append('page', params.page.toString());
+    if (params?.limit) searchParams.append('limit', params.limit.toString());
+    if (params?.type) searchParams.append('type', params.type);
+
+    const url = `${API_URL}/api/query/history${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+    const response = await axios.get<QueryHistoryResponse>(url);
+    return response.data;
+  }
+
+  async toggleSaveQuery(queryId: string): Promise<{ success: boolean; query: { id: string; saved: boolean } }> {
+    const response = await axios.patch<{ success: boolean; query: { id: string; saved: boolean } }>(
+      `${API_URL}/api/query/${queryId}/save`
+    );
     return response.data;
   }
 }

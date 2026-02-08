@@ -658,7 +658,7 @@ curl "https://api.farmly-ai.vercel.app/api/schemes/match?language=ta" \
 
 ---
 
-### [ ] Step: Profile and History Management
+### [x] Step: Profile and History Management
 
 **Objective**: Build user profile page and query history.
 

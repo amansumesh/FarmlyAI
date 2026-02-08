@@ -6,6 +6,7 @@ import { VoiceInput } from '../components/voice/VoiceInput';
 import { WeatherWidget } from '../components/weather/WeatherWidget';
 import { Header } from '../components/common/Header';
 import { BottomNav } from '../components/common/BottomNav';
+import { QueryHistoryList } from '../components/voice/QueryHistoryList';
 
 export const HomePage: React.FC = () => {
   const { t } = useTranslation();
@@ -135,29 +136,10 @@ export const HomePage: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">
-              Recent Activity
+              {t('history.title')}
             </h2>
-            <button className="text-sm text-green-600 hover:text-green-700">
-              View All
-            </button>
           </div>
-          <div className="space-y-3">
-            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-              <div className="bg-green-100 rounded-full p-2">
-                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">
-                  Welcome to Farmly AI
-                </p>
-                <p className="text-xs text-gray-500">
-                  Start by using the voice assistant or disease detection
-                </p>
-              </div>
-            </div>
-          </div>
+          <QueryHistoryList limit={5} />
         </div>
       </div>
 
