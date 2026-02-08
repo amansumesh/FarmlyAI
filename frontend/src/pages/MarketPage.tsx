@@ -24,6 +24,7 @@ const AVAILABLE_CROPS = [
 ];
 
 export const MarketPage = () => {
+  console.log('[MarketPage] Rendering...');
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuthStore();
@@ -31,6 +32,8 @@ export const MarketPage = () => {
   const [marketData, setMarketData] = useState<MarketPricesResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  
+  console.log('[MarketPage] State:', { loading, error, hasData: !!marketData });
 
   const loadMarketPrices = useCallback(async () => {
     try {
@@ -119,6 +122,8 @@ export const MarketPage = () => {
 
   const lowestPriceIdx = getLowestPriceIndex();
   const highestPriceIdx = getHighestPriceIndex();
+
+  console.log('[MarketPage] Rendering JSX...');
 
   return (
     <div className="min-h-screen bg-gray-50">
