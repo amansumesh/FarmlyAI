@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "typecheck": "tsc --noEmit",
-    "i18n:check": "node scripts/check-translations.js"
+    "i18n:check": "node scripts/check-translations.js",
+    "generate-icons": "node scripts/generate-icons.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
