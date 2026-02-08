@@ -9,6 +9,7 @@ import { MarketPage } from './pages/MarketPage';
 import { MarketPageV2 } from './pages/MarketPage.v2';
 import { MarketPageSimple } from './pages/MarketPageSimple';
 import { AdvisoryPage } from './pages/AdvisoryPage';
+import { SchemesPage } from './pages/SchemesPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { useAuthStore } from './store/authStore';
 
@@ -98,6 +99,14 @@ function AppRouter() {
         element={
           <ProtectedRoute requireOnboarding>
             <AdvisoryPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/schemes"
+        element={
+          <ProtectedRoute requireOnboarding>
+            <SchemesPage />
           </ProtectedRoute>
         }
       />
