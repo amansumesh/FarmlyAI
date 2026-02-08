@@ -12,6 +12,8 @@ import { AdvisoryPage } from './pages/AdvisoryPage';
 import { SchemesPage } from './pages/SchemesPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
+import { InstallPrompt } from './components/common/InstallPrompt';
+import { OfflineBanner } from './components/common/OfflineBanner';
 import { useAuthStore } from './store/authStore';
 
 const queryClient = new QueryClient({
@@ -128,7 +130,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <OfflineBanner />
         <AppRouter />
+        <InstallPrompt />
       </BrowserRouter>
     </QueryClientProvider>
   );
