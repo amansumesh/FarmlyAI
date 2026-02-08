@@ -143,5 +143,31 @@
     "clouds": "Clouds",
     "error": "Weather unavailable",
     "retry": "Retry"
+  },
+  "market": {
+    "title": "Market Prices",
+    "subtitle": "Get real-time market prices",
+    "selectCrop": "Select Crop",
+    "nearbyMarkets": "Nearby Markets",
+    "priceHistory": "Price Trend (Last 30 Days)",
+    "price": "Price",
+    "km": "km away",
+    "lastUpdated": "Last updated",
+    "lowestPrice": "Best Price",
+    "highestPrice": "Highest",
+    "aiRecommendation": "AI Recommendation",
+    "avgPrice": "Average",
+    "minPrice": "Lowest",
+    "maxPrice": "Highest",
+    "trend": "Trend",
+    "trends": {
+      "rising": "Rising",
+      "falling": "Falling",
+      "stable": "Stable"
+    },
+    "retry": "Retry",
+    "errors": {
+      "loadFailed": "Failed to load market prices. Please try again."
+    }
   }
 }

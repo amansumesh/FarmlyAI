@@ -5,6 +5,7 @@ import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { HomePage } from './pages/HomePage';
 import { DiseaseDetectionPage } from './pages/DiseaseDetectionPage';
+import { MarketPage } from './pages/MarketPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { useAuthStore } from './store/authStore';
 
@@ -62,6 +63,14 @@ function AppRouter() {
         element={
           <ProtectedRoute requireOnboarding>
             <DiseaseDetectionPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/market"
+        element={
+          <ProtectedRoute requireOnboarding>
+            <MarketPage />
           </ProtectedRoute>
         }
       />
