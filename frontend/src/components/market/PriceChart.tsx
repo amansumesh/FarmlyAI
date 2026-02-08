@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   LineChart,
@@ -17,7 +16,7 @@ interface PriceChartProps {
   crop: string;
 }
 
-export const PriceChart: React.FC<PriceChartProps> = ({ data, crop }) => {
+export const PriceChart = ({ data, crop }: PriceChartProps) => {
   const { t } = useTranslation();
 
   const chartData = data.map((item) => ({

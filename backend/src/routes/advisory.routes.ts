@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { AdvisoryController } from '../controllers/advisory.controller.js';
-import { authMiddleware } from '../middleware/auth.middleware.js';
+import { authenticateToken } from '../middleware/auth.middleware.js';
 
-const router = Router();
+const router: ReturnType<typeof Router> = Router();
 
-router.get('/recommendations', authMiddleware, AdvisoryController.getRecommendations);
+router.get('/recommendations', authenticateToken, AdvisoryController.getRecommendations);
 
 export default router;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Market } from '../../types/market.types';
 import { cn } from '../../utils/cn';
@@ -9,7 +8,7 @@ interface PriceCardProps {
   isHighest?: boolean;
 }
 
-export const PriceCard: React.FC<PriceCardProps> = ({ market, isLowest, isHighest }) => {
+export const PriceCard = ({ market, isLowest, isHighest }: PriceCardProps) => {
   const { t } = useTranslation();
 
   const trendConfig = {

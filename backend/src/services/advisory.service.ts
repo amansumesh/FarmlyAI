@@ -248,7 +248,7 @@ export class AdvisoryService {
   private static getFertilizerRecommendation(
     cropInfo: CropInfo,
     soilType: string,
-    season: string,
+    _season: string,
     language: string
   ): Recommendation | null {
     const priority: 'high' | 'medium' | 'low' = 'medium';
@@ -281,7 +281,7 @@ export class AdvisoryService {
   private static getPestPreventionRecommendation(
     cropInfo: CropInfo,
     weather: WeatherForecastResponse,
-    season: string,
+    _season: string,
     language: string
   ): Recommendation | null {
     const avgHumidity =

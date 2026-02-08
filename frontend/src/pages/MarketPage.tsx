@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { marketService } from '../services/market.service';
@@ -23,7 +23,7 @@ const AVAILABLE_CROPS = [
   'pulses',
 ];
 
-export const MarketPage: React.FC = () => {
+export const MarketPage = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuthStore();

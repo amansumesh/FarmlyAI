@@ -1,15 +1,27 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { AdvisoryService } from '../services/advisory.service.js';
+import { User } from '../models/user.model.js';
 import { logger } from '../utils/logger.js';
+import { AuthRequest } from '../types/auth.types.js';
 
 export class AdvisoryController {
-  static async getRecommendations(req: Request, res: Response): Promise<void> {
+  static async getRecommendations(req: AuthRequest, res: Response): Promise<void> {
     try {
-      const user = req.user;
-      if (!user) {
+      const userId = req.user?.userId;
+      if (!userId) {
         res.status(401).json({
           success: false,
           message: 'Unauthorized',
+        });
+        return;
+      }
+
+      // Fetch the full user object from database
+      const user = await User.findById(userId);
+      if (!user) {
+        res.status(404).json({
+          success: false,
+          message: 'User not found',
         });
         return;
       }
@@ -58,32 +70,34 @@ export class AdvisoryController {
         success: true,
         data: advisoryData,
       });
-    } catch (error: any) {
+    } catch (error) {
       logger.error('Error generating advisory recommendations', {
-        error: error.message,
-        stack: error.stack,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
       });
 
-      if (error.message === 'User location not available') {
-        res.status(400).json({
-          success: false,
-          message: 'Farm location is required for personalized recommendations',
-        });
-        return;
-      }
+      if (error instanceof Error) {
+        if (error.message === 'User location not available') {
+          res.status(400).json({
+            success: false,
+            message: 'Farm location is required for personalized recommendations',
+          });
+          return;
+        }
 
-      if (error.message === 'Weather service unavailable') {
-        res.status(503).json({
-          success: false,
-          message: 'Weather service is currently unavailable. Please try again later.',
-        });
-        return;
+        if (error.message === 'Weather service unavailable') {
+          res.status(503).json({
+            success: false,
+            message: 'Weather service is currently unavailable. Please try again later.',
+          });
+          return;
+        }
       }
 
       res.status(500).json({
         success: false,
         message: 'Failed to generate recommendations',
-        error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+        error: process.env.NODE_ENV === 'development' && error instanceof Error ? error.message : undefined,
       });
     }
   }
