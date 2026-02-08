@@ -16,6 +16,16 @@ build/
 .env.development.local
 .env.test.local
 
+# API Credentials (NEVER COMMIT)
+backend/credentials/
+frontend/credentials/
+ml-service/credentials/
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!vite.config.json
+
 # Logs
 logs/
 *.log
