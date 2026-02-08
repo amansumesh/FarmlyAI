@@ -5,6 +5,7 @@ import { advisoryService } from '../services/advisory.service';
 import { AdvisoryResponse } from '../types/advisory.types';
 import { RecommendationCard } from '../components/advisory/RecommendationCard';
 import { Button } from '../components/common/Button';
+import { BottomNav } from '../components/common/BottomNav';
 import { useAuthStore } from '../store/authStore';
 import { useUserStore } from '../store/userStore';
 
@@ -105,7 +106,7 @@ export const AdvisoryPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
       <div className="bg-green-600 text-white p-6 shadow-md">
         <div className="max-w-4xl mx-auto">
           <button
@@ -280,6 +281,8 @@ export const AdvisoryPage = () => {
           )}
         </div>
       </div>
+
+      <BottomNav />
     </div>
   );
 };

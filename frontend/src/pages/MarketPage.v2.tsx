@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { marketService } from '../services/market.service';
 import { MarketPricesResponse } from '../types/market.types';
 import { Button } from '../components/common/Button';
+import { BottomNav } from '../components/common/BottomNav';
 import { useAuthStore } from '../store/authStore';
 
 const AVAILABLE_CROPS = [
@@ -66,7 +67,7 @@ export const MarketPageV2 = () => {
   }, [loadMarketPrices]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center gap-4 mb-6">
           <Button
@@ -159,6 +160,8 @@ export const MarketPageV2 = () => {
           </div>
         )}
       </div>
+
+      <BottomNav />
     </div>
   );
 };

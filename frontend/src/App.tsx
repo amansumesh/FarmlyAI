@@ -10,6 +10,7 @@ import { MarketPageV2 } from './pages/MarketPage.v2';
 import { MarketPageSimple } from './pages/MarketPageSimple';
 import { AdvisoryPage } from './pages/AdvisoryPage';
 import { SchemesPage } from './pages/SchemesPage';
+import { ProfilePage } from './pages/ProfilePage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { useAuthStore } from './store/authStore';
 
@@ -107,6 +108,14 @@ function AppRouter() {
         element={
           <ProtectedRoute requireOnboarding>
             <SchemesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute requireOnboarding>
+            <ProfilePage />
           </ProtectedRoute>
         }
       />

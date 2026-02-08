@@ -5,6 +5,7 @@ import { schemeService } from '../services/scheme.service';
 import { SchemesResponse } from '../types/scheme.types';
 import { SchemeCard } from '../components/schemes/SchemeCard';
 import { Button } from '../components/common/Button';
+import { BottomNav } from '../components/common/BottomNav';
 import { useAuthStore } from '../store/authStore';
 import { useUserStore } from '../store/userStore';
 
@@ -97,7 +98,7 @@ export const SchemesPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
       <div className="max-w-4xl mx-auto px-4 py-6">
         <div className="mb-6">
           <button
@@ -188,6 +189,8 @@ export const SchemesPage = () => {
           </div>
         )}
       </div>
+
+      <BottomNav />
     </div>
   );
 };

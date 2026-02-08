@@ -2,157 +2,166 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../store/authStore';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../components/common/Button';
 import { VoiceInput } from '../components/voice/VoiceInput';
+import { WeatherWidget } from '../components/weather/WeatherWidget';
+import { Header } from '../components/common/Header';
+import { BottomNav } from '../components/common/BottomNav';
 
 export const HomePage: React.FC = () => {
   const { t } = useTranslation();
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
 
   const handleVoiceQueryComplete = (transcription: string, responseText: string) => {
     console.log('Voice query completed:', { transcription, responseText });
   };
 
+  const featureCards = [
+    {
+      title: t('disease.title'),
+      subtitle: t('disease.subtitle'),
+      path: '/disease',
+      gradient: 'from-green-500 to-green-600',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+    },
+    {
+      title: t('market.title'),
+      subtitle: t('market.subtitle'),
+      path: '/market',
+      gradient: 'from-blue-500 to-blue-600',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+      ),
+    },
+    {
+      title: t('advisory.title'),
+      subtitle: t('advisory.subtitle'),
+      path: '/advisory',
+      gradient: 'from-orange-500 to-orange-600',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+      ),
+    },
+    {
+      title: t('schemes.title'),
+      subtitle: t('schemes.subtitle'),
+      path: '/schemes',
+      gradient: 'from-purple-500 to-purple-600',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">Welcome to Farmly AI</h1>
-            <Button onClick={handleLogout} variant="secondary">
-              Logout
-            </Button>
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
+      <Header />
+      
+      <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+        <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg shadow-md p-6 text-white">
+          <h1 className="text-2xl md:text-3xl font-bold mb-2">
+            {t('onboarding.welcome')}
+          </h1>
+          <p className="text-green-100 text-sm md:text-base">
+            {t('onboarding.subtitle')}
+          </p>
+          {user?.farmProfile && (
+            <div className="mt-4 flex flex-wrap gap-2 text-sm">
+              <span className="bg-white/20 rounded-full px-3 py-1">
+                📍 {user.farmProfile.location?.address || 'Farm Location'}
+              </span>
+              <span className="bg-white/20 rounded-full px-3 py-1">
+                🌾 {user.farmProfile.crops.length} {user.farmProfile.crops.length === 1 ? 'Crop' : 'Crops'}
+              </span>
+              <span className="bg-white/20 rounded-full px-3 py-1">
+                📏 {user.farmProfile.landSize} {t('onboarding.acres')}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+            <h2 className="text-lg font-semibold text-gray-900">
+              {t('voice.title')}
+            </h2>
           </div>
+          <p className="text-sm text-gray-600 mb-4">
+            {t('voice.subtitle')}
+          </p>
+          <VoiceInput onQueryComplete={handleVoiceQueryComplete} />
+        </div>
 
-          <div className="space-y-4">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h2 className="text-lg font-semibold text-green-900 mb-2">User Information</h2>
-              <div className="space-y-1 text-sm text-green-800">
-                <p><span className="font-medium">Phone:</span> {user?.phoneNumber}</p>
-                <p><span className="font-medium">Language:</span> {user?.language.toUpperCase()}</p>
-                <p><span className="font-medium">Onboarding Status:</span> {user?.onboardingCompleted ? 'Completed' : 'Pending'}</p>
-              </div>
-            </div>
+        <WeatherWidget compact />
 
-            <div className="my-6">
-              <VoiceInput onQueryComplete={handleVoiceQueryComplete} />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            Quick Access
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {featureCards.map((card) => (
               <div
-                onClick={() => navigate('/disease')}
-                className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white cursor-pointer hover:shadow-lg transition-all transform hover:scale-105"
+                key={card.path}
+                onClick={() => navigate(card.path)}
+                className={`bg-gradient-to-br ${card.gradient} rounded-lg p-6 text-white cursor-pointer hover:shadow-lg transition-all transform hover:scale-105 active:scale-95`}
               >
                 <div className="flex items-center gap-4">
                   <div className="bg-white/20 rounded-full p-3">
-                    <svg
-                      className="w-8 h-8"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
+                    {card.icon}
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold">{t('disease.title')}</h3>
-                    <p className="text-sm text-green-100">{t('disease.subtitle')}</p>
+                    <h3 className="text-lg font-bold">{card.title}</h3>
+                    <p className="text-sm opacity-90">{card.subtitle}</p>
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
 
-              <div
-                onClick={() => navigate('/market')}
-                className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white cursor-pointer hover:shadow-lg transition-all transform hover:scale-105"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="bg-white/20 rounded-full p-3">
-                    <svg
-                      className="w-8 h-8"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold">{t('market.title')}</h3>
-                    <p className="text-sm text-blue-100">{t('market.subtitle')}</p>
-                  </div>
-                </div>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Recent Activity
+            </h2>
+            <button className="text-sm text-green-600 hover:text-green-700">
+              View All
+            </button>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <div className="bg-green-100 rounded-full p-2">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
-
-              <div
-                onClick={() => navigate('/advisory')}
-                className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white cursor-pointer hover:shadow-lg transition-all transform hover:scale-105"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="bg-white/20 rounded-full p-3">
-                    <svg
-                      className="w-8 h-8"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold">{t('advisory.title')}</h3>
-                    <p className="text-sm text-orange-100">{t('advisory.subtitle')}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white opacity-50 cursor-not-allowed">
-                <div className="flex items-center gap-4">
-                  <div className="bg-white/20 rounded-full p-3">
-                    <svg
-                      className="w-8 h-8"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold">Government Schemes</h3>
-                    <p className="text-sm text-purple-100">Coming soon</p>
-                  </div>
-                </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900">
+                  Welcome to Farmly AI
+                </p>
+                <p className="text-xs text-gray-500">
+                  Start by using the voice assistant or disease detection
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <BottomNav />
     </div>
   );
 };

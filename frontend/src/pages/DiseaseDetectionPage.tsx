@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { CameraCapture } from '../components/disease/CameraCapture';
 import { DiseaseResult } from '../components/disease/DiseaseResult';
 import { Button } from '../components/common/Button';
+import { BottomNav } from '../components/common/BottomNav';
 import { diseaseService } from '../services/disease.service';
 import { DiseaseDetectionResponse } from '../types/disease.types';
 import { useUserStore } from '../store/userStore';
@@ -84,7 +85,7 @@ export const DiseaseDetectionPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
       <div className="bg-white shadow-sm border-b sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
@@ -253,6 +254,8 @@ export const DiseaseDetectionPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      <BottomNav />
     </div>
   );
 };
