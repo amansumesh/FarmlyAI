@@ -39,6 +39,24 @@ export interface MarketPriceResponse {
   priceHistory: PriceHistory[];
 }
 
+interface AgmarknetRecord {
+  market?: string;
+  state: string;
+  district: string;
+  commodity: string;
+  variety?: string;
+  arrival_date: string;
+  min_price: number;
+  max_price: number;
+  modal_price: number;
+  latitude?: number;
+  longitude?: number;
+}
+
+interface MarketDataWithDistance extends AgmarknetRecord {
+  distance: number;
+}
+
 export class MarketService {
   private static readonly AGMARKNET_API_URL = 'https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070';
   private static readonly CACHE_TTL = 21600; // 6 hours in seconds
@@ -79,7 +97,7 @@ export class MarketService {
   private static async fetchFromAgmarknet(
     crop: string,
     limit: number = 100
-  ): Promise<any[]> {
+  ): Promise<AgmarknetRecord[]> {
     try {
       const response = await axios.get(this.AGMARKNET_API_URL, {
         params: {
@@ -111,7 +129,7 @@ export class MarketService {
     userLat: number,
     userLon: number,
     limit: number = 5
-  ): any[] {
+  ): MarketDataWithDistance[] {
     const mockMarkets = [
       { name: 'Pune Mandi', lat: 18.5204, lon: 73.8567, state: 'Maharashtra' },
       { name: 'Mumbai APMC', lat: 19.0760, lon: 72.8777, state: 'Maharashtra' },
@@ -138,7 +156,7 @@ export class MarketService {
     const basePrice = this.getBasePrice(crop);
     const today = new Date();
 
-    return nearestMarkets.map((market, index) => {
+    return nearestMarkets.map((market) => {
       const priceVariation = (Math.random() - 0.5) * basePrice * 0.3; // ±15% variation
       const price = Math.round((basePrice + priceVariation) * 100) / 100;
 
@@ -230,7 +248,7 @@ export class MarketService {
   /**
    * Calculate short-term trend for individual market (last 3 days vs previous 3 days)
    */
-  private static calculateMarketTrend(currentPrice: number): 'up' | 'down' | 'stable' {
+  private static calculateMarketTrend(_currentPrice: number): 'up' | 'down' | 'stable' {
     // For mock data, randomly assign trend based on price
     const random = Math.random();
     if (random > 0.6) return 'up';
@@ -304,38 +322,39 @@ export class MarketService {
       logger.info('Fetching market data', { crop, userLat, userLon });
 
       // Try to fetch from Agmarknet API
-      let marketData = await this.fetchFromAgmarknet(crop, 100);
+      const marketData = await this.fetchFromAgmarknet(crop, 100);
 
       // Fallback to mock data if API fails or returns no data
+      let marketDataWithDistance: MarketDataWithDistance[];
       if (!marketData || marketData.length === 0) {
         logger.info('Using mock market data', { crop });
-        marketData = this.generateMockData(crop, userLat, userLon, limit);
+        marketDataWithDistance = this.generateMockData(crop, userLat, userLon, limit);
       } else {
         // Filter and calculate distances for real data
-        marketData = marketData
-          .map((item: any) => ({
+        marketDataWithDistance = marketData
+          .map((item) => ({
             ...item,
             distance: this.calculateDistance(
               userLat,
               userLon,
-              parseFloat(item.latitude) || 0,
-              parseFloat(item.longitude) || 0
+              item.latitude || 0,
+              item.longitude || 0
             ),
           }))
-          .filter((item: any) => item.distance <= 200) // Within 200km
-          .sort((a: any, b: any) => a.distance - b.distance)
+          .filter((item) => item.distance <= 200) // Within 200km
+          .sort((a, b) => a.distance - b.distance)
           .slice(0, limit);
       }
 
       // Transform to market prices
-      const markets: MarketPrice[] = marketData.map((item: any) => ({
+      const markets: MarketPrice[] = marketDataWithDistance.map((item) => ({
         name: item.market || item.district + ' Mandi',
         location: `${item.district}, ${item.state}`,
         distance: Math.round(item.distance * 10) / 10,
-        price: parseFloat(item.modal_price) || 0,
+        price: Number(item.modal_price) || 0,
         unit: 'kg',
         date: item.arrival_date || new Date().toISOString().split('T')[0],
-        trend: this.calculateMarketTrend(parseFloat(item.modal_price) || 0),
+        trend: this.calculateMarketTrend(Number(item.modal_price) || 0),
       }));
 
       // Calculate price analysis

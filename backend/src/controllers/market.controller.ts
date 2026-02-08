@@ -80,7 +80,7 @@ export class MarketController {
    * GET /api/market/health
    * Health check endpoint
    */
-  static async healthCheck(req: Request, res: Response) {
+  static async healthCheck(_req: Request, res: Response) {
     try {
       const isHealthy = await MarketService.healthCheck();
       return res.json({
