@@ -435,7 +435,7 @@ redis-cli GET "weather:18.5204,73.8567"
 
 ---
 
-### [ ] Step: Market Prices - API Integration
+### [x] Step: Market Prices - API Integration
 <!-- chat-id: ab5f320d-7063-437e-bf26-03b0a916a03a -->
 
 **Objective**: Integrate Agmarknet API and implement price intelligence.
