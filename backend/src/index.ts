@@ -11,6 +11,7 @@ import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import diseaseRoutes from './routes/disease.routes.js';
 import queryRoutes from './routes/query.routes.js';
+import weatherRoutes from './routes/weather.routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -30,6 +31,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/disease', diseaseRoutes);
 app.use('/api/query', queryRoutes);
+app.use('/api/weather', weatherRoutes);
 
 app.get('/health', async (_req, res) => {
   const health = {

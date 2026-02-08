@@ -399,7 +399,8 @@ curl -X POST https://api.farmly-ai.vercel.app/api/query/voice \
 
 ---
 
-### [ ] Step: Weather API Integration
+### [x] Step: Weather API Integration
+<!-- chat-id: 723195d9-c53e-4bf6-8490-0eeadbc8506d -->
 
 **Objective**: Integrate OpenWeatherMap API with caching.
 

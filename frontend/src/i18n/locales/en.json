@@ -132,5 +132,16 @@
     "errors": {
       "queryFailed": "Failed to process your query. Please try again."
     }
+  },
+  "weather": {
+    "current": "Current Weather",
+    "forecast": "7-Day Forecast",
+    "today": "Today",
+    "feelsLike": "Feels like",
+    "humidity": "Humidity",
+    "wind": "Wind",
+    "clouds": "Clouds",
+    "error": "Weather unavailable",
+    "retry": "Retry"
   }
 }
