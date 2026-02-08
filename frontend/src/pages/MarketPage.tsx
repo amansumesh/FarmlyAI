@@ -29,7 +29,7 @@ export const MarketPage = () => {
   const { user } = useAuthStore();
   const [selectedCrop, setSelectedCrop] = useState<string>('tomato');
   const [marketData, setMarketData] = useState<MarketPricesResponse | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const loadMarketPrices = useCallback(async () => {
@@ -53,7 +53,7 @@ export const MarketPage = () => {
   }, [selectedCrop, user?.language, i18n.language, t]);
 
   useEffect(() => {
-    loadMarketPrices();
+    loadMarketPrices().catch(console.error);
   }, [loadMarketPrices]);
 
   const getLowestPriceIndex = () => {

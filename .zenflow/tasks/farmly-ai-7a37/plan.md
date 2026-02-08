@@ -512,7 +512,7 @@ curl "https://api.farmly-ai.vercel.app/api/market/prices?crop=tomato&language=hi
 
 ---
 
-### [ ] Step: Advisory Recommendations System
+### [x] Step: Advisory Recommendations System
 <!-- chat-id: 554ffd04-8ec1-4eaa-aa9e-18b102a4e22c -->
 
 **Objective**: Implement personalized farm advisory with rule-based logic.

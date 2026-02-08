@@ -9,7 +9,9 @@
     "done": "Done",
     "loading": "Loading...",
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "retry": "Retry",
+    "refresh": "Refresh"
   },
   "onboarding": {
     "welcome": "Welcome to Farmly AI",
@@ -168,6 +170,34 @@
     "retry": "Retry",
     "errors": {
       "loadFailed": "Failed to load market prices. Please try again."
+    },
+    "windSpeed": "Wind Speed"
+  },
+  "advisory": {
+    "title": "Farm Advisory",
+    "subtitle": "Personalized recommendations for your farm",
+    "farmContext": "Your Farm Details",
+    "crop": "Crop",
+    "location": "Location",
+    "soilType": "Soil Type",
+    "currentWeather": "Current Weather",
+    "recommendations": "Recommendations",
+    "noRecommendations": "No recommendations at this time. Check back later.",
+    "completeProfile": "Complete Profile",
+    "actionBy": "Action by",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "inDays": "In {{count}} days",
+    "priority": {
+      "high": "High Priority",
+      "medium": "Medium Priority",
+      "low": "Low Priority"
+    },
+    "errors": {
+      "loadFailed": "Failed to load recommendations. Please try again.",
+      "profileIncomplete": "Please complete your farm profile first",
+      "locationRequired": "Farm location is required for personalized recommendations",
+      "cropsRequired": "Please add at least one crop to your farm profile"
     }
   }
 }

@@ -99,7 +99,10 @@ export const HomePage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white opacity-50 cursor-not-allowed">
+              <div
+                onClick={() => navigate('/advisory')}
+                className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white cursor-pointer hover:shadow-lg transition-all transform hover:scale-105"
+              >
                 <div className="flex items-center gap-4">
                   <div className="bg-white/20 rounded-full p-3">
                     <svg
@@ -117,8 +120,8 @@ export const HomePage: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold">Farm Advisory</h3>
-                    <p className="text-sm text-orange-100">Coming soon</p>
+                    <h3 className="text-lg font-bold">{t('advisory.title')}</h3>
+                    <p className="text-sm text-orange-100">{t('advisory.subtitle')}</p>
                   </div>
                 </div>
               </div>
