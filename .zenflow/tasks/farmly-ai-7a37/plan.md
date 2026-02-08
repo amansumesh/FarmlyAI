@@ -619,6 +619,7 @@ curl "https://api.farmly-ai.vercel.app/api/schemes/match?language=ta" \
 ---
 
 ### [ ] Step: Home Page and Navigation
+<!-- chat-id: daccd742-fe7f-4de5-8dc2-12cbd47f678d -->
 
 **Objective**: Build main home page with navigation to all features.
 
