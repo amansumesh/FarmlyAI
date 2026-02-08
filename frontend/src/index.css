@@ -10,12 +10,15 @@
   html {
     -webkit-text-size-adjust: 100%;
     overflow-x: hidden;
+    height: 100%;
   }
 
   body {
     @apply antialiased;
     overflow-x: hidden;
+    overflow-y: auto;
     overscroll-behavior-y: contain;
+    min-height: 100%;
   }
 
   button,
