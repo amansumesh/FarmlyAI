@@ -693,7 +693,8 @@ curl "https://api.farmly-ai.vercel.app/api/schemes/match?language=ta" \
 
 ---
 
-### [ ] Step: Complete i18n Translations
+### [x] Step: Complete i18n Translations
+<!-- chat-id: ff240a1e-ca60-4ee6-9d90-14eb17cec466 -->
 
 **Objective**: Complete all translations for 6 languages.
 
