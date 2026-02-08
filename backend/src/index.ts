@@ -15,6 +15,7 @@ import weatherRoutes from './routes/weather.routes.js';
 import marketRoutes from './routes/market.routes.js';
 import advisoryRoutes from './routes/advisory.routes.js';
 import schemeRoutes from './routes/scheme.routes.js';
+import { errorHandler, notFoundHandler } from './middleware/errorHandler.middleware.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -74,6 +75,10 @@ app.get('/', (_req, res) => {
     docs: '/api/docs'
   });
 });
+
+// Error handling middleware (must be after all routes)
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 async function startServer() {
   try {

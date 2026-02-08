@@ -6,16 +6,18 @@ import { authService } from '../services/auth.service';
 interface AuthState {
   user: User | null;
   tokens: AuthTokens | null;
+  token: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
 
   // Actions
   setUser: (user: User) => void;
-  setTokens: (tokens: AuthTokens) => void;
+  setTokens: (token: string, refreshToken?: string) => void;
   login: (phoneNumber: string, otp: string) => Promise<void>;
   logout: () => void;
-  refreshToken: () => Promise<void>;
+  refreshTokens: () => Promise<void>;
   clearError: () => void;
 }
 
@@ -24,13 +26,24 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       user: null,
       tokens: null,
+      get token() {
+        return get().tokens?.token || null;
+      },
+      get refreshToken() {
+        return get().tokens?.refreshToken || null;
+      },
       isAuthenticated: false,
       isLoading: false,
       error: null,
 
       setUser: (user) => set({ user, isAuthenticated: true }),
 
-      setTokens: (tokens) => set({ tokens }),
+      setTokens: (token, refreshToken) => set((state) => ({ 
+        tokens: {
+          token,
+          refreshToken: refreshToken || state.tokens?.refreshToken || ''
+        }
+      })),
 
       login: async (phoneNumber, otp) => {
         set({ isLoading: true, error: null });
@@ -71,7 +84,7 @@ export const useAuthStore = create<AuthState>()(
         localStorage.removeItem('auth-storage');
       },
 
-      refreshToken: async () => {
+      refreshTokens: async () => {
         const { tokens } = get();
         
         if (!tokens?.refreshToken) {

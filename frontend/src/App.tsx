@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'sonner';
 import { LoginPage } from './pages/LoginPage';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { HomePage } from './pages/HomePage';
@@ -14,6 +15,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { InstallPrompt } from './components/common/InstallPrompt';
 import { OfflineBanner } from './components/common/OfflineBanner';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { useAuthStore } from './store/authStore';
 
 const queryClient = new QueryClient({
@@ -128,13 +130,16 @@ function AppRouter() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <OfflineBanner />
-        <AppRouter />
-        <InstallPrompt />
-      </BrowserRouter>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Toaster position="top-center" richColors closeButton />
+          <OfflineBanner />
+          <AppRouter />
+          <InstallPrompt />
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 
