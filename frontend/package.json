@@ -10,7 +10,10 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "i18n:check": "node scripts/check-translations.js",
-    "generate-icons": "node scripts/generate-icons.js"
+    "generate-icons": "node scripts/generate-icons.js",
+    "lighthouse": "pnpm run build && pnpm run preview & sleep 5 && lighthouse http://localhost:4173 --view --preset=desktop",
+    "lighthouse:mobile": "pnpm run build && pnpm run preview & sleep 5 && lighthouse http://localhost:4173 --view --preset=mobile",
+    "analyze": "pnpm run build && npx vite-bundle-visualizer"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

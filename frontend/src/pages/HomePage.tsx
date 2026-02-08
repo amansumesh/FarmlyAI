@@ -65,11 +65,11 @@ export const HomePage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8 animate-fade-in">
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
-        <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg shadow-md p-6 text-white">
+        <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg shadow-md p-6 text-white animate-scale-in">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">
             {t('onboarding.welcome')}
           </h1>
@@ -78,20 +78,20 @@ export const HomePage: React.FC = () => {
           </p>
           {user?.farmProfile && (
             <div className="mt-4 flex flex-wrap gap-2 text-sm">
-              <span className="bg-white/20 rounded-full px-3 py-1">
+              <span className="bg-white/20 rounded-full px-3 py-1 min-h-[32px] flex items-center">
                 📍 {user.farmProfile.location?.address || 'Farm Location'}
               </span>
-              <span className="bg-white/20 rounded-full px-3 py-1">
+              <span className="bg-white/20 rounded-full px-3 py-1 min-h-[32px] flex items-center">
                 🌾 {user.farmProfile.crops.length} {user.farmProfile.crops.length === 1 ? 'Crop' : 'Crops'}
               </span>
-              <span className="bg-white/20 rounded-full px-3 py-1">
+              <span className="bg-white/20 rounded-full px-3 py-1 min-h-[32px] flex items-center">
                 📏 {user.farmProfile.landSize} {t('onboarding.acres')}
               </span>
             </div>
           )}
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-6 animate-scale-in" style={{ animationDelay: '0.1s' }}>
           <div className="flex items-center gap-2 mb-4">
             <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
@@ -108,19 +108,20 @@ export const HomePage: React.FC = () => {
 
         <WeatherWidget compact />
 
-        <div>
+        <div className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
             Quick Access
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {featureCards.map((card) => (
+            {featureCards.map((card, index) => (
               <div
                 key={card.path}
                 onClick={() => navigate(card.path)}
-                className={`bg-gradient-to-br ${card.gradient} rounded-lg p-6 text-white cursor-pointer hover:shadow-lg transition-all transform hover:scale-105 active:scale-95`}
+                className={`bg-gradient-to-br ${card.gradient} rounded-lg p-6 text-white cursor-pointer card-hover min-h-[100px]`}
+                style={{ animationDelay: `${0.3 + index * 0.05}s` }}
               >
                 <div className="flex items-center gap-4">
-                  <div className="bg-white/20 rounded-full p-3">
+                  <div className="bg-white/20 rounded-full p-3 min-w-[56px] min-h-[56px] flex items-center justify-center">
                     {card.icon}
                   </div>
                   <div>
@@ -133,7 +134,7 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-6 animate-scale-in" style={{ animationDelay: '0.4s' }}>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">
               {t('history.title')}

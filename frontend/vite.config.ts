@@ -54,7 +54,7 @@ export default defineConfig({
               cacheName: 'market-prices-cache',
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 6 * 60 * 60, // 6 hours
+                maxAgeSeconds: 6 * 60 * 60,
               },
               cacheableResponse: {
                 statuses: [0, 200],
@@ -68,7 +68,7 @@ export default defineConfig({
               cacheName: 'weather-cache',
               expiration: {
                 maxEntries: 20,
-                maxAgeSeconds: 1 * 60 * 60, // 1 hour
+                maxAgeSeconds: 1 * 60 * 60,
               },
               cacheableResponse: {
                 statuses: [0, 200],
@@ -82,7 +82,7 @@ export default defineConfig({
               cacheName: 'schemes-cache',
               expiration: {
                 maxEntries: 30,
-                maxAgeSeconds: 24 * 60 * 60, // 24 hours
+                maxAgeSeconds: 24 * 60 * 60,
               },
               cacheableResponse: {
                 statuses: [0, 200],
@@ -96,7 +96,7 @@ export default defineConfig({
               cacheName: 'advisory-cache',
               expiration: {
                 maxEntries: 20,
-                maxAgeSeconds: 12 * 60 * 60, // 12 hours
+                maxAgeSeconds: 12 * 60 * 60,
               },
               cacheableResponse: {
                 statuses: [0, 200],
@@ -110,7 +110,7 @@ export default defineConfig({
               cacheName: 'user-data-cache',
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 5 * 60, // 5 minutes
+                maxAgeSeconds: 5 * 60,
               },
               networkTimeoutSeconds: 10,
               cacheableResponse: {
@@ -125,7 +125,7 @@ export default defineConfig({
               cacheName: 'image-cache',
               expiration: {
                 maxEntries: 100,
-                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+                maxAgeSeconds: 30 * 24 * 60 * 60,
               },
               cacheableResponse: {
                 statuses: [0, 200],
@@ -149,5 +149,42 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+  },
+  build: {
+    target: 'esnext',
+    minify: 'terser',
+    cssMinify: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'query-vendor': ['@tanstack/react-query'],
+          'form-vendor': ['react-hook-form', '@hookform/resolvers', 'zod'],
+          'chart-vendor': ['recharts'],
+          'i18n-vendor': ['i18next', 'react-i18next'],
+        },
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1];
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
+            return `assets/images/[name]-[hash][extname]`;
+          } else if (/woff|woff2/.test(ext)) {
+            return `assets/fonts/[name]-[hash][extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+      },
+    },
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
   },
 });

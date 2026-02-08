@@ -63,8 +63,8 @@ export const BottomNav: React.FC = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 md:hidden">
-      <div className="grid grid-cols-5 h-16">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 md:hidden safe-area-inset-bottom">
+      <div className="grid grid-cols-5">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -72,10 +72,10 @@ export const BottomNav: React.FC = () => {
               key={item.path}
               onClick={() => navigate(item.path)}
               className={cn(
-                'flex flex-col items-center justify-center gap-1 transition-colors',
+                'flex flex-col items-center justify-center gap-1 transition-all duration-200 min-h-[60px] py-2 active:scale-95',
                 isActive
                   ? 'text-green-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  : 'text-gray-500 hover:text-gray-700 active:bg-gray-50'
               )}
             >
               {item.icon}
