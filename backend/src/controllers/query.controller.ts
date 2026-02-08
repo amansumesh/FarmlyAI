@@ -32,12 +32,22 @@ export async function handleVoiceQuery(req: Request, res: Response) {
     const timestamp = Date.now();
     const audioFilename = `voice-${userId}-${timestamp}.${req.file.mimetype.split('/')[1]}`;
 
-    const audioBlob = await put(audioFilename, audioBuffer, {
-      access: 'public',
-      contentType: req.file.mimetype
-    });
-
-    logger.info(`Audio uploaded to: ${audioBlob.url}`);
+    let inputAudioUrl: string | null = null;
+    
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      try {
+        const audioBlob = await put(audioFilename, audioBuffer, {
+          access: 'public',
+          contentType: req.file.mimetype
+        });
+        inputAudioUrl = audioBlob.url;
+        logger.info(`Audio uploaded to: ${inputAudioUrl}`);
+      } catch (error) {
+        logger.warn('Blob storage unavailable, continuing without audio upload:', error);
+      }
+    } else {
+      logger.info('Blob storage not configured, skipping audio upload');
+    }
 
     const transcription = await transcribeAudio(audioBuffer, language);
 
@@ -52,7 +62,7 @@ export async function handleVoiceQuery(req: Request, res: Response) {
 
     const responseText = generateResponse(intentResult.intent, language, intentResult.entities);
 
-    const audioUrl = await synthesizeSpeech(responseText, language);
+    const responseAudioUrl = await synthesizeSpeech(responseText, language);
 
     const processingTime = Date.now() - startTime;
 
@@ -62,11 +72,11 @@ export async function handleVoiceQuery(req: Request, res: Response) {
       input: {
         text: transcription,
         language,
-        audioUrl: audioBlob.url
+        audioUrl: inputAudioUrl || undefined
       },
       response: {
         text: responseText,
-        audioUrl
+        audioUrl: responseAudioUrl || undefined
       },
       intent: intentResult.intent,
       processingTimeMs: processingTime,
@@ -84,7 +94,7 @@ export async function handleVoiceQuery(req: Request, res: Response) {
       },
       response: {
         text: responseText,
-        audioUrl
+        audioUrl: responseAudioUrl || undefined
       },
       processingTime
     });

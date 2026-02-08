@@ -70,6 +70,19 @@ export async function transcribeAudio(
   audioContent: Buffer,
   language: string = 'hi'
 ): Promise<string> {
+  if (!process.env.GOOGLE_CLOUD_CREDENTIALS) {
+    logger.warn('Google Cloud credentials not configured, returning demo transcription');
+    const demoTranscriptions: Record<string, string> = {
+      hi: 'टमाटर में कीड़े लग गए हैं',
+      ta: 'தக்காளியில் புழுக்கள் வருகின்றன',
+      ml: 'തക്കാളിയിൽ പുഴുക്കൾ വരുന്നു',
+      te: 'టొమాటోలో పురుగులు వస్తున్నాయి',
+      kn: 'ಟೊಮೇಟೊದಲ್ಲಿ ಹುಳುಗಳು ಬರುತ್ತಿವೆ',
+      en: 'Worms are coming in tomatoes'
+    };
+    return demoTranscriptions[language] || demoTranscriptions.en;
+  }
+
   try {
     const languageCode = languageCodeMap[language] || 'hi-IN';
 
@@ -118,6 +131,11 @@ export async function synthesizeSpeech(
   text: string,
   language: string = 'hi'
 ): Promise<string> {
+  if (!process.env.GOOGLE_CLOUD_CREDENTIALS) {
+    logger.warn('Google Cloud credentials not configured, skipping TTS generation');
+    return '';
+  }
+
   try {
     const voice = ttsVoiceMap[language] || ttsVoiceMap.hi;
 
@@ -142,16 +160,25 @@ export async function synthesizeSpeech(
     }
 
     const audioBuffer = Buffer.from(response.audioContent as Uint8Array);
-    const timestamp = Date.now();
-    const filename = `tts-${language}-${timestamp}.mp3`;
-
-    const blob = await put(filename, audioBuffer, {
-      access: 'public',
-      contentType: 'audio/mpeg'
-    });
-
-    logger.info(`TTS audio uploaded: ${blob.url}`);
-    return blob.url;
+    
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      try {
+        const timestamp = Date.now();
+        const filename = `tts-${language}-${timestamp}.mp3`;
+        const blob = await put(filename, audioBuffer, {
+          access: 'public',
+          contentType: 'audio/mpeg'
+        });
+        logger.info(`TTS audio uploaded: ${blob.url}`);
+        return blob.url;
+      } catch (error) {
+        logger.warn('Blob storage unavailable for TTS, skipping upload');
+        return '';
+      }
+    } else {
+      logger.info('Blob storage not configured, skipping TTS upload');
+      return '';
+    }
   } catch (error) {
     logger.error('Text-to-Speech error:', error);
     throw new Error('Failed to synthesize speech');
