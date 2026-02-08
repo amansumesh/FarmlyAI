@@ -562,7 +562,7 @@ curl "https://api.farmly-ai.vercel.app/api/advisory/recommendations?language=hi"
 
 ---
 
-### [ ] Step: Government Schemes System
+### [x] Step: Government Schemes System
 <!-- chat-id: 7d017aba-b967-4ec4-b624-65b13ce9f04e -->
 
 **Objective**: Build government scheme database and matching system.
