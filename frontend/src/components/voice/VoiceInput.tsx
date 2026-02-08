@@ -47,6 +47,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
   };
 
   const handleStopRecording = () => {
+    console.log('handleStopRecording clicked - recordingState:', recordingState);
     stopRecording();
   };
 
@@ -176,14 +177,15 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
         {isRecording && (
           <div className="space-y-4">
             <div className="relative mx-auto w-20 h-20">
+              <div className="absolute inset-0 rounded-full border-4 border-red-400 animate-ping pointer-events-none" />
               <button
                 onClick={handleStopRecording}
-                className="w-full h-full flex items-center justify-center rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors focus:outline-none focus:ring-4 focus:ring-red-300 shadow-lg"
+                className="relative z-10 w-full h-full flex items-center justify-center rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors focus:outline-none focus:ring-4 focus:ring-red-300 shadow-lg cursor-pointer"
                 aria-label={t('voice.stopRecording')}
+                type="button"
               >
                 <div className="w-6 h-6 bg-white rounded-sm" />
               </button>
-              <div className="absolute inset-0 rounded-full border-4 border-red-400 animate-ping" />
             </div>
             <div className="space-y-2">
               <p className="text-sm text-gray-600 font-medium animate-pulse">

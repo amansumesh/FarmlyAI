@@ -87,12 +87,25 @@ export const useVoice = (): UseVoiceReturn => {
   }, []);
 
   const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
-      mediaRecorderRef.current.stop();
-      if (recordingTimerRef.current) {
-        clearInterval(recordingTimerRef.current);
-        recordingTimerRef.current = null;
+    console.log('stopRecording called');
+    console.log('mediaRecorder exists:', !!mediaRecorderRef.current);
+    console.log('mediaRecorder state:', mediaRecorderRef.current?.state);
+    
+    if (mediaRecorderRef.current) {
+      const state = mediaRecorderRef.current.state;
+      if (state === 'recording' || state === 'paused') {
+        console.log('Stopping recording...');
+        mediaRecorderRef.current.stop();
+        
+        if (recordingTimerRef.current) {
+          clearInterval(recordingTimerRef.current);
+          recordingTimerRef.current = null;
+        }
+      } else {
+        console.warn('MediaRecorder not in recording/paused state:', state);
       }
+    } else {
+      console.error('No mediaRecorder reference');
     }
   }, []);
 
