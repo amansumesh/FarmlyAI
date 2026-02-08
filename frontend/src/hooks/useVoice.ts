@@ -8,6 +8,7 @@ interface UseVoiceReturn {
   audioBlob: Blob | null;
   audioUrl: string | null;
   error: string | null;
+  recordingDuration: number;
   startRecording: () => Promise<void>;
   stopRecording: () => void;
   pauseRecording: () => void;
@@ -22,10 +23,13 @@ export const useVoice = (): UseVoiceReturn => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [hasPermission, setHasPermission] = useState<boolean>(false);
+  const [recordingDuration, setRecordingDuration] = useState<number>(0);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
+  const recordingTimerRef = useRef<number | null>(null);
+  const recordingStartTimeRef = useRef<number>(0);
 
   const startRecording = useCallback(async () => {
     try {
@@ -70,6 +74,11 @@ export const useVoice = (): UseVoiceReturn => {
 
       mediaRecorder.start(100);
       setRecordingState('recording');
+      
+      recordingStartTimeRef.current = Date.now();
+      recordingTimerRef.current = setInterval(() => {
+        setRecordingDuration(Math.floor((Date.now() - recordingStartTimeRef.current) / 1000));
+      }, 100);
     } catch (err) {
       console.error('Error accessing microphone:', err);
       setError('Failed to access microphone. Please grant permission and try again.');
@@ -78,24 +87,28 @@ export const useVoice = (): UseVoiceReturn => {
   }, []);
 
   const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current && recordingState === 'recording') {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
       mediaRecorderRef.current.stop();
+      if (recordingTimerRef.current) {
+        clearInterval(recordingTimerRef.current);
+        recordingTimerRef.current = null;
+      }
     }
-  }, [recordingState]);
+  }, []);
 
   const pauseRecording = useCallback(() => {
-    if (mediaRecorderRef.current && recordingState === 'recording') {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
       mediaRecorderRef.current.pause();
       setRecordingState('paused');
     }
-  }, [recordingState]);
+  }, []);
 
   const resumeRecording = useCallback(() => {
-    if (mediaRecorderRef.current && recordingState === 'paused') {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'paused') {
       mediaRecorderRef.current.resume();
       setRecordingState('recording');
     }
-  }, [recordingState]);
+  }, []);
 
   const resetRecording = useCallback(() => {
     if (audioUrl) {
@@ -107,10 +120,16 @@ export const useVoice = (): UseVoiceReturn => {
       streamRef.current = null;
     }
 
+    if (recordingTimerRef.current) {
+      clearInterval(recordingTimerRef.current);
+      recordingTimerRef.current = null;
+    }
+
     setRecordingState('idle');
     setAudioBlob(null);
     setAudioUrl(null);
     setError(null);
+    setRecordingDuration(0);
     audioChunksRef.current = [];
   }, [audioUrl]);
 
@@ -120,6 +139,7 @@ export const useVoice = (): UseVoiceReturn => {
     audioBlob,
     audioUrl,
     error,
+    recordingDuration,
     startRecording,
     stopRecording,
     pauseRecording,

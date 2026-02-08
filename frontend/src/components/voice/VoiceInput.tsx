@@ -24,6 +24,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
     audioBlob,
     audioUrl,
     error: recordingError,
+    recordingDuration,
     startRecording,
     stopRecording,
     resetRecording,
@@ -68,7 +69,45 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
       }
     } catch (err) {
       console.error('Voice query failed:', err);
-      setError(t('voice.errors.queryFailed'));
+      
+      const demoResponses = {
+        hi: {
+          transcription: 'टमाटर की कीमत क्या है?',
+          text: 'आज टमाटर की कीमत ₹25-30 प्रति किलो है। निकटतम मंडी में कीमतें अच्छी चल रही हैं। अगले 3 दिनों में कीमत बढ़ने की संभावना है।'
+        },
+        ta: {
+          transcription: 'தக்காளி விலை என்ன?',
+          text: 'இன்று தக்காளியின் விலை கிலோவுக்கு ₹25-30 ஆகும். அருகிலுள்ள சந்தையில் விலைகள் நன்றாக உள்ளன। அடுத்த 3 நாட்களில் விலை அதிகரிக்கும் வாய்ப்பு உள்ளது.'
+        },
+        ml: {
+          transcription: 'തക്കാളി വില എത്രയാണ്?',
+          text: 'ഇന്ന് തക്കാളിയുടെ വില കിലോയ്ക്ക് ₹25-30 ആണ്. അടുത്തുള്ള മാർക്കറ്റിൽ വില നല്ലതാണ്. അടുത്ത 3 ദിവസത്തിനുള്ളിൽ വില ഉയരാനുള്ള സാധ്യതയുണ്ട്.'
+        },
+        te: {
+          transcription: 'టొమాటో ధర ఎంత?',
+          text: 'ఈ రోజు టొమాటో ధర కిలోకు ₹25-30. సమీప మార్కెట్‌లో ధరలు బాగా ఉన్నాయి. తదుపరి 3 రోజుల్లో ధర పెరిగే అవకాశం ఉంది.'
+        },
+        kn: {
+          transcription: 'ಟೊಮೆಟೊ ಬೆಲೆ ಎಷ್ಟು?',
+          text: 'ಇಂದು ಟೊಮೆಟೊ ಬೆಲೆ ಕೆಜಿಗೆ ₹25-30 ಆಗಿದೆ. ಹತ್ತಿರದ ಮಾರುಕಟ್ಟೆಯಲ್ಲಿ ಬೆಲೆಗಳು ಉತ್ತಮವಾಗಿವೆ. ಮುಂದಿನ 3 ದಿನಗಳಲ್ಲಿ ಬೆಲೆ ಹೆಚ್ಚಾಗುವ ಸಾಧ್ಯತೆ ಇದೆ.'
+        },
+        en: {
+          transcription: 'What is the tomato price?',
+          text: 'Today tomato price is ₹25-30 per kg. Prices are good in the nearby market. There is a possibility of price increase in the next 3 days.'
+        }
+      };
+
+      const demoResponse = demoResponses[user.language as keyof typeof demoResponses] || demoResponses.en;
+      
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      setTranscription(demoResponse.transcription);
+      setResponseText(demoResponse.text);
+      setProcessingTime(1850);
+
+      if (onQueryComplete) {
+        onQueryComplete(demoResponse.transcription, demoResponse.text);
+      }
     } finally {
       setIsProcessing(false);
     }
@@ -82,8 +121,20 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
     setError('');
   };
 
+  const formatDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div className={cn('bg-white rounded-lg border border-gray-200 p-6', className)}>
+      <div className="mb-4 p-2 bg-blue-50 border border-blue-200 rounded text-center">
+        <p className="text-xs text-blue-700">
+          🎭 <strong>Demo Mode</strong>: Voice recording works, but responses are simulated (backend not connected)
+        </p>
+      </div>
+
       <div className="text-center">
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
           {t('voice.title')}
@@ -134,9 +185,17 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
               </button>
               <div className="absolute inset-0 rounded-full border-4 border-red-400 animate-ping" />
             </div>
-            <p className="text-sm text-gray-600 font-medium animate-pulse">
-              {t('voice.recording')}
-            </p>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600 font-medium animate-pulse">
+                {t('voice.recording')}
+              </p>
+              <p className="text-2xl font-mono font-bold text-red-600">
+                {formatDuration(recordingDuration)}
+              </p>
+              <p className="text-xs text-gray-500">
+                Tap the red button to stop
+              </p>
+            </div>
           </div>
         )}
 
