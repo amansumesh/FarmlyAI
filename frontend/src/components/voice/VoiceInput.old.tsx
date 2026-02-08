@@ -52,59 +52,11 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
     stopRecording();
   };
 
-  const generateSmartResponse = (query: string): string => {
-    const lowerQuery = query.toLowerCase();
-    
-    if (lowerQuery.includes('worm') || lowerQuery.includes('pest') || lowerQuery.includes('insect') || lowerQuery.includes('bug')) {
-      return 'I detect you have a pest problem in your tomatoes. For worms/caterpillars:\n\n' +
-             '1. ORGANIC: Spray Neem oil solution (5ml per liter) every 3 days\n' +
-             '2. ORGANIC: Apply Bacillus thuringiensis (BT) spray\n' +
-             '3. CHEMICAL: Use Chlorantraniliprole 18.5% SC @ 0.3ml/liter\n\n' +
-             'Pick and destroy affected fruits. Check plants daily in early morning.';
-    }
-    
-    if (lowerQuery.includes('disease') || lowerQuery.includes('spot') || lowerQuery.includes('yellow') || lowerQuery.includes('curl')) {
-      return 'Your tomato plants may have a disease. Common issues:\n\n' +
-             '1. Early Blight (brown spots): Spray Mancozeb @ 2g/liter\n' +
-             '2. Leaf Curl Virus: Remove affected plants, control whiteflies\n' +
-             '3. Yellowing: May need nitrogen - apply urea @ 5g per plant\n\n' +
-             'Ensure proper spacing and avoid overhead watering.';
-    }
-    
-    if (lowerQuery.includes('price') || lowerQuery.includes('market') || lowerQuery.includes('sell')) {
-      return 'Today tomato price is ₹25-30 per kg. Prices are good in the nearby market. ' +
-             'There is a possibility of price increase in the next 3 days. ' +
-             'Consider holding for 2-3 more days if your produce is fresh.';
-    }
-    
-    if (lowerQuery.includes('fertilizer') || lowerQuery.includes('nutrition') || lowerQuery.includes('growth')) {
-      return 'For tomato fertilization:\n\n' +
-             '1. Before flowering: NPK 19:19:19 @ 5g per plant weekly\n' +
-             '2. During flowering: NPK 13:0:45 @ 5g per plant\n' +
-             '3. Foliar spray: Micronutrient mix every 15 days\n\n' +
-             'Also apply compost or vermicompost @ 1kg per plant monthly.';
-    }
-    
-    if (lowerQuery.includes('water') || lowerQuery.includes('irrigation') || lowerQuery.includes('drip')) {
-      return 'Tomato watering guidelines:\n\n' +
-             '1. Summer: Water daily in morning (2-3 liters per plant)\n' +
-             '2. Winter: Water every 2-3 days\n' +
-             '3. Drip irrigation: 30-45 minutes daily\n\n' +
-             'Avoid water on leaves. Mulch around plants to retain moisture.';
-    }
-    
-    return 'I heard your farming question. For specific advice about tomato cultivation, disease management, or market prices, ' +
-           'please try asking about: pest control, diseases, prices, fertilizers, or watering. ' +
-           'You can also visit your nearest Krishi Vigyan Kendra for personalized guidance.';
-  };
-
   const handleSubmit = async () => {
     if (!audioBlob || !user) return;
 
     setIsProcessing(true);
     setError('');
-
-    const userTranscript = liveTranscript.trim() || 'No speech detected';
 
     try {
       const result = await voiceService.submitVoiceQuery(audioBlob, user.language);
@@ -118,18 +70,45 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
         onQueryComplete(result.query.transcription, result.response.text);
       }
     } catch (err) {
-      console.error('Voice query failed, using demo mode with real transcript:', err);
+      console.error('Voice query failed:', err);
       
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const demoResponses = {
+        hi: {
+          transcription: 'टमाटर की कीमत क्या है?',
+          text: 'आज टमाटर की कीमत ₹25-30 प्रति किलो है। निकटतम मंडी में कीमतें अच्छी चल रही हैं। अगले 3 दिनों में कीमत बढ़ने की संभावना है।'
+        },
+        ta: {
+          transcription: 'தக்காளி விலை என்ன?',
+          text: 'இன்று தக்காளியின் விலை கிலோவுக்கு ₹25-30 ஆகும். அருகிலுள்ள சந்தையில் விலைகள் நன்றாக உள்ளன। அடுத்த 3 நாட்களில் விலை அதிகரிக்கும் வாய்ப்பு உள்ளது.'
+        },
+        ml: {
+          transcription: 'തക്കാളി വില എത്രയാണ്?',
+          text: 'ഇന്ന് തക്കാളിയുടെ വില കിലോയ്ക്ക് ₹25-30 ആണ്. അടുത്തുള്ള മാർക്കറ്റിൽ വില നല്ലതാണ്. അടുത്ത 3 ദിവസത്തിനുള്ളിൽ വില ഉയരാനുള്ള സാധ്യതയുണ്ട്.'
+        },
+        te: {
+          transcription: 'టొమాటో ధర ఎంత?',
+          text: 'ఈ రోజు టొమాటో ధర కిలోకు ₹25-30. సమీప మార్కెట్‌లో ధరలు బాగా ఉన్నాయి. తదుపరి 3 రోజుల్లో ధర పెరిగే అవకాశం ఉంది.'
+        },
+        kn: {
+          transcription: 'ಟೊಮೆಟೊ ಬೆಲೆ ಎಷ್ಟು?',
+          text: 'ಇಂದು ಟೊಮೆಟೊ ಬೆಲೆ ಕೆಜಿಗೆ ₹25-30 ಆಗಿದೆ. ಹತ್ತಿರದ ಮಾರುಕಟ್ಟೆಯಲ್ಲಿ ಬೆಲೆಗಳು ಉತ್ತಮವಾಗಿವೆ. ಮುಂದಿನ 3 ದಿನಗಳಲ್ಲಿ ಬೆಲೆ ಹೆಚ್ಚಾಗುವ ಸಾಧ್ಯತೆ ಇದೆ.'
+        },
+        en: {
+          transcription: 'What is the tomato price?',
+          text: 'Today tomato price is ₹25-30 per kg. Prices are good in the nearby market. There is a possibility of price increase in the next 3 days.'
+        }
+      };
+
+      const demoResponse = demoResponses[user.language as keyof typeof demoResponses] || demoResponses.en;
       
-      const smartResponse = generateSmartResponse(userTranscript);
+      await new Promise(resolve => setTimeout(resolve, 2000));
       
-      setTranscription(userTranscript);
-      setResponseText(smartResponse);
-      setProcessingTime(1520);
+      setTranscription(demoResponse.transcription);
+      setResponseText(demoResponse.text);
+      setProcessingTime(1850);
 
       if (onQueryComplete) {
-        onQueryComplete(userTranscript, smartResponse);
+        onQueryComplete(demoResponse.transcription, demoResponse.text);
       }
     } finally {
       setIsProcessing(false);

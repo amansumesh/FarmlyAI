@@ -9,12 +9,34 @@ interface UseVoiceReturn {
   audioUrl: string | null;
   error: string | null;
   recordingDuration: number;
+  transcript: string;
   startRecording: () => Promise<void>;
   stopRecording: () => void;
   pauseRecording: () => void;
   resumeRecording: () => void;
   resetRecording: () => void;
   hasPermission: boolean;
+}
+
+interface ISpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: unknown) => void) | null;
+  onerror: ((event: unknown) => void) | null;
+  start: () => void;
+  stop: () => void;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition: {
+      new(): ISpeechRecognition;
+    };
+    webkitSpeechRecognition: {
+      new(): ISpeechRecognition;
+    };
+  }
 }
 
 export const useVoice = (): UseVoiceReturn => {
@@ -24,16 +46,19 @@ export const useVoice = (): UseVoiceReturn => {
   const [error, setError] = useState<string | null>(null);
   const [hasPermission, setHasPermission] = useState<boolean>(false);
   const [recordingDuration, setRecordingDuration] = useState<number>(0);
+  const [transcript, setTranscript] = useState<string>('');
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
   const recordingTimerRef = useRef<number | null>(null);
   const recordingStartTimeRef = useRef<number>(0);
+  const recognitionRef = useRef<ISpeechRecognition | null>(null);
 
   const startRecording = useCallback(async () => {
     try {
       setError(null);
+      setTranscript('');
       
       const stream = await navigator.mediaDevices.getUserMedia({ 
         audio: {
@@ -79,6 +104,33 @@ export const useVoice = (): UseVoiceReturn => {
       recordingTimerRef.current = setInterval(() => {
         setRecordingDuration(Math.floor((Date.now() - recordingStartTimeRef.current) / 1000));
       }, 100);
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+
+        recognition.onresult = (event: any) => {
+          let finalTranscript = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+              finalTranscript += event.results[i][0].transcript + ' ';
+            }
+          }
+          if (finalTranscript) {
+            setTranscript((prev) => prev + finalTranscript);
+          }
+        };
+
+        recognition.onerror = (event: any) => {
+          console.error('Speech recognition error:', event.error);
+        };
+
+        recognition.start();
+        recognitionRef.current = recognition;
+      }
     } catch (err) {
       console.error('Error accessing microphone:', err);
       setError('Failed to access microphone. Please grant permission and try again.');
@@ -90,6 +142,15 @@ export const useVoice = (): UseVoiceReturn => {
     console.log('stopRecording called');
     console.log('mediaRecorder exists:', !!mediaRecorderRef.current);
     console.log('mediaRecorder state:', mediaRecorderRef.current?.state);
+    
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+        recognitionRef.current = null;
+      } catch (err) {
+        console.error('Error stopping speech recognition:', err);
+      }
+    }
     
     if (mediaRecorderRef.current) {
       const state = mediaRecorderRef.current.state;
@@ -138,11 +199,21 @@ export const useVoice = (): UseVoiceReturn => {
       recordingTimerRef.current = null;
     }
 
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+        recognitionRef.current = null;
+      } catch (err) {
+        console.error('Error stopping speech recognition:', err);
+      }
+    }
+
     setRecordingState('idle');
     setAudioBlob(null);
     setAudioUrl(null);
     setError(null);
     setRecordingDuration(0);
+    setTranscript('');
     audioChunksRef.current = [];
   }, [audioUrl]);
 
@@ -153,6 +224,7 @@ export const useVoice = (): UseVoiceReturn => {
     audioUrl,
     error,
     recordingDuration,
+    transcript,
     startRecording,
     stopRecording,
     pauseRecording,
