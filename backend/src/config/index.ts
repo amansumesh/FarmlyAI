@@ -35,6 +35,10 @@ export const config = {
     apiKey: process.env.OPENWEATHER_API_KEY || '',
   },
   
+  agmarknet: {
+    apiKey: process.env.AGMARKNET_API_KEY || '',
+  },
+  
   mlService: {
     url: process.env.ML_SERVICE_URL || 'http://localhost:8000',
   },

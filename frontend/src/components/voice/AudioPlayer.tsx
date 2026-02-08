@@ -18,27 +18,56 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !audioUrl) return;
 
-    const updateTime = () => setCurrentTime(audio.currentTime);
-    const updateDuration = () => setDuration(audio.duration);
+    setError(false);
+    setCurrentTime(0);
+    setDuration(0);
+    setIsPlaying(false);
+
+    const updateTime = () => {
+      if (!isNaN(audio.currentTime)) {
+        setCurrentTime(audio.currentTime);
+      }
+    };
+    
+    const updateDuration = () => {
+      if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+        setDuration(audio.duration);
+      }
+    };
+    
     const handleEnded = () => setIsPlaying(false);
+    
+    const handleError = () => {
+      console.error('Audio player error - invalid audio source');
+      setError(true);
+      setIsPlaying(false);
+    };
 
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateDuration);
+    audio.addEventListener('durationchange', updateDuration);
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', handleError);
 
     if (autoPlay) {
-      audio.play().then(() => setIsPlaying(true)).catch(console.error);
+      audio.play().then(() => setIsPlaying(true)).catch((err) => {
+        console.error('Autoplay failed:', err);
+        setError(true);
+      });
     }
 
     return () => {
       audio.removeEventListener('timeupdate', updateTime);
       audio.removeEventListener('loadedmetadata', updateDuration);
+      audio.removeEventListener('durationchange', updateDuration);
       audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('error', handleError);
     };
   }, [audioUrl, autoPlay]);
 
@@ -64,11 +93,25 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   };
 
   const formatTime = (time: number) => {
-    if (isNaN(time)) return '0:00';
+    if (!isFinite(time) || isNaN(time) || time < 0) return '0:00';
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
+
+  if (!audioUrl) {
+    return null;
+  }
+
+  if (error) {
+    return (
+      <div className={cn('bg-red-50 rounded-lg border border-red-200 p-4', className)}>
+        <p className="text-sm text-red-800 text-center">
+          {t('voice.audioError') || 'Unable to load audio'}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className={cn('bg-white rounded-lg border border-gray-200 p-4', className)}>

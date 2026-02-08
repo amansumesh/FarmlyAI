@@ -299,7 +299,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
               </p>
             </div>
 
-            {responseAudioUrl && (
+            {responseAudioUrl && responseAudioUrl.length > 0 && (
               <div>
                 <h4 className="text-sm font-semibold text-gray-900 mb-2">
                   {t('voice.listenToResponse')}
