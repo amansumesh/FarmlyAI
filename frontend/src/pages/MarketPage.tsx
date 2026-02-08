@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { marketService } from '../services/market.service';
@@ -32,11 +32,7 @@ export const MarketPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadMarketPrices();
-  }, [selectedCrop, i18n.language]);
-
-  const loadMarketPrices = async () => {
+  const loadMarketPrices = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -45,13 +41,20 @@ export const MarketPage: React.FC = () => {
         language: user?.language || i18n.language,
       });
       setMarketData(data);
-    } catch (err: any) {
-      setError(err.response?.data?.message || t('market.errors.loadFailed'));
+    } catch (err) {
+      const errorMessage = err instanceof Error && 'response' in err 
+        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message 
+        : undefined;
+      setError(errorMessage || t('market.errors.loadFailed'));
       console.error('Failed to load market prices:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedCrop, user?.language, i18n.language, t]);
+
+  useEffect(() => {
+    loadMarketPrices();
+  }, [loadMarketPrices]);
 
   const getLowestPriceIndex = () => {
     if (!marketData?.markets || marketData.markets.length === 0) return -1;

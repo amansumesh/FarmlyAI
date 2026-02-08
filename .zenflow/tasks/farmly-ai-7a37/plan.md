@@ -479,7 +479,7 @@ curl "https://api.farmly-ai.vercel.app/api/market/prices?crop=tomato&language=hi
 
 ---
 
-### [ ] Step: Market Prices - Frontend
+### [x] Step: Market Prices - Frontend
 <!-- chat-id: 5d8b6d07-5776-4750-a99e-8ab3116ef6d0 -->
 
 **Objective**: Build market prices UI with charts and recommendations.

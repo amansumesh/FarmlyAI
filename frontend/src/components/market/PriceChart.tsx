@@ -26,7 +26,7 @@ export const PriceChart: React.FC<PriceChartProps> = ({ data, crop }) => {
     market: item.market,
   }));
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: { date: string; market: string }; value: number }> }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white border border-gray-300 rounded-lg p-3 shadow-lg">
