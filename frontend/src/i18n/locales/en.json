@@ -199,5 +199,28 @@
       "locationRequired": "Farm location is required for personalized recommendations",
       "cropsRequired": "Please add at least one crop to your farm profile"
     }
+  },
+  "schemes": {
+    "title": "Government Schemes",
+    "subtitle": "Discover schemes you're eligible for",
+    "match": "Match",
+    "benefits": "Benefits",
+    "applicationSteps": "How to Apply",
+    "requiredDocuments": "Required Documents",
+    "applyNow": "Apply Now",
+    "eligibleCount": "You are eligible for {{count}} scheme(s)",
+    "noSchemes": "No Schemes Found",
+    "noSchemesDescription": "We couldn't find any schemes matching your profile. Try updating your farm details.",
+    "updateProfile": "Update Profile",
+    "completeProfile": "Complete Profile",
+    "types": {
+      "central": "Central",
+      "state": "State",
+      "district": "District"
+    },
+    "errors": {
+      "loadFailed": "Failed to load schemes. Please try again.",
+      "profileIncomplete": "Please complete your farm profile first"
+    }
   }
 }
