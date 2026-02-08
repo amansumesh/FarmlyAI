@@ -40,10 +40,21 @@ export const MarketPageV2 = () => {
       });
       setMarketData(data);
     } catch (err) {
-      const errorMessage = err instanceof Error && 'response' in err 
-        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message 
-        : undefined;
-      setError(errorMessage || t('market.errors.loadFailed'));
+      let errorMessage = t('market.errors.loadFailed');
+      
+      // Check if error is due to missing location
+      if (err instanceof Error && 'response' in err) {
+        const response = (err as { response?: { data?: { error?: string; message?: string } } }).response;
+        if (response?.data?.error && response.data.error.includes('location')) {
+          errorMessage = 'Location not set in your profile. Please go to Settings and update your farm location to use this feature.';
+        } else if (response?.data?.error) {
+          errorMessage = response.data.error;
+        } else if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+      }
+      
+      setError(errorMessage);
       console.error('Failed to load market prices:', err);
     } finally {
       setLoading(false);

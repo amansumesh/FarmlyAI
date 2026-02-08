@@ -94,7 +94,15 @@ export const OnboardingPage: React.FC = () => {
       } | undefined;
 
       if (useManualLocation) {
-        locationData = undefined;
+        // For manual location, use default coordinates based on state
+        // TODO: Implement proper geocoding API in future
+        // Default to center of India for MVP
+        locationData = {
+          coordinates: [78.9629, 20.5937] as [number, number], // Center of India
+          address,
+          state,
+          district
+        };
       } else if (latitude && longitude) {
         locationData = {
           coordinates: [longitude, latitude] as [number, number],
