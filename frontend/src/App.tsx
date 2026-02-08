@@ -6,6 +6,7 @@ import { OnboardingPage } from './pages/OnboardingPage';
 import { HomePage } from './pages/HomePage';
 import { DiseaseDetectionPage } from './pages/DiseaseDetectionPage';
 import { MarketPage } from './pages/MarketPage';
+import { MarketPageV2 } from './pages/MarketPage.v2';
 import { MarketPageSimple } from './pages/MarketPageSimple';
 import { AdvisoryPage } from './pages/AdvisoryPage';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
@@ -70,6 +71,14 @@ function AppRouter() {
       />
       <Route
         path="/market"
+        element={
+          <ProtectedRoute requireOnboarding>
+            <MarketPageV2 />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/market-simple"
         element={
           <ProtectedRoute requireOnboarding>
             <MarketPageSimple />
