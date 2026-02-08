@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../store/authStore';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/common/Button';
+import { VoiceInput } from '../components/voice/VoiceInput';
 
 export const HomePage: React.FC = () => {
   const { t } = useTranslation();
@@ -12,6 +13,10 @@ export const HomePage: React.FC = () => {
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  const handleVoiceQueryComplete = (transcription: string, responseText: string) => {
+    console.log('Voice query completed:', { transcription, responseText });
   };
 
   return (
@@ -33,6 +38,10 @@ export const HomePage: React.FC = () => {
                 <p><span className="font-medium">Language:</span> {user?.language.toUpperCase()}</p>
                 <p><span className="font-medium">Onboarding Status:</span> {user?.onboardingCompleted ? 'Completed' : 'Pending'}</p>
               </div>
+            </div>
+
+            <div className="my-6">
+              <VoiceInput onQueryComplete={handleVoiceQueryComplete} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">

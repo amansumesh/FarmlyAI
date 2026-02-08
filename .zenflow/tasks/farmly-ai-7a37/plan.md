@@ -361,7 +361,8 @@ curl -X POST https://api.farmly-ai.vercel.app/api/query/voice \
 
 ---
 
-### [ ] Step: Voice Interface - Frontend
+### [x] Step: Voice Interface - Frontend
+<!-- chat-id: 1d5bab8e-909f-4c53-9675-195e365a0c2b -->
 
 **Objective**: Build voice input UI with recording and playback.
 

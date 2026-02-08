@@ -110,5 +110,27 @@
       "noImage": "Please capture or upload an image first",
       "analysisFailed": "Failed to analyze image. Please try again."
     }
+  },
+  "voice": {
+    "title": "Voice Assistant",
+    "subtitle": "Ask your farming questions by voice",
+    "tapToRecord": "Tap the microphone to start recording",
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop Recording",
+    "recording": "Recording...",
+    "recordingComplete": "Recording Complete",
+    "reRecord": "Re-record",
+    "submit": "Submit",
+    "processing": "Processing your query...",
+    "yourQuestion": "Your Question",
+    "response": "Response",
+    "listenToResponse": "Listen to Response",
+    "processedIn": "Processed in {{time}}s",
+    "askAnother": "Ask Another Question",
+    "play": "Play",
+    "pause": "Pause",
+    "errors": {
+      "queryFailed": "Failed to process your query. Please try again."
+    }
   }
 }
