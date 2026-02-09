@@ -2,19 +2,36 @@
 
 ## Issues Identified
 1. **Scrolling not working**: Unable to scroll down on pages
-2. **Page reload redirects to login**: Authentication state lost on page refresh
+2. **Page reload redirects to login**: Authentication state lost on page refresh (INVESTIGATION IN PROGRESS)
 
 ## Root Causes
 
-### Issue 1: Scrolling Problem
+### Issue 1: Scrolling Problem ✅ FIXED
 **Cause**: The CSS had `overflow-x: hidden` on html and body, but body didn't explicitly allow vertical scrolling. This caused browsers to prevent all scrolling.
 
-### Issue 2: Authentication Redirect
-**Cause**: Race condition during page reload. The routing logic was executing before Zustand had time to rehydrate the auth state from localStorage, causing `isAuthenticated` to be `false` momentarily, triggering a redirect to the login page.
+### Issue 2: Authentication Redirect ⚠️ UNDER INVESTIGATION
+**Initial hypothesis**: Race condition during page reload where routing logic executes before Zustand rehydrates auth state from localStorage.
+
+**Investigation findings**:
+- Zustand's persist middleware with localStorage works **synchronously** in browsers
+- localStorage.getItem() is a synchronous operation
+- The persist middleware loads data immediately during store creation
+- No race condition should exist in normal circumstances
+
+**Attempted Fix #1**: Added `_hasHydrated` tracking
+- **Result**: FAILED - caused infinite loading spinner
+- **Reason**: Introduced unnecessary async complexity for a synchronous operation
+- **Status**: REVERTED
+
+**Current Status**: Investigating why auth state isn't persisting despite synchronous localStorage. Possible causes:
+- Store initialization timing relative to React Router
+- React strict mode double-rendering
+- Browser localStorage being cleared/blocked
+- Middleware configuration issue
 
 ## Solutions Implemented
 
-### Fix 1: Scrolling (index.css)
+### Fix 1: Scrolling ✅ FIXED (index.css)
 ```css
 html {
   -webkit-text-size-adjust: 100%;
@@ -36,160 +53,67 @@ body {
 - Added `height: 100%` to html and `min-height: 100%` to body for proper layout
 - Keeps `overflow-x: hidden` to prevent horizontal scroll (as intended)
 
-### Fix 2: Authentication Persistence
+**Test Results**:
+- ✅ Vertical scrolling works on all pages
+- ✅ Horizontal scroll prevented (as intended)
+- ✅ Smooth scrolling on mobile devices
+- ✅ No layout shifts or overflow issues
 
-#### 2a. Added Hydration State (authStore.ts)
+### Fix 2: Authentication Persistence ⚠️ IN PROGRESS
+
+**Current Implementation** (Simple approach - no hydration tracking):
 ```typescript
-interface AuthState {
-  // ... existing fields
-  _hasHydrated: boolean;  // NEW
-  setHasHydrated: (hasHydrated: boolean) => void;  // NEW
-}
-
+// authStore.ts
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
-      // ... existing state
-      _hasHydrated: false,  // NEW
-      setHasHydrated: (hasHydrated) => set({ _hasHydrated: hasHydrated }),  // NEW
-      // ... rest of implementation
+      user: null,
+      tokens: null,
+      isAuthenticated: false,
+      // ... actions
     }),
     {
       name: 'auth-storage',
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
         tokens: state.tokens,
         isAuthenticated: state.isAuthenticated
-      }),
-      onRehydrateStorage: () => (state) => {  // NEW
-        state?.setHasHydrated(true);
-      }
+      })
     }
   )
 );
 ```
 
-**What this does**:
-- Tracks when Zustand has finished loading state from localStorage
-- `_hasHydrated` starts as `false`
-- When localStorage data is loaded, `onRehydrateStorage` callback sets it to `true`
-- Routing logic waits for `_hasHydrated: true` before making decisions
+**What we know**:
+- ✅ Data IS being saved to localStorage (visible in DevTools)
+- ✅ Store persists correctly during normal navigation
+- ❌ Page reload triggers redirect to login
+- ❌ Auth state not available immediately on reload
 
-#### 2b. Updated ProtectedRoute (ProtectedRoute.tsx)
-```typescript
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
-  children,
-  requireOnboarding = false 
-}) => {
-  const { isAuthenticated, user, _hasHydrated } = useAuthStore();  // Added _hasHydrated
-  const location = useLocation();
-
-  // Wait for store to rehydrate from localStorage
-  if (!_hasHydrated) {
-    return <LoadingSpinner fullScreen size="lg" />;  // Show loading during hydration
-  }
-
-  // Now safe to check authentication - state is loaded from localStorage
-  if (!isAuthenticated) {
-    return <Navigate to="/" state={{ from: location }} replace />;
-  }
-
-  if (requireOnboarding && user && !user.onboardingCompleted) {
-    return <Navigate to="/onboarding" replace />;
-  }
-
-  return <>{children}</>;
-};
-```
-
-**Flow**:
-1. Component renders
-2. Checks if store has hydrated from localStorage yet
-3. If not hydrated, shows loading spinner (prevents premature redirect)
-4. Once hydrated, `_hasHydrated` becomes `true`
-5. Now checks `isAuthenticated` (which has the correct value from localStorage)
-6. Routes accordingly
-
-#### 2c. Updated App Router (App.tsx)
-```typescript
-function AppRouter() {
-  const { isAuthenticated, user, _hasHydrated } = useAuthStore();  // Added _hasHydrated
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (_hasHydrated && isAuthenticated && user) {  // Check _hasHydrated first
-      if (!user.onboardingCompleted) {
-        navigate('/onboarding', { replace: true });
-      }
-    }
-  }, [_hasHydrated, isAuthenticated, user, navigate]);  // Added _hasHydrated to deps
-
-  // Wait for hydration before routing
-  if (!_hasHydrated) {
-    return <LoadingSpinner fullScreen size="lg" />;
-  }
-
-  return (
-    // ... routes
-  );
-}
-```
-
-**Flow**:
-1. App router checks if hydration is complete
-2. Shows loading spinner during hydration (prevents flash of wrong route)
-3. Once hydrated, proceeds with normal routing logic
-4. useEffect only runs navigation logic after hydration is complete
-
-## Timeline of Page Load (Before vs After)
-
-### ❌ Before (Broken)
-```
-1. User reloads page
-2. App starts, authStore initializes with defaults:
-   - isAuthenticated: false (not yet loaded from localStorage)
-3. App routing logic runs immediately
-4. Sees isAuthenticated = false
-5. Redirects to login page ❌
-6. (Meanwhile, localStorage loads async...)
-7. Too late - already redirected
-```
-
-### ✅ After (Fixed)
-```
-1. User reloads page
-2. App starts, authStore initializes:
-   - isAuthenticated: false
-   - _hasHydrated: false
-3. App routing checks _hasHydrated first
-4. Sees _hasHydrated = false
-5. Shows loading spinner ⏳
-6. Zustand loads from localStorage
-7. onRehydrateStorage callback fires
-8. Sets _hasHydrated = true
-9. Sets isAuthenticated = true (from localStorage)
-10. App re-renders
-11. Sees _hasHydrated = true AND isAuthenticated = true
-12. User stays on current page ✅
-```
+**Next investigation steps**:
+1. Check if React Router initializes before Zustand store creation
+2. Test localStorage availability on page load
+3. Add logging to track store initialization sequence
+4. Consider if React.StrictMode double-render is causing issues
+5. Review Zustand persist middleware documentation for edge cases
 
 ## Testing Verification
 
-### Test 1: Scrolling
+### Test 1: Scrolling ✅ PASSED
 1. ✅ Open any page (Home, Disease Detection, Market, etc.)
 2. ✅ Scroll down - page scrolls vertically
 3. ✅ Try scrolling horizontally - prevented (as intended)
 4. ✅ Test on mobile devices - smooth scrolling
 
-### Test 2: Authentication Persistence
+### Test 2: Authentication Persistence ⚠️ IN PROGRESS
 1. ✅ Login to the app
 2. ✅ Navigate to any protected page (e.g., /home)
-3. ✅ Refresh the page (F5 or Cmd+R)
-4. ✅ User stays on the same page (not redirected to login)
-5. ✅ Brief loading spinner appears during hydration
-6. ✅ Auth state persists across page reloads
+3. ❌ Refresh the page (F5 or Cmd+R) - redirects to login (BUG)
+4. Expected: User stays on the same page
+5. Expected: Auth state persists across page reloads
 
-### Test 3: Logout Still Works
+### Test 3: Logout ✅ PASSED
 1. ✅ Login to the app
 2. ✅ Click logout
 3. ✅ Redirected to login page
@@ -198,21 +122,18 @@ function AppRouter() {
 
 ## Files Modified
 
-1. **`frontend/src/index.css`**
+1. **`frontend/src/index.css`** ✅
    - Fixed scrolling by adding `overflow-y: auto` to body
 
-2. **`frontend/src/store/authStore.ts`**
-   - Added `_hasHydrated` state
-   - Added `setHasHydrated` action
-   - Added `onRehydrateStorage` callback
+2. **`frontend/src/store/authStore.ts`** ⚠️
+   - Using simple persist middleware (no custom hydration tracking)
+   - Under investigation for reload issue
 
-3. **`frontend/src/components/common/ProtectedRoute.tsx`**
-   - Wait for hydration before checking auth
-   - Show loading spinner during hydration
+3. **`frontend/src/components/common/ProtectedRoute.tsx`** ✅
+   - Simple implementation: check isAuthenticated, redirect if false
 
-4. **`frontend/src/App.tsx`**
-   - Wait for hydration in router
-   - Show loading spinner during initial load
+4. **`frontend/src/App.tsx`** ✅
+   - Simple implementation: route based on auth state
 
 ## Build Verification
 
@@ -221,24 +142,67 @@ function AppRouter() {
 ✅ Production build: SUCCESSFUL
 ✅ Bundle size: 55.15 KB gzipped (optimal)
 ✅ All routes lazy loaded correctly
+✅ Dev server running on port 3001
 ```
 
-## Additional Notes
+## Lessons Learned
 
-### Why _hasHydrated pattern?
-This is a recommended pattern for Zustand persist middleware to handle SSR and client-side hydration properly. It prevents hydration mismatches and race conditions.
+### ❌ What Didn't Work: Hydration Tracking
+We attempted to add `_hasHydrated` state to track when localStorage was loaded:
+- Added boolean flag to track rehydration
+- Added `onRehydrateStorage` callback
+- Made routing wait for flag to be true
 
-### Why underscore prefix?
-The `_hasHydrated` naming convention (with underscore) indicates this is an internal state field that shouldn't be used directly by most components - only by routing/auth logic.
+**Result**: Infinite loading spinner - app never became interactive
 
-### Performance Impact
-- Minimal: Loading spinner shows for ~50-100ms during page load
-- Better UX: Prevents jarring redirect flash
-- No impact on normal navigation (only on page reload)
+**Why it failed**:
+- localStorage in browsers is **synchronous**, not async
+- Zustand persist middleware loads data **immediately** during store creation
+- Adding async tracking for a sync operation introduced deadlock
+- The callback-based approach didn't execute as expected
+
+**Conclusion**: Don't overcomplicate synchronous operations with async tracking patterns
+
+### 📝 TODO: Next Steps for Auth Persistence Fix
+
+1. **Add detailed logging**:
+   - Log when store is created
+   - Log when localStorage is read
+   - Log when routing decisions are made
+   - Track timing to identify actual race condition
+
+2. **Test localStorage directly**:
+   - Verify data persists across reload
+   - Check if browser is blocking localStorage
+   - Test in incognito mode
+   - Test across different browsers
+
+3. **Review React Router timing**:
+   - Check if router initializes before store
+   - Consider using a layout route for auth check
+   - Review Vite HMR impact on store
+
+4. **Consider alternative approaches**:
+   - Move auth check to layout component instead of individual routes
+   - Use React Router loader functions
+   - Add a brief delay before initial route decision (not ideal but pragmatic)
 
 ## Future Improvements
 
-1. **Persist Strategy**: Could add versioning to localStorage to handle schema migrations
-2. **Error Handling**: Add error state for localStorage corruption
-3. **Timeout**: Add timeout for hydration (if it takes >2s, something is wrong)
-4. **Analytics**: Track hydration time to monitor performance
+1. **Auth Persistence**: Complete investigation and fix reload redirect issue
+2. **Persist Strategy**: Add versioning to localStorage for schema migrations
+3. **Error Handling**: Add error state for localStorage corruption or quota exceeded
+4. **Analytics**: Track auth-related events to monitor production issues
+5. **Timeout**: Add timeout for critical operations to prevent infinite loading
+
+## Status Summary
+
+| Issue | Status | Priority |
+|-------|--------|----------|
+| Scrolling not working | ✅ FIXED | HIGH |
+| Auth redirect on reload | ⚠️ INVESTIGATING | HIGH |
+| Infinite loading bug | ✅ FIXED (reverted bad code) | CRITICAL |
+| TypeScript compilation | ✅ PASSING | - |
+| Production build | ✅ WORKING | - |
+
+**Overall Status**: 1 critical issue fixed (infinite loading), 1 issue fixed (scrolling), 1 issue under investigation (auth persistence)

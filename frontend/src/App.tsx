@@ -30,21 +30,16 @@ const queryClient = new QueryClient({
 });
 
 function AppRouter() {
-  const { isAuthenticated, user, _hasHydrated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (_hasHydrated && isAuthenticated && user) {
+    if (isAuthenticated && user) {
       if (!user.onboardingCompleted) {
         navigate('/onboarding', { replace: true });
       }
     }
-  }, [_hasHydrated, isAuthenticated, user, navigate]);
-
-  // Wait for hydration before routing
-  if (!_hasHydrated) {
-    return <LoadingSpinner fullScreen size="lg" />;
-  }
+  }, [isAuthenticated, user, navigate]);
 
   return (
     <Suspense fallback={<LoadingSpinner fullScreen size="lg" text="Loading..." />}>
