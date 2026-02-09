@@ -36,6 +36,13 @@ export const DiseaseDetectionPage: React.FC = () => {
       return;
     }
 
+    // Check if online
+    if (!navigator.onLine) {
+      setError(t('disease.errors.offline', 'You are offline. Disease detection requires an internet connection.'));
+      setPageState('error');
+      return;
+    }
+
     setPageState('analyzing');
     setError('');
 

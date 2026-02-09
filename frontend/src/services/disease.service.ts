@@ -5,6 +5,11 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 class DiseaseService {
   async detectDisease(request: DetectDiseaseRequest): Promise<DiseaseDetectionResponse> {
+    // Early check for offline status
+    if (!navigator.onLine) {
+      throw new Error('You are offline. Disease detection requires an internet connection.');
+    }
+
     const formData = new FormData();
     formData.append('image', request.image);
     formData.append('language', request.language);
@@ -16,6 +21,7 @@ class DiseaseService {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 60000, // 60 seconds for image upload + ML inference
       }
     );
     
