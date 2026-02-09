@@ -10,15 +10,13 @@
   html {
     -webkit-text-size-adjust: 100%;
     overflow-x: hidden;
-    height: 100%;
   }
 
   body {
     @apply antialiased;
     overflow-x: hidden;
-    overflow-y: auto;
-    min-height: 100%;
-    position: relative;
+    overflow-y: scroll;
+    min-height: 100vh;
   }
 
   button,

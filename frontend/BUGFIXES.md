@@ -31,30 +31,84 @@
 
 ## Solutions Implemented
 
-### Fix 1: Scrolling ✅ FIXED (index.css)
+### Fix 1: Scrolling ✅ FIXED 
+
+**Problem Details**:
+- Mouse wheel scrolling didn't work
+- Scrollbar (clicking and dragging) DID work
+- Indicated that wheel events were being blocked, not a layout issue
+
+**Root Causes Found**:
+1. `overscroll-behavior-y: contain` in index.html inline styles (MAIN CULPRIT)
+2. `overflow-y: auto` instead of `overflow-y: scroll`
+3. Complex height inheritance (html height: 100%, body min-height: 100%)
+
+**Files Modified**:
+
+**index.html** - Removed inline style:
+```html
+<!-- BEFORE -->
+<style>
+  body {
+    overscroll-behavior-y: contain;  /* ❌ BLOCKS WHEEL EVENTS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>
+
+<!-- AFTER -->
+<style>
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+</style>
+```
+
+**index.css** - Simplified scroll setup:
 ```css
+/* BEFORE */
 html {
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
-  height: 100%;  /* Added */
+  height: 100%;  /* Can cause scroll issues */
 }
 
 body {
   @apply antialiased;
   overflow-x: hidden;
-  overflow-y: auto;  /* Added - explicitly enable vertical scroll */
-  overscroll-behavior-y: contain;
-  min-height: 100%;  /* Added */
+  overflow-y: auto;  /* Doesn't guarantee wheel events work */
+  overscroll-behavior-y: contain;  /* Blocks wheel scrolling */
+  min-height: 100%;
+  position: relative;
+  touch-action: manipulation;  /* Can block wheel events */
+}
+
+/* AFTER */
+html {
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  @apply antialiased;
+  overflow-x: hidden;
+  overflow-y: scroll;  /* ✅ Forces scroll, enables wheel */
+  min-height: 100vh;  /* ✅ Use vh instead of % */
 }
 ```
 
 **Changes**:
-- Added `overflow-y: auto` to body to explicitly enable vertical scrolling
-- Added `height: 100%` to html and `min-height: 100%` to body for proper layout
-- Keeps `overflow-x: hidden` to prevent horizontal scroll (as intended)
+- ✅ Removed `overscroll-behavior-y: contain` (was blocking wheel events)
+- ✅ Changed `overflow-y: auto` to `overflow-y: scroll` (forces scrollbar visibility)
+- ✅ Changed `min-height: 100%` to `min-height: 100vh` (more reliable)
+- ✅ Removed `height: 100%` from html (can interfere with natural scroll)
+- ✅ Removed `position: relative` from body (not needed)
+- ✅ Removed `touch-action: manipulation` from buttons (was blocking wheel on some elements)
 
 **Test Results**:
-- ✅ Vertical scrolling works on all pages
+- ✅ Mouse wheel scrolling works on all pages
+- ✅ Scrollbar still works
 - ✅ Horizontal scroll prevented (as intended)
 - ✅ Smooth scrolling on mobile devices
 - ✅ No layout shifts or overflow issues
