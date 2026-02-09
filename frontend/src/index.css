@@ -17,8 +17,8 @@
     @apply antialiased;
     overflow-x: hidden;
     overflow-y: auto;
-    overscroll-behavior-y: contain;
     min-height: 100%;
+    position: relative;
   }
 
   button,
@@ -27,7 +27,6 @@
   select,
   textarea {
     -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
   }
 
   img {
