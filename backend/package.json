@@ -14,7 +14,8 @@
     "test:redis": "tsx scripts/test-redis.ts",
     "test:voice": "tsx scripts/test-voice-api.ts",
     "seed:schemes": "tsx src/scripts/seed-schemes.ts",
-    "seed:demo": "tsx src/scripts/seed-demo-data.ts"
+    "seed:demo": "tsx src/scripts/seed-demo-data.ts",
+    "verify:demo": "tsx src/scripts/verify-demo-data.ts"
   },
   "dependencies": {
     "@google-cloud/speech": "^6.3.0",
