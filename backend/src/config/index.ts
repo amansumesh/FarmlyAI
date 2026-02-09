@@ -46,4 +46,16 @@ export const config = {
   blobStorage: {
     token: process.env.BLOB_READ_WRITE_TOKEN || '',
   },
+  
+  demo: {
+    enabled: process.env.DEMO_MODE === 'true',
+    accounts: [
+      '+919876543210', // Hindi - Maharashtra
+      '+919876543211', // Tamil - Tamil Nadu
+      '+919876543212', // Malayalam - Kerala
+      '+919876543213', // Telugu - Telangana
+      '+919876543214', // Kannada - Karnataka
+    ],
+    otp: '123456', // Fixed OTP for demo accounts
+  },
 };

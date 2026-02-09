@@ -25,8 +25,30 @@ class OTPService {
     return `otp:ratelimit:${phoneNumber}`;
   }
 
+  private isDemoAccount(phoneNumber: string): boolean {
+    return config.demo.enabled && config.demo.accounts.includes(phoneNumber);
+  }
+
   async sendOTP(phoneNumber: string): Promise<{ success: boolean; expiresIn: number; otp?: string }> {
     try {
+      // Demo mode: Use fixed OTP for demo accounts
+      if (this.isDemoAccount(phoneNumber)) {
+        const otp = config.demo.otp;
+        const expiresAt = Date.now() + (OTP_TTL * 1000);
+
+        const otpData: OTPData = {
+          otp,
+          attempts: 0,
+          expiresAt
+        };
+
+        const otpKey = this.getOTPKey(phoneNumber);
+        await redisClient.setEx(otpKey, OTP_TTL, JSON.stringify(otpData));
+
+        logger.info(`[DEMO MODE] OTP sent to demo account ${phoneNumber}: ${otp}`);
+        return { success: true, expiresIn: OTP_TTL, otp };
+      }
+
       // Check rate limiting
       const rateLimitKey = this.getRateLimitKey(phoneNumber);
       const rateLimitCount = await redisClient.get(rateLimitKey);

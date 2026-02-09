@@ -6,18 +6,20 @@ interface AudioPlayerProps {
   audioUrl: string;
   autoPlay?: boolean;
   className?: string;
+  fallbackDuration?: number; // In seconds, used when blob duration isn't available
 }
 
 export const AudioPlayer: React.FC<AudioPlayerProps> = ({ 
   audioUrl, 
   autoPlay = false,
-  className 
+  className,
+  fallbackDuration 
 }) => {
   const { t } = useTranslation();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [duration, setDuration] = useState(fallbackDuration || 0);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
     setError(false);
     setCurrentTime(0);
-    setDuration(0);
+    setDuration(fallbackDuration || 0);
     setIsPlaying(false);
 
     const updateTime = () => {
@@ -36,8 +38,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     };
     
     const updateDuration = () => {
-      if (!isNaN(audio.duration) && isFinite(audio.duration)) {
+      if (!isNaN(audio.duration) && isFinite(audio.duration) && audio.duration > 0) {
         setDuration(audio.duration);
+        console.log('Audio duration set:', audio.duration);
       }
     };
     
@@ -49,11 +52,22 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       setIsPlaying(false);
     };
 
+    const handleCanPlay = () => {
+      // Sometimes blob URLs only have duration after canplay event
+      updateDuration();
+    };
+
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateDuration);
+    audio.addEventListener('loadeddata', updateDuration);
     audio.addEventListener('durationchange', updateDuration);
+    audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('canplaythrough', updateDuration);
     audio.addEventListener('ended', handleEnded);
     audio.addEventListener('error', handleError);
+    
+    // Force load metadata
+    audio.load();
 
     if (autoPlay) {
       audio.play().then(() => setIsPlaying(true)).catch((err) => {
@@ -65,11 +79,14 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     return () => {
       audio.removeEventListener('timeupdate', updateTime);
       audio.removeEventListener('loadedmetadata', updateDuration);
+      audio.removeEventListener('loadeddata', updateDuration);
       audio.removeEventListener('durationchange', updateDuration);
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('canplaythrough', updateDuration);
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('error', handleError);
     };
-  }, [audioUrl, autoPlay]);
+  }, [audioUrl, autoPlay, fallbackDuration]);
 
   const togglePlayPause = () => {
     const audio = audioRef.current;

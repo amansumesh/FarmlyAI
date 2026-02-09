@@ -240,7 +240,11 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
               </span>
             </div>
 
-            <AudioPlayer audioUrl={audioUrl} className="mb-4" />
+            <AudioPlayer 
+              audioUrl={audioUrl} 
+              className="mb-4" 
+              fallbackDuration={recordingDuration}
+            />
 
             <div className="flex gap-3 justify-center">
               <Button onClick={handleReset} variant="outline" size="md">

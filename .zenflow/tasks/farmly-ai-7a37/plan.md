@@ -851,6 +851,7 @@ cd frontend && pnpm run lighthouse:mobile
 ---
 
 ### [ ] Step: Demo Data Seeding and Test Accounts
+<!-- chat-id: 6b938376-8278-4066-b9c6-2e14d8d6ba59 -->
 
 **Objective**: Prepare demo environment with realistic data.
 
