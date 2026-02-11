@@ -55,12 +55,15 @@ export class MarketController {
         language: userLanguage,
       });
 
+      const includeFar = req.query.includeFar === 'true' || req.query.includeFar === '1';
+
       const marketData = await MarketService.getMarketPrices(
         crop,
         userLat,
         userLon,
         userLanguage,
-        Math.min(limitNum, 10) // Max 10 markets
+        Math.min(limitNum, 10), // Max 10 markets
+        includeFar
       );
 
       return res.json({

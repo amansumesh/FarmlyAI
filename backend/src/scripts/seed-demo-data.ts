@@ -6,7 +6,6 @@ import { User } from '../models/user.model.js';
 import { Query } from '../models/query.model.js';
 import { DiseaseDetection } from '../models/disease.model.js';
 import { logger } from '../utils/logger.js';
-import mongoose from 'mongoose';
 
 const demoUsers = [
   {

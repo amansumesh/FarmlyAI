@@ -39,6 +39,11 @@ export const config = {
     apiKey: process.env.AGMARKNET_API_KEY || '',
   },
   
+  gemini: {
+    apiKey: process.env.GEMINI_API_KEY || '',
+    modelId: 'gemini-2.5-flash',
+  },
+  
   mlService: {
     url: process.env.ML_SERVICE_URL || 'http://localhost:8000',
   },
