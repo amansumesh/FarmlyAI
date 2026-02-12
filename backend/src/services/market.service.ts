@@ -37,6 +37,7 @@ export interface MarketPriceResponse {
   markets: MarketPrice[];
   priceAnalysis: PriceAnalysis;
   priceHistory: PriceHistory[];
+  updatedAt: string;
 }
 
 interface AgmarknetRecord {
@@ -63,6 +64,8 @@ export class MarketService {
     // 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
   private static readonly CACHE_TTL = 21600;
+
+  
 
   private static getCacheKey(
     crop: string,
@@ -97,6 +100,31 @@ export class MarketService {
   private static toRad(degrees: number): number {
     return (degrees * Math.PI) / 180;
   }
+
+  private static normalizeDate(dateStr?: string): string {
+    if (!dateStr) return new Date().toISOString();
+
+    if (dateStr.toUpperCase() === 'TODAY') {
+      return new Date().toISOString();
+    }
+
+    const parts = dateStr.split('/');
+    if (parts.length === 3) {
+      const [day, month, year] = parts;
+      const parsed = new Date(`${year}-${month}-${day}`);
+      if (!isNaN(parsed.getTime())) {
+        return parsed.toISOString();
+      }
+    }
+
+    const parsed = new Date(dateStr);
+    if (!isNaN(parsed.getTime())) {
+      return parsed.toISOString();
+    }
+
+    return new Date().toISOString();
+  }
+
   
   /* ================= MARKETAPI METHOD (UNCHANGED) ================= */
   private static async fetchFromMarketAPI(
@@ -409,8 +437,7 @@ Prices MUST stay inside these ranges and round up in case of decimal value.
         .sort((a, b) => a.distance - b.distance)
         .slice(0, limit);
     }
-
-
+      
       const markets: MarketPrice[] = marketDataWithDistance.map(
         (item) => ({
           name: item.market || 'Unknown',
@@ -418,9 +445,7 @@ Prices MUST stay inside these ranges and round up in case of decimal value.
           distance: Math.round(item.distance * 10) / 10,
           price: Number(item.modal_price),
           unit: 'per kg',
-          date: item.arrival_date && !isNaN(Date.parse(item.arrival_date))
-          ? item.arrival_date
-          : new Date().toISOString(),
+          date: this.normalizeDate(item.arrival_date),
           trend: this.calculateMarketTrend(),
         })
       );
@@ -459,6 +484,7 @@ Prices MUST stay inside these ranges and round up in case of decimal value.
           recommendation: this.generateRecommendation(),
         },
         priceHistory,
+        updatedAt: new Date().toISOString(),
       };
 
       if (marketData && marketData.length > 0 && redisClient.isOpen) {

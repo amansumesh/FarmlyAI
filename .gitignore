@@ -82,3 +82,10 @@ dmypy.json
 # Uploaded images (local development)
 backend/uploads/
 uploads/
+
+
+# Backend
+backend/dist/
+
+# Frontend
+frontend/dev-dist/
