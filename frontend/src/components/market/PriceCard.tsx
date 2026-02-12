@@ -103,7 +103,10 @@ export const PriceCard = ({ market, isLowest, isHighest }: PriceCardProps) => {
 
       <div className="mt-2 pt-2 border-t border-gray-200">
         <span className="text-xs text-gray-500">
-          {t('market.lastUpdated')}: {new Date(market.date).toLocaleDateString('en-IN')}
+          {t('market.lastUpdated')}: {market.date && !isNaN(Date.parse(market.date))
+                                    ? new Date(market.date).toLocaleDateString('en-IN')
+                                    : '—'}
+
         </span>
       </div>
     </div>

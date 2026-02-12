@@ -57,7 +57,10 @@ app.get('/health', async (_req, res) => {
 
     // Check Redis connection
     const { redisClient } = await import('./utils/redis.js');
+    await redisClient.flushAll();
+
     if (redisClient.isOpen) {
+      await redisClient.flushAll();
       health.redis = 'connected';
     }
 
@@ -87,8 +90,6 @@ async function startServer() {
     // Try Redis but don't fail if it's not available
     try {
       await connectRedis();
-        // const { redisClient } = await import('./utils/redis.js');
-        // await redisClient.flushAll();
     } catch (redisError) {
       logger.warn('Redis connection failed, continuing without cache:', redisError);
     }
