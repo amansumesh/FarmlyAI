@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: farmly-ai-ml-service
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: MODEL_PATH
+        value: ./models/plant_disease_model.h5

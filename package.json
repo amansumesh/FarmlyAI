@@ -1,0 +1,24 @@
+{
+  "name": "farmly-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-Powered Agricultural Advisory System for Farmers",
+  "scripts": {
+    "install:all": "pnpm install",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "dev:ml": "cd ml-service && python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload",
+    "build:frontend": "pnpm --filter frontend build",
+    "build:backend": "pnpm --filter backend build",
+    "typecheck": "pnpm --recursive run typecheck",
+    "lint": "pnpm --recursive run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
