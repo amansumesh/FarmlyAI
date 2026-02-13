@@ -11,6 +11,7 @@ import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { useAuthStore } from './store/authStore';
 
 const OnboardingPage = lazy(() => import('./pages/OnboardingPage').then(m => ({ default: m.OnboardingPage })));
+import { ChatWidget } from './components/chat/ChatWidget'; // Chat Widget Import
 const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
 const DiseaseDetectionPage = lazy(() => import('./pages/DiseaseDetectionPage').then(m => ({ default: m.DiseaseDetectionPage })));
 const MarketPage = lazy(() => import('./pages/MarketPage').then(m => ({ default: m.MarketPage })));
@@ -140,6 +141,7 @@ function App() {
           <Toaster position="top-center" richColors closeButton />
           <OfflineBanner />
           <AppRouter />
+          <ChatWidget />
           <InstallPrompt />
         </BrowserRouter>
       </QueryClientProvider>

@@ -85,7 +85,12 @@ app.use(errorHandler);
 
 async function startServer() {
   try {
-    await connectDB();
+    // Try MongoDB but don't fail if it's not available
+    try {
+      await connectDB();
+    } catch (dbError) {
+      logger.warn('MongoDB connection failed, continuing without database:', dbError);
+    }
     
     // Try Redis but don't fail if it's not available
     try {

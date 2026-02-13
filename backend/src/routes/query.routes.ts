@@ -5,7 +5,8 @@ import { rateLimiter } from '../middleware/rateLimiter.middleware.js';
 import {
   handleVoiceQuery,
   getQueryHistory,
-  toggleSaveQuery
+  toggleSaveQuery,
+  handleTextQuery
 } from '../controllers/query.controller.js';
 
 const router: IRouter = Router();
@@ -33,7 +34,15 @@ router.post(
   handleVoiceQuery
 );
 
+
 router.get('/history', authenticateToken, getQueryHistory);
+
+router.post(
+  '/text',
+  authenticateToken,
+  rateLimiter({ windowMs: 60 * 60 * 1000, max: 50 }),
+  handleTextQuery
+);
 
 router.patch('/:queryId/save', authenticateToken, toggleSaveQuery);
 

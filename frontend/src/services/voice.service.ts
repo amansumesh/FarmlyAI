@@ -4,10 +4,13 @@ import { VoiceQueryResult, QueryHistoryResponse } from '../types/voice.types';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 class VoiceService {
-  async submitVoiceQuery(audioBlob: Blob, language: string): Promise<VoiceQueryResult> {
+  async submitVoiceQuery(audioBlob: Blob, language: string, transcript?: string): Promise<VoiceQueryResult> {
     const formData = new FormData();
     formData.append('audio', audioBlob, 'query.wav');
     formData.append('language', language);
+    if (transcript) {
+      formData.append('transcript', transcript);
+    }
 
     const response = await axios.post<VoiceQueryResult>(
       `${API_URL}/api/query/voice`,
@@ -16,10 +19,30 @@ class VoiceService {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 120000, // 2 minutes for Whisper transcription + RAG response
       }
     );
 
     return response.data;
+  }
+
+  async submitTextQuery(text: string, language: string): Promise<VoiceQueryResult> {
+    const response = await axios.post<any>(
+      `${API_URL}/api/query/text`,
+      { query: text, language },
+      {
+        timeout: 120000, 
+      }
+    );
+    
+    // Map backend response 
+    return {
+      ...response.data,
+      query: {
+        ...response.data.query,
+        transcription: response.data.query.text 
+      }
+    };
   }
 
   async getQueryHistory(params?: {
