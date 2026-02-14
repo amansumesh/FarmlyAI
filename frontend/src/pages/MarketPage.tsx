@@ -212,13 +212,13 @@ export const MarketPage = () => {
                       <div>
                         <span className="font-medium">{t('market.minPrice')}:</span>
                         <span className="ml-2 text-lg font-bold">
-                          ₹{marketData.priceAnalysis.min.toLocaleString('en-IN')}
+                          ₹{marketData.priceAnalysis.lowest.price.toLocaleString('en-IN')}
                         </span>
                       </div>
                       <div>
                         <span className="font-medium">{t('market.maxPrice')}:</span>
                         <span className="ml-2 text-lg font-bold">
-                          ₹{marketData.priceAnalysis.max.toLocaleString('en-IN')}
+                          ₹{marketData.priceAnalysis.highest.price.toLocaleString('en-IN')}
                         </span>
                       </div>
                       <div>

@@ -100,4 +100,25 @@ export class MarketController {
       });
     }
   }
+
+  /**
+   * POST /api/market/clear-cache
+   * Clear market price cache
+   */
+  static async clearCache(_req: Request, res: Response) {
+    try {
+      const deletedCount = await MarketService.clearCache();
+      return res.json({
+        success: true,
+        message: `Cleared ${deletedCount} cache entries`,
+        deletedCount,
+      });
+    } catch (error) {
+      logger.error('Failed to clear cache', { error });
+      return res.status(500).json({
+        success: false,
+        error: 'Failed to clear cache',
+      });
+    }
+  }
 }

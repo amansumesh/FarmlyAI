@@ -20,6 +20,7 @@ const MarketPageSimple = lazy(() => import('./pages/MarketPageSimple').then(m =>
 const AdvisoryPage = lazy(() => import('./pages/AdvisoryPage').then(m => ({ default: m.AdvisoryPage })));
 const SchemesPage = lazy(() => import('./pages/SchemesPage').then(m => ({ default: m.SchemesPage })));
 const ProfilePage = lazy(() => import('./pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
+const KnowledgePage = lazy(() => import('./pages/KnowledgePage'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -124,6 +125,14 @@ function AppRouter() {
           element={
             <ProtectedRoute requireOnboarding>
               <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/knowledge"
+          element={
+            <ProtectedRoute requireOnboarding>
+              <KnowledgePage />
             </ProtectedRoute>
           }
         />

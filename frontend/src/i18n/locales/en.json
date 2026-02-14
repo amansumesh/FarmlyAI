@@ -169,6 +169,12 @@
       "stable": "Stable"
     },
     "retry": "Retry",
+    "perKg": "per Kg",
+    "recommendations": {
+      "rising": "Prices are rising. Consider selling soon for better returns.",
+      "falling": "Prices are falling. Consider holding your stock if possible.",
+      "stable": "Prices are stable. Good time for steady sales."
+    },
     "errors": {
       "loadFailed": "Failed to load market prices. Please try again."
     },
@@ -234,6 +240,20 @@
     "notSet": "Not set",
     "version": "Farmly AI v1.0",
     "tagline": "Smart Farming Platform"
+  },
+  "knowledge": {
+    "title": "Knowledge Bank",
+    "searchPlaceholder": "Search crops, diseases...",
+    "categories": "Categories",
+    "all": "All",
+    "cropCultivation": "Crop Cultivation",
+    "diseaseManagement": "Disease Management",
+    "farmingTechnique": "Farming Techniques",
+    "appGuide": "App Guide",
+    "symptoms": "Symptoms",
+    "treatment": "Treatment",
+    "prevention": "Prevention",
+    "readMore": "Read More"
   },
   "history": {
     "title": "Recent Activity",

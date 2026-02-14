@@ -17,11 +17,16 @@ export interface PriceHistory {
 
 export interface PriceAnalysis {
   average: number;
-  min: number;
-  max: number;
+  highest: {
+    market: string;
+    price: number;
+  };
+  lowest: {
+    market: string;
+    price: number;
+  };
   trend: 'rising' | 'falling' | 'stable';
   recommendation: string;
-  confidence: number;
 }
 
 export interface MarketPricesResponse {

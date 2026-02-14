@@ -1,3 +1,4 @@
+from sentence_transformers import SentenceTransformer
 import os
 import json
 from langchain_core.documents import Document
@@ -19,7 +20,7 @@ QDRANT_URL = os.getenv("QDRANT_URL")
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 COLLECTION_NAME = "RAG_AGRI"
 
-DATA_PATH = "backend/data/comprehensive_agriculture_data.json"
+DATA_PATH = "data/comprehensive_agriculture_data.json"
 
 # ---------------------------
 # Load JSON and convert to documents
@@ -52,13 +53,11 @@ Prevention: {item['content']['english']['prevention']}
         )
     )
 
-print(f"Loaded {len(documents)} documents")
+print(f"Loaded {len(documents)} documents", flush=True)
 
 # ---------------------------
 # Embedding model
 # ---------------------------
-from sentence_transformers import SentenceTransformer
-
 # Use SentenceTransformer directly
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -91,39 +90,58 @@ import uuid
 
 # Create collection if it doesn't exist
 try:
-    client.get_collection(COLLECTION_NAME)
-    print(f"Collection '{COLLECTION_NAME}' already exists")
-except:
+    print(f"Checking for existing collection '{COLLECTION_NAME}'...")
+    client.delete_collection(COLLECTION_NAME)
+    print(f"Deleted existing collection '{COLLECTION_NAME}'")
+except Exception as e:
+    # Collection likely doesn't exist, which is fine
+    print(f"No existing collection to delete or delete failed: {e}")
+
+try:
     client.create_collection(
         collection_name=COLLECTION_NAME,
         vectors_config=VectorParams(size=384, distance=Distance.COSINE)
     )
-    print(f"Created collection '{COLLECTION_NAME}'")
+    print(f"Created new collection '{COLLECTION_NAME}'")
+except Exception as e:
+    print(f"Failed to create collection: {e}")
+    exit(1)
 
 # Prepare points for upload
 points = []
+print("Starting embedding generation...", flush=True)
 for i, doc in enumerate(documents):
-    vector = embedding.embed_query(doc.page_content)
-    point = PointStruct(
-        id=str(uuid.uuid4()),
-        vector=vector,
-        payload={
-            "text": doc.page_content,
-            **doc.metadata
-        }
-    )
-    points.append(point)
-    if (i + 1) % 10 == 0:
-        print(f"Processed {i + 1}/{len(documents)} documents")
+    try:
+        vector = embedding.embed_query(doc.page_content)
+        point = PointStruct(
+            id=str(uuid.uuid4()),
+            vector=vector,
+            payload={
+                "text": doc.page_content,
+                **doc.metadata
+            }
+        )
+        points.append(point)
+        if (i + 1) % 5 == 0:
+            print(f"Generated embeddings for {i + 1}/{len(documents)} documents", end="\r", flush=True)
+    except Exception as e:
+        print(f"\n❌ Failed to embed document {i}: {e}")
+
+print(f"\nGenerated {len(points)} vectors.")
 
 # Upload in batches
-batch_size = 50
+import time
+batch_size = 20
 for i in range(0, len(points), batch_size):
     batch = points[i:i + batch_size]
-    client.upsert(
-        collection_name=COLLECTION_NAME,
-        points=batch
-    )
-    print(f"Uploaded batch {i//batch_size + 1}/{(len(points) + batch_size - 1)//batch_size}")
+    try:
+        client.upsert(
+            collection_name=COLLECTION_NAME,
+            points=batch
+        )
+        print(f"Uploaded batch {i//batch_size + 1}/{(len(points) + batch_size - 1)//batch_size}")
+        time.sleep(1) # Be nice to the API
+    except Exception as e:
+        print(f"❌ Failed to upload batch {i}: {e}")
 
 print(f"✅ Successfully uploaded {len(documents)} documents to Qdrant!")

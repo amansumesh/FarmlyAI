@@ -6,6 +6,7 @@ import { MarketPricesResponse } from '../types/market.types';
 import { Button } from '../components/common/Button';
 import { BottomNav } from '../components/common/BottomNav';
 import { useAuthStore } from '../store/authStore';
+import { getLocale } from '../utils/locale';
 
 const AVAILABLE_CROPS = [
   'rice',
@@ -26,6 +27,7 @@ export const MarketPageV2 = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuthStore();
+  const locale = getLocale(i18n.language);
   const [selectedCrop, setSelectedCrop] = useState<string>('tomato');
   const [marketData, setMarketData] = useState<MarketPricesResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -42,19 +44,18 @@ export const MarketPageV2 = () => {
       setMarketData(data);
     } catch (err) {
       let errorMessage = t('market.errors.loadFailed');
-      
-      // Check if error is due to missing location
+
       if (err instanceof Error && 'response' in err) {
         const response = (err as { response?: { data?: { error?: string; message?: string } } }).response;
         if (response?.data?.error && response.data.error.includes('location')) {
-          errorMessage = 'Location not set in your profile. Please go to Settings and update your farm location to use this feature.';
+          errorMessage = t('market.errors.loadFailed');
         } else if (response?.data?.error) {
           errorMessage = response.data.error;
         } else if (response?.data?.message) {
           errorMessage = response.data.message;
         }
       }
-      
+
       setError(errorMessage);
       console.error('Failed to load market prices:', err);
     } finally {
@@ -64,7 +65,37 @@ export const MarketPageV2 = () => {
 
   useEffect(() => {
     loadMarketPrices().catch(console.error);
-  }, [loadMarketPrices]);
+
+    // Pre-fetch all other crops for offline availability
+    const prefetchAll = async () => {
+      console.log('Starting background pre-fetch for offline access...');
+      for (const crop of AVAILABLE_CROPS) {
+        if (!navigator.onLine) {
+          console.log('Offline detected, stopping pre-fetch');
+          break;
+        }
+        if (crop === selectedCrop) continue; // Already loaded
+        try {
+          await marketService.getMarketPrices({
+            crop,
+            language: user?.language || i18n.language,
+          });
+          // Add delay to prevent overwhelming the server
+          await new Promise(resolve => setTimeout(resolve, 800));
+        } catch (e) {
+          console.warn(`Failed to pre-fetch ${crop}`, e);
+        }
+      }
+      console.log('Offline pre-fetch complete');
+    };
+    
+    // Small delay to prioritize the main selected crop
+    const timer = setTimeout(() => {
+      prefetchAll();
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, [loadMarketPrices, selectedCrop, user?.language, i18n.language]);
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
@@ -136,25 +167,120 @@ export const MarketPageV2 = () => {
 
         {!loading && !error && !marketData && (
           <div className="bg-blue-50 border border-blue-300 rounded-lg p-4">
-            <p className="text-blue-800">No market data available for {selectedCrop}</p>
+            <p className="text-blue-800">{t('market.errors.loadFailed')}</p>
           </div>
         )}
 
         {!loading && !error && marketData && (
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-bold mb-4">Market Data Loaded Successfully!</h2>
-            <div className="space-y-2">
-              <p><strong>Crop:</strong> {marketData.crop}</p>
-              <p><strong>Markets found:</strong> {marketData.markets?.length || 0}</p>
-              <p><strong>Last updated:</strong> {new Date(marketData.updatedAt).toLocaleString()}</p>
+            <div className="space-y-2 mb-4">
+              <p><strong>{t('market.nearbyMarkets')}:</strong> {marketData.markets?.length || 0}</p>
+              <div className="flex items-center gap-2">
+                <p><strong>{t('market.lastUpdated')}:</strong> {new Date(marketData.updatedAt).toLocaleString(locale)}</p>
+                {(marketData as any).isOffline && (
+                  <span className="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full font-medium border border-yellow-200">
+                    Offline Data
+                  </span>
+                )}
+              </div>
             </div>
-            
-            {marketData.priceAnalysis && (
-              <div className="mt-4 p-4 bg-green-50 rounded">
-                <h3 className="font-bold mb-2">Price Analysis</h3>
-                <p><strong>Average:</strong> ₹{marketData.priceAnalysis.average}</p>
-                <p><strong>Trend:</strong> {marketData.priceAnalysis.trend}</p>
-                <p><strong>Recommendation:</strong> {marketData.priceAnalysis.recommendation}</p>
+
+            {marketData.priceAnalysis && (() => {
+              const trend = marketData.priceAnalysis.trend;
+              const trendColors = {
+                rising: { bg: 'bg-green-50', border: 'border-green-300', text: 'text-green-800', badge: 'bg-green-100 text-green-700' },
+                falling: { bg: 'bg-red-50', border: 'border-red-300', text: 'text-red-800', badge: 'bg-red-100 text-red-700' },
+                stable: { bg: 'bg-yellow-50', border: 'border-yellow-300', text: 'text-yellow-800', badge: 'bg-yellow-100 text-yellow-700' },
+              };
+              const colors = trendColors[trend] || trendColors.stable;
+
+              return (
+                <div className={`mb-6 rounded-xl border ${colors.border} ${colors.bg} p-6`}>
+                  {/* Header with trend badge */}
+                  <div className="flex items-center justify-between mb-5">
+                    <h3 className={`text-lg font-bold ${colors.text}`}>{t('market.aiRecommendation')}</h3>
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold ${colors.badge}`}>
+                      {trend === 'rising' && (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                      )}
+                      {trend === 'falling' && (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6" />
+                        </svg>
+                      )}
+                      {trend === 'stable' && (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14" />
+                        </svg>
+                      )}
+                      {t('market.trend')}: {t(`market.trends.${trend}`)}
+                    </span>
+                  </div>
+
+                  {/* Stat cards grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+                    {/* Average */}
+                    <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 text-center">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">{t('market.avgPrice')}</p>
+                      <p className="text-2xl font-bold text-gray-900">₹{marketData.priceAnalysis.average.toLocaleString(locale)}</p>
+                      <p className="text-xs text-gray-400">/ {t('market.perKg')}</p>
+                    </div>
+
+                    {/* Lowest */}
+                    <div className="bg-white rounded-lg p-4 shadow-sm border-2 border-green-400 text-center">
+                      <p className="text-xs font-medium text-green-600 uppercase tracking-wide mb-1">
+                        <span className="inline-flex items-center gap-1">
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                          </svg>
+                          {t('market.minPrice')}
+                        </span>
+                      </p>
+                      <p className="text-2xl font-bold text-green-700">₹{marketData.priceAnalysis.lowest?.price.toLocaleString(locale)}</p>
+                      <p className="text-xs text-gray-400">/ {t('market.perKg')}</p>
+                    </div>
+
+                    {/* Highest */}
+                    <div className="bg-white rounded-lg p-4 shadow-sm border-2 border-red-400 text-center">
+                      <p className="text-xs font-medium text-red-600 uppercase tracking-wide mb-1">
+                        <span className="inline-flex items-center gap-1">
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                          </svg>
+                          {t('market.maxPrice')}
+                        </span>
+                      </p>
+                      <p className="text-2xl font-bold text-red-700">₹{marketData.priceAnalysis.highest?.price.toLocaleString(locale)}</p>
+                      <p className="text-xs text-gray-400">/ {t('market.perKg')}</p>
+                    </div>
+                  </div>
+
+                  {/* Recommendation banner */}
+                  <div className={`rounded-lg p-4 ${colors.badge} border ${colors.border}`}>
+                    <p className="text-sm font-medium leading-relaxed">
+                      💡 {t(`market.recommendations.${trend}`)}
+                    </p>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Market cards */}
+            {marketData.markets && marketData.markets.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                {marketData.markets.map((market, index) => (
+                  <div key={`${market.name}-${index}`} className="border rounded-lg p-4 bg-gray-50">
+                    <h3 className="font-semibold text-lg">{market.name}</h3>
+                    <p className="text-sm text-gray-600">{market.location}</p>
+                    <p className="text-2xl font-bold mt-2">₹{market.price.toLocaleString(locale)}</p>
+                    <p className="text-sm text-gray-500">/ {t('market.perKg')}</p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {market.distance.toFixed(1)} {t('market.km')}
+                    </p>
+                  </div>
+                ))}
               </div>
             )}
           </div>

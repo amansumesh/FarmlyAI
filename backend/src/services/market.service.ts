@@ -505,4 +505,18 @@ Prices MUST stay inside these ranges and round up in case of decimal value.
   static async healthCheck(): Promise<boolean> {
     return true;
   }
+  static async clearCache(): Promise<number> {
+    try {
+      if (!redisClient.isOpen) return 0;
+
+      const keys = await redisClient.keys('market:*');
+      if (keys.length > 0) {
+        return await redisClient.del(keys);
+      }
+      return 0;
+    } catch (error) {
+      logger.error('Error clearing market cache', { error });
+      return 0;
+    }
+  }
 }

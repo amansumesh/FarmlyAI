@@ -3,10 +3,10 @@ RAG Service - Flask API wrapper for the Agriculture RAG pipeline.
 Exposes the Qdrant + Groq/Llama RAG logic as a REST API for the Node.js backend.
 """
 
+from sentence_transformers import SentenceTransformer
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from qdrant_client import QdrantClient
-from sentence_transformers import SentenceTransformer
 from langchain_openai import ChatOpenAI
 from groq import Groq
 from dotenv import load_dotenv
@@ -53,12 +53,12 @@ CORS(app)
 logger.info("Loading embedding model...")
 embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
 
-logger.info("Connecting to Qdrant...")
-qdrant_client = QdrantClient(
-    url=QDRANT_URL,
-    api_key=QDRANT_API_KEY,
-    timeout=120.0
-)
+# logger.info("Connecting to Qdrant...")
+# qdrant_client = QdrantClient(
+#     url=QDRANT_URL,
+#     api_key=QDRANT_API_KEY,
+#     timeout=120.0
+# )
 
 logger.info("Initializing Groq LLM...")
 llm = ChatOpenAI(
@@ -110,7 +110,14 @@ def retrieve_and_generate(query: str, k: int = 3, language: str = 'en') -> dict:
 
     # 2. Search in Qdrant
     try:
-        search_results = qdrant_client.query_points(
+        # Create client per request to ensure connection
+        client = QdrantClient(
+            url=QDRANT_URL,
+            api_key=QDRANT_API_KEY,
+            timeout=120.0
+        )
+        
+        search_results = client.query_points(
             collection_name=COLLECTION_NAME,
             query=query_vector,
             limit=k
