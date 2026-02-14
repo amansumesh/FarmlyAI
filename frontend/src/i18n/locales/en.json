@@ -1,0 +1,254 @@
+{
+  "common": {
+    "next": "Next",
+    "back": "Back",
+    "skip": "Skip",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "done": "Done",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "retry": "Retry",
+    "refresh": "Refresh"
+  },
+  "onboarding": {
+    "welcome": "Welcome to Farmly AI",
+    "subtitle": "Your smart farming assistant",
+    "selectLanguage": "Select Your Language",
+    "languagePrompt": "Choose the language you're most comfortable with",
+    "setupProfile": "Set Up Your Farm Profile",
+    "locationTitle": "Farm Location",
+    "locationPrompt": "Help us locate your farm",
+    "useCurrentLocation": "Use Current Location",
+    "enterManually": "Enter Manually",
+    "address": "Address",
+    "state": "State",
+    "district": "District",
+    "cropsTitle": "Your Crops",
+    "cropsPrompt": "What do you grow?",
+    "selectCrops": "Select your crops",
+    "landSizeTitle": "Land Size",
+    "landSizePrompt": "How much land do you farm?",
+    "acres": "Acres",
+    "enterLandSize": "Enter land size in acres",
+    "soilTypeTitle": "Soil Type",
+    "soilTypePrompt": "What type of soil do you have?",
+    "soilTypes": {
+      "loamy": "Loamy Soil",
+      "clay": "Clay Soil",
+      "sandy": "Sandy Soil",
+      "red": "Red Soil",
+      "black": "Black Soil",
+      "laterite": "Laterite Soil"
+    },
+    "allSet": "You're All Set!",
+    "readyMessage": "Your profile is complete. Let's start farming smarter!",
+    "goToHome": "Go to Home"
+  },
+  "crops": {
+    "rice": "Rice",
+    "wheat": "Wheat",
+    "cotton": "Cotton",
+    "sugarcane": "Sugarcane",
+    "tomato": "Tomato",
+    "potato": "Potato",
+    "onion": "Onion",
+    "chili": "Chili",
+    "maize": "Maize",
+    "soybean": "Soybean",
+    "groundnut": "Groundnut",
+    "pulses": "Pulses",
+    "mango": "Mango",
+    "banana": "Banana"
+  },
+  "errors": {
+    "locationFailed": "Failed to get your location. Please enter manually.",
+    "saveFailed": "Failed to save profile. Please try again.",
+    "networkError": "Network error. Please check your connection."
+  },
+  "disease": {
+    "title": "Crop Disease Detection",
+    "subtitle": "Identify plant diseases instantly",
+    "cameraInactive": "Camera not active",
+    "alignLeaf": "Align the affected leaf in the frame",
+    "openCamera": "Open Camera",
+    "uploadImage": "Upload Image",
+    "capturePhoto": "Capture Photo",
+    "retake": "Retake Photo",
+    "analyzeNow": "Analyze Now",
+    "analyzing": "Analyzing Image...",
+    "analyzingSubtitle": "Our AI is examining your crop for diseases",
+    "affectedCrop": "Affected Crop",
+    "confidence": "Confidence",
+    "otherPossibilities": "Other Possibilities",
+    "treatmentRecommendations": "Treatment Recommendations",
+    "options": "options",
+    "analyzeAnother": "Analyze Another",
+    "saveToHistory": "Save to History",
+    "tryAgain": "Try Again",
+    "steps": "Steps",
+    "recommendedProducts": "Recommended Products",
+    "treatmentTypes": {
+      "organic": "Organic",
+      "chemical": "Chemical",
+      "preventive": "Preventive"
+    },
+    "severity": {
+      "low": "Low Severity",
+      "moderate": "Moderate",
+      "high": "High Severity",
+      "critical": "Critical"
+    },
+    "instructions": {
+      "title": "How to get the best results:",
+      "step1": "Take a clear photo of the affected leaf or plant part",
+      "step2": "Ensure good lighting and avoid shadows",
+      "step3": "Get close enough to see the symptoms clearly"
+    },
+    "errors": {
+      "title": "Analysis Failed",
+      "noImage": "Please capture or upload an image first",
+      "analysisFailed": "Failed to analyze image. Please try again.",
+      "offline": "You are offline. Disease detection requires an internet connection."
+    }
+  },
+  "voice": {
+    "title": "Voice Assistant",
+    "subtitle": "Ask your farming questions by voice",
+    "tapToRecord": "Tap the microphone to start recording",
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop Recording",
+    "recording": "Recording...",
+    "recordingComplete": "Recording Complete",
+    "reRecord": "Re-record",
+    "submit": "Submit",
+    "processing": "Processing your query...",
+    "yourQuestion": "Your Question",
+    "response": "Response",
+    "listenToResponse": "Listen to Response",
+    "processedIn": "Processed in {{time}}s",
+    "askAnother": "Ask Another Question",
+    "play": "Play",
+    "pause": "Pause",
+    "errors": {
+      "queryFailed": "Failed to process your query. Please try again."
+    }
+  },
+  "weather": {
+    "current": "Current Weather",
+    "forecast": "7-Day Forecast",
+    "today": "Today",
+    "feelsLike": "Feels like",
+    "humidity": "Humidity",
+    "wind": "Wind",
+    "clouds": "Clouds",
+    "error": "Weather unavailable",
+    "retry": "Retry"
+  },
+  "market": {
+    "title": "Market Prices",
+    "subtitle": "Get real-time market prices",
+    "selectCrop": "Select Crop",
+    "nearbyMarkets": "Nearby Markets",
+    "priceHistory": "Price Trend (Last 30 Days)",
+    "price": "Price",
+    "km": "km away",
+    "lastUpdated": "Last updated",
+    "lowestPrice": "Best Price",
+    "highestPrice": "Highest",
+    "aiRecommendation": "AI Recommendation",
+    "avgPrice": "Average",
+    "minPrice": "Lowest",
+    "maxPrice": "Highest",
+    "trend": "Trend",
+    "trends": {
+      "rising": "Rising",
+      "falling": "Falling",
+      "stable": "Stable"
+    },
+    "retry": "Retry",
+    "perKg": "per Kg",
+    "recommendations": {
+      "rising": "Prices are rising. Consider selling soon for better returns.",
+      "falling": "Prices are falling. Consider holding your stock if possible.",
+      "stable": "Prices are stable. Good time for steady sales."
+    },
+    "errors": {
+      "loadFailed": "Failed to load market prices. Please try again."
+    },
+    "windSpeed": "Wind Speed"
+  },
+  "advisory": {
+    "title": "Farm Advisory",
+    "subtitle": "Personalized recommendations for your farm",
+    "farmContext": "Your Farm Details",
+    "crop": "Crop",
+    "location": "Location",
+    "soilType": "Soil Type",
+    "currentWeather": "Current Weather",
+    "recommendations": "Recommendations",
+    "noRecommendations": "No recommendations at this time. Check back later.",
+    "completeProfile": "Complete Profile",
+    "actionBy": "Action by",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "inDays": "In {{count}} days",
+    "priority": {
+      "high": "High Priority",
+      "medium": "Medium Priority",
+      "low": "Low Priority"
+    },
+    "errors": {
+      "loadFailed": "Failed to load recommendations. Please try again.",
+      "profileIncomplete": "Please complete your farm profile first",
+      "locationRequired": "Farm location is required for personalized recommendations",
+      "cropsRequired": "Please add at least one crop to your farm profile"
+    }
+  },
+  "schemes": {
+    "title": "Government Schemes",
+    "subtitle": "Discover schemes you're eligible for",
+    "match": "Match",
+    "benefits": "Benefits",
+    "applicationSteps": "How to Apply",
+    "requiredDocuments": "Required Documents",
+    "applyNow": "Apply Now",
+    "eligibleCount": "You are eligible for {{count}} scheme(s)",
+    "noSchemes": "No Schemes Found",
+    "noSchemesDescription": "We couldn't find any schemes matching your profile. Try updating your farm details.",
+    "updateProfile": "Update Profile",
+    "completeProfile": "Complete Profile",
+    "types": {
+      "central": "Central",
+      "state": "State",
+      "district": "District"
+    },
+    "errors": {
+      "loadFailed": "Failed to load schemes. Please try again.",
+      "profileIncomplete": "Please complete your farm profile first"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Farm Profile",
+    "changeLanguage": "Change Language",
+    "logout": "Logout",
+    "phoneNumber": "Phone Number",
+    "language": "Language",
+    "notSet": "Not set",
+    "version": "Farmly AI v1.0",
+    "tagline": "Smart Farming Platform"
+  },
+  "history": {
+    "title": "Recent Activity",
+    "viewAll": "View All",
+    "noQueries": "No queries yet",
+    "noQueriesDescription": "Start by using the voice assistant or disease detection",
+    "justNow": "Just now",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago",
+    "daysAgo": "{{count}}d ago"
+  }
+}

@@ -1,12 +1,13 @@
 export interface User {
   id: string;
   phoneNumber: string;
+  name?: string;
   language: 'hi' | 'ta' | 'ml' | 'te' | 'kn' | 'en';
   onboardingCompleted: boolean;
   farmProfile?: {
     location?: {
-      lat: number;
-      lon: number;
+      type: 'Point';
+      coordinates: [number, number];
       address?: string;
       state?: string;
       district?: string;

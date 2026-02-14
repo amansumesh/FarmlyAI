@@ -41,7 +41,10 @@ export const config = {
   
   gemini: {
     apiKey: process.env.GEMINI_API_KEY || '',
-    modelId: 'gemini-2.5-flash',
+  },
+  
+  groq: {
+    apiKey: process.env.GROQ_API_KEY || '',
   },
   
   mlService: {

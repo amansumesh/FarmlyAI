@@ -42,7 +42,7 @@ async function testMarketService() {
     });
 
     console.log('\n📈 Price Analysis:');
-    console.log(`   Average Price: ₹${result1.priceAnalysis.average}/kg`);
+    console.log(`   Average Price: ₹${Math.round(result1.priceAnalysis.average)}/kg`);
     console.log(
       `   Highest: ${result1.priceAnalysis.highest.market} - ₹${result1.priceAnalysis.highest.price}`
     );
@@ -50,7 +50,6 @@ async function testMarketService() {
       `   Lowest: ${result1.priceAnalysis.lowest.market} - ₹${result1.priceAnalysis.lowest.price}`
     );
     console.log(`   Trend: ${result1.priceAnalysis.trend}`);
-    console.log(`   Recommendation: ${result1.priceAnalysis.recommendation}`);
 
     console.log(`\n📅 Price History: ${result1.priceHistory.length} days`);
     console.log('   Last 5 days:');
@@ -62,8 +61,11 @@ async function testMarketService() {
     console.log('\n\n🔍 Test 2: Fetching market prices (Hindi)...');
     const result2 = await MarketService.getMarketPrices(testCrop, testLat, testLon, 'hi', 3);
 
-    console.log('\n💡 Recommendation in Hindi:');
-    console.log(`   ${result2.priceAnalysis.recommendation}`);
+    console.log('\n📊 Hindi Market Data:');
+    console.log(`   Markets found: ${result2.markets.length}`);
+    result2.markets.forEach((market, index) => {
+      console.log(`   ${index + 1}. ${market.name} - ₹${market.price}`);
+    });
 
     // Test 3: Different crop
     console.log('\n\n🔍 Test 3: Fetching prices for different crop (wheat)...');

@@ -5,6 +5,7 @@ import { logger } from '../utils/logger.js';
 import { AuthRequest } from '../types/auth.types.js';
 
 const updateProfileSchema = z.object({
+  name: z.string().optional(),
   language: z.enum(['hi', 'ta', 'ml', 'te', 'kn', 'en']).optional(),
   farmProfile: z.object({
     location: z.object({
@@ -48,6 +49,7 @@ export class UserController {
         user: {
           id: user._id.toString(),
           phoneNumber: user.phoneNumber,
+          name: user.name,
           phoneVerified: user.phoneVerified,
           language: user.language,
           farmProfile: user.farmProfile,
@@ -87,6 +89,10 @@ export class UserController {
           message: 'User not found'
         });
         return;
+      }
+
+      if (validatedData.name !== undefined) {
+        user.name = validatedData.name;
       }
 
       if (validatedData.language) {
@@ -131,6 +137,7 @@ export class UserController {
         user: {
           id: user._id.toString(),
           phoneNumber: user.phoneNumber,
+          name: user.name,
           phoneVerified: user.phoneVerified,
           language: user.language,
           farmProfile: user.farmProfile,

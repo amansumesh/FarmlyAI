@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { getLocale } from '../../utils/locale';
 import {
   LineChart,
   Line,
@@ -17,22 +18,21 @@ interface PriceChartProps {
 }
 
 export const PriceChart = ({ data, crop }: PriceChartProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = getLocale(i18n.language);
 
   const chartData = data.map((item) => ({
-    date: new Date(item.date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }),
-    price: item.price,
-    market: item.market,
+    date: new Date(item.date).toLocaleDateString(locale, { month: 'short', day: 'numeric' }),
+    price: item.avgPrice,
   }));
 
-  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: { date: string; market: string }; value: number }> }) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: { date: string }; value: number }> }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white border border-gray-300 rounded-lg p-3 shadow-lg">
           <p className="text-sm font-medium text-gray-900">{payload[0].payload.date}</p>
-          <p className="text-sm text-gray-600">{payload[0].payload.market}</p>
           <p className="text-lg font-bold text-green-600">
-            ₹{payload[0].value.toLocaleString('en-IN')}
+            ₹{Math.round(payload[0].value).toLocaleString(locale)}
           </p>
         </div>
       );

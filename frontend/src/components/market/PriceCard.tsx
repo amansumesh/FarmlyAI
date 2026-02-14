@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Market } from '../../types/market.types';
 import { cn } from '../../utils/cn';
+import { getLocale } from '../../utils/locale';
 
 interface PriceCardProps {
   market: Market;
@@ -9,7 +10,8 @@ interface PriceCardProps {
 }
 
 export const PriceCard = ({ market, isLowest, isHighest }: PriceCardProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = getLocale(i18n.language);
 
   const trendConfig = {
     up: {
@@ -71,9 +73,9 @@ export const PriceCard = ({ market, isLowest, isHighest }: PriceCardProps) => {
 
       <div className="flex items-baseline gap-2 mb-2">
         <span className="text-3xl font-bold text-gray-900">
-          ₹{market.price.toLocaleString('en-IN')}
+          ₹{market.price.toLocaleString(locale)}
         </span>
-        <span className="text-sm text-gray-600">/ {market.unit}</span>
+        <span className="text-sm text-gray-600">/ {t('market.perKg')}</span>
       </div>
 
       <div className="flex items-center justify-between text-sm">
@@ -104,8 +106,8 @@ export const PriceCard = ({ market, isLowest, isHighest }: PriceCardProps) => {
       <div className="mt-2 pt-2 border-t border-gray-200">
         <span className="text-xs text-gray-500">
           {t('market.lastUpdated')}: {market.date && !isNaN(Date.parse(market.date))
-                                    ? new Date(market.date).toLocaleDateString('en-IN')
-                                    : '—'}
+            ? new Date(market.date).toLocaleDateString(locale)
+            : '—'}
 
         </span>
       </div>

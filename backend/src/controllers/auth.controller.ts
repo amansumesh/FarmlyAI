@@ -107,8 +107,10 @@ export class AuthController {
         user: {
           id: user._id.toString(),
           phoneNumber: user.phoneNumber,
+          name: user.name,
           language: user.language,
-          onboardingCompleted: user.onboardingCompleted
+          onboardingCompleted: user.onboardingCompleted,
+          farmProfile: user.farmProfile
         }
       });
     } catch (error) {

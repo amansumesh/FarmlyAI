@@ -1,0 +1,480 @@
+{
+  "Tomato_Bacterial_spot": {
+    "organic": [
+      "Remove and destroy infected plant parts",
+      "Apply copper-based organic fungicides",
+      "Use neem oil spray (10ml per liter of water)",
+      "Ensure proper plant spacing for air circulation",
+      "Water plants at the base to avoid wetting leaves"
+    ],
+    "chemical": [
+      "Copper hydroxide spray (2-3 g/liter)",
+      "Streptomycin sulfate (100 ppm)",
+      "Mancozeb (2 g/liter)"
+    ],
+    "preventive": [
+      "Use disease-free certified seeds",
+      "Practice crop rotation (3-year cycle)",
+      "Remove weeds regularly",
+      "Avoid overhead irrigation",
+      "Maintain field hygiene"
+    ]
+  },
+  "Tomato_Early_blight": {
+    "organic": [
+      "Remove infected lower leaves",
+      "Apply Bacillus subtilis biofungicide",
+      "Spray neem oil solution weekly",
+      "Use compost tea as foliar spray",
+      "Mulch around plants to prevent soil splash"
+    ],
+    "chemical": [
+      "Mancozeb (2 g/liter) - spray every 7-10 days",
+      "Chlorothalonil (2 ml/liter)",
+      "Azoxystrobin (1 ml/liter)"
+    ],
+    "preventive": [
+      "Use resistant varieties",
+      "Ensure proper plant spacing (45-60 cm)",
+      "Remove plant debris after harvest",
+      "Rotate with non-solanaceous crops",
+      "Avoid wetting foliage during irrigation"
+    ]
+  },
+  "Tomato_Late_blight": {
+    "organic": [
+      "Remove and burn infected plants immediately",
+      "Spray Bordeaux mixture (1%)",
+      "Apply copper oxychloride (3 g/liter)",
+      "Improve air circulation between plants",
+      "Reduce humidity around plants"
+    ],
+    "chemical": [
+      "Metalaxyl + Mancozeb (2 g/liter)",
+      "Cymoxanil + Mancozeb (2 g/liter)",
+      "Dimethomorph (1 ml/liter)",
+      "Spray every 5-7 days during wet weather"
+    ],
+    "preventive": [
+      "Plant resistant varieties",
+      "Use certified disease-free seeds",
+      "Maintain wide plant spacing",
+      "Avoid overhead irrigation",
+      "Monitor weather forecasts (high risk during cool, wet conditions)"
+    ]
+  },
+  "Tomato_Leaf_Mold": {
+    "organic": [
+      "Improve greenhouse ventilation",
+      "Remove infected leaves",
+      "Spray with sulfur-based fungicide",
+      "Apply potassium bicarbonate solution",
+      "Reduce humidity below 85%"
+    ],
+    "chemical": [
+      "Chlorothalonil (2 ml/liter)",
+      "Mancozeb (2 g/liter)",
+      "Azoxystrobin (1 ml/liter)"
+    ],
+    "preventive": [
+      "Use resistant varieties (Cf genes)",
+      "Maintain good air circulation",
+      "Keep humidity below 85%",
+      "Prune lower leaves for airflow",
+      "Sterilize greenhouse structures"
+    ]
+  },
+  "Tomato_Septoria_leaf_spot": {
+    "organic": [
+      "Remove infected leaves from bottom up",
+      "Spray neem oil weekly",
+      "Apply copper-based fungicide",
+      "Mulch to prevent soil splash",
+      "Increase plant spacing"
+    ],
+    "chemical": [
+      "Mancozeb (2 g/liter)",
+      "Chlorothalonil (2 ml/liter)",
+      "Copper fungicides (2-3 g/liter)"
+    ],
+    "preventive": [
+      "Remove plant debris after harvest",
+      "Rotate crops (3-year cycle)",
+      "Use disease-free transplants",
+      "Avoid overhead watering",
+      "Stake plants for better air circulation"
+    ]
+  },
+  "Tomato_Spider_mites": {
+    "organic": [
+      "Spray plants with strong water jet",
+      "Apply neem oil (5-10 ml/liter)",
+      "Release predatory mites (Phytoseiulus persimilis)",
+      "Use insecticidal soap",
+      "Spray garlic or chili extract"
+    ],
+    "chemical": [
+      "Abamectin (0.5 ml/liter)",
+      "Spiromesifen (0.5 ml/liter)",
+      "Propargite (2 ml/liter)"
+    ],
+    "preventive": [
+      "Maintain adequate moisture (mites thrive in dry conditions)",
+      "Avoid excess nitrogen fertilization",
+      "Remove weed hosts",
+      "Monitor regularly for early detection",
+      "Encourage beneficial insects"
+    ]
+  },
+  "Tomato_Target_Spot": {
+    "organic": [
+      "Remove infected plant parts",
+      "Apply copper-based fungicide",
+      "Use Trichoderma-based biofungicide",
+      "Spray neem oil solution",
+      "Improve air circulation"
+    ],
+    "chemical": [
+      "Azoxystrobin (1 ml/liter)",
+      "Chlorothalonil (2 ml/liter)",
+      "Mancozeb (2 g/liter)"
+    ],
+    "preventive": [
+      "Use resistant varieties",
+      "Practice crop rotation",
+      "Maintain proper plant spacing",
+      "Remove crop debris",
+      "Avoid overhead irrigation"
+    ]
+  },
+  "Tomato_Yellow_Leaf_Curl_Virus": {
+    "organic": [
+      "Remove and destroy infected plants immediately",
+      "Control whitefly vectors with yellow sticky traps",
+      "Spray neem oil to repel whiteflies",
+      "Use reflective mulches to deter whiteflies",
+      "Plant marigold as trap crop"
+    ],
+    "chemical": [
+      "Imidacloprid (0.3 ml/liter) for whitefly control",
+      "Thiamethoxam (0.3 g/liter)",
+      "No cure for virus - focus on vector control"
+    ],
+    "preventive": [
+      "Use virus-free transplants",
+      "Plant resistant varieties (Ty genes)",
+      "Use insect-proof nets in nursery",
+      "Remove alternate weed hosts",
+      "Monitor and control whiteflies early"
+    ]
+  },
+  "Tomato_mosaic_virus": {
+    "organic": [
+      "Remove and destroy infected plants",
+      "Disinfect tools with milk or soap solution",
+      "Avoid touching plants when wet",
+      "No chemical cure available"
+    ],
+    "chemical": [
+      "No chemical cure available",
+      "Focus on prevention and sanitation"
+    ],
+    "preventive": [
+      "Use resistant varieties (Tm genes)",
+      "Use certified virus-free seeds",
+      "Sanitize hands and tools before handling plants",
+      "Avoid smoking near plants (tobacco products can carry virus)",
+      "Remove infected plants immediately"
+    ]
+  },
+  "Tomato_healthy": {
+    "organic": [
+      "Continue regular monitoring",
+      "Maintain good cultural practices"
+    ],
+    "chemical": [
+      "No treatment needed"
+    ],
+    "preventive": [
+      "Regular field inspection",
+      "Maintain balanced nutrition",
+      "Ensure proper irrigation"
+    ]
+  },
+  "Potato_Early_blight": {
+    "organic": [
+      "Remove infected leaves",
+      "Apply Bordeaux mixture",
+      "Spray neem oil solution",
+      "Use compost tea",
+      "Mulch to prevent soil splash"
+    ],
+    "chemical": [
+      "Mancozeb (2 g/liter)",
+      "Chlorothalonil (2 ml/liter)",
+      "Azoxystrobin (1 ml/liter)"
+    ],
+    "preventive": [
+      "Use certified disease-free seed tubers",
+      "Rotate crops (3-4 year cycle)",
+      "Hill soil around plants",
+      "Remove volunteer potatoes",
+      "Destroy crop debris after harvest"
+    ]
+  },
+  "Potato_Late_blight": {
+    "organic": [
+      "Destroy infected plants immediately",
+      "Spray Bordeaux mixture (1%)",
+      "Apply copper fungicide",
+      "Harvest tubers 2 weeks after haulm death"
+    ],
+    "chemical": [
+      "Metalaxyl + Mancozeb (2 g/liter)",
+      "Cymoxanil + Mancozeb (2 g/liter)",
+      "Dimethomorph (1 ml/liter)",
+      "Start preventive spray before disease onset"
+    ],
+    "preventive": [
+      "Plant resistant varieties",
+      "Use certified seed potatoes",
+      "Avoid overhead irrigation",
+      "Monitor blight forecasts",
+      "Destroy cull piles and volunteers"
+    ]
+  },
+  "Potato_healthy": {
+    "organic": [
+      "Continue regular monitoring",
+      "Maintain good cultural practices"
+    ],
+    "chemical": [
+      "No treatment needed"
+    ],
+    "preventive": [
+      "Regular field inspection",
+      "Maintain balanced nutrition",
+      "Ensure proper irrigation"
+    ]
+  },
+  "Rice_Bacterial_leaf_blight": {
+    "organic": [
+      "Remove infected plants",
+      "Apply Pseudomonas fluorescens",
+      "Drain field water temporarily",
+      "Spray copper oxychloride (3 g/liter)"
+    ],
+    "chemical": [
+      "Copper hydroxide (2-3 g/liter)",
+      "Streptocycline (15 g + Copper oxychloride 500g per hectare)"
+    ],
+    "preventive": [
+      "Use resistant varieties",
+      "Use disease-free seeds",
+      "Avoid deep water in field",
+      "Balance nitrogen application",
+      "Remove weed hosts"
+    ]
+  },
+  "Rice_Blast": {
+    "organic": [
+      "Remove infected parts",
+      "Apply Tricyclazole organic formulation",
+      "Drain excess water",
+      "Apply silicon fertilizer",
+      "Use Trichoderma seed treatment"
+    ],
+    "chemical": [
+      "Tricyclazole (0.6 g/liter)",
+      "Carbendazim (1 g/liter)",
+      "Isoprothiolane (1.5 ml/liter)"
+    ],
+    "preventive": [
+      "Use resistant varieties",
+      "Avoid excess nitrogen",
+      "Maintain proper water level",
+      "Remove infected stubbles",
+      "Avoid very close spacing"
+    ]
+  },
+  "Rice_Brown_spot": {
+    "organic": [
+      "Apply potassium-rich fertilizer",
+      "Spray Bordeaux mixture",
+      "Use Trichoderma seed treatment",
+      "Improve soil fertility"
+    ],
+    "chemical": [
+      "Mancozeb (2 g/liter)",
+      "Edifenphos (1 ml/liter)",
+      "Carbendazim (1 g/liter)"
+    ],
+    "preventive": [
+      "Use disease-free certified seeds",
+      "Ensure balanced nutrition (adequate potassium)",
+      "Improve soil health with organic matter",
+      "Avoid nutrient deficiency stress",
+      "Maintain proper water management"
+    ]
+  },
+  "Rice_Leaf_smut": {
+    "organic": [
+      "Remove and burn infected plants",
+      "Use Trichoderma seed treatment",
+      "Improve field drainage"
+    ],
+    "chemical": [
+      "Carbendazim seed treatment (2 g/kg seed)",
+      "Propiconazole (1 ml/liter foliar spray)"
+    ],
+    "preventive": [
+      "Use resistant varieties",
+      "Treat seeds with fungicide before sowing",
+      "Avoid excess nitrogen",
+      "Maintain proper field hygiene",
+      "Remove infected plants before flowering"
+    ]
+  },
+  "Rice_healthy": {
+    "organic": [
+      "Continue regular monitoring",
+      "Maintain good cultural practices"
+    ],
+    "chemical": [
+      "No treatment needed"
+    ],
+    "preventive": [
+      "Regular field inspection",
+      "Maintain balanced nutrition",
+      "Ensure proper water management"
+    ]
+  },
+  "Wheat_Brown_rust": {
+    "organic": [
+      "Remove infected plants early",
+      "Apply sulfur dust",
+      "Use resistant varieties"
+    ],
+    "chemical": [
+      "Propiconazole (1 ml/liter)",
+      "Tebuconazole (1 ml/liter)",
+      "Mancozeb (2 g/liter)"
+    ],
+    "preventive": [
+      "Plant resistant varieties",
+      "Avoid late sowing",
+      "Destroy volunteer wheat plants",
+      "Use certified disease-free seeds",
+      "Monitor regularly during grain filling stage"
+    ]
+  },
+  "Wheat_Yellow_rust": {
+    "organic": [
+      "Remove infected plants",
+      "Apply sulfur-based fungicide",
+      "Improve air circulation"
+    ],
+    "chemical": [
+      "Propiconazole (1 ml/liter)",
+      "Tebuconazole (1 ml/liter)",
+      "Mancozeb (2 g/liter)",
+      "Apply at first sign of disease"
+    ],
+    "preventive": [
+      "Plant resistant varieties (critical)",
+      "Sow at recommended time",
+      "Avoid excess nitrogen",
+      "Remove volunteer plants",
+      "Monitor weather conditions (cool, moist conditions favor disease)"
+    ]
+  },
+  "Wheat_healthy": {
+    "organic": [
+      "Continue regular monitoring",
+      "Maintain good cultural practices"
+    ],
+    "chemical": [
+      "No treatment needed"
+    ],
+    "preventive": [
+      "Regular field inspection",
+      "Maintain balanced nutrition",
+      "Ensure proper irrigation"
+    ]
+  },
+  "Cotton_Bacterial_blight": {
+    "organic": [
+      "Remove and destroy infected plants",
+      "Apply copper-based bactericide",
+      "Spray Pseudomonas fluorescens",
+      "Avoid overhead irrigation"
+    ],
+    "chemical": [
+      "Streptocycline (100 ppm)",
+      "Copper oxychloride (3 g/liter)",
+      "Plantomycin (100 ppm)"
+    ],
+    "preventive": [
+      "Use disease-free certified seeds",
+      "Treat seeds with streptocycline",
+      "Practice crop rotation",
+      "Avoid excessive nitrogen",
+      "Remove infected plant debris"
+    ]
+  },
+  "Cotton_Curl_virus": {
+    "organic": [
+      "Remove and destroy infected plants",
+      "Control whitefly with yellow sticky traps",
+      "Spray neem oil for whitefly control",
+      "Use reflective mulches"
+    ],
+    "chemical": [
+      "Imidacloprid (0.3 ml/liter) for whitefly",
+      "Thiamethoxam (0.3 g/liter)",
+      "No cure for virus - control vector"
+    ],
+    "preventive": [
+      "Plant resistant/tolerant varieties",
+      "Use virus-free seeds",
+      "Control whiteflies from early stage",
+      "Remove alternate weed hosts",
+      "Avoid late sowing"
+    ]
+  },
+  "Cotton_Fussarium_wilt": {
+    "organic": [
+      "Remove and burn infected plants",
+      "Apply Trichoderma to soil",
+      "Use organic amendments to improve soil health",
+      "Practice deep summer plowing"
+    ],
+    "chemical": [
+      "Carbendazim seed treatment (2 g/kg)",
+      "Soil drenching with Carbendazim (1 g/liter)",
+      "No effective foliar treatment"
+    ],
+    "preventive": [
+      "Use resistant varieties (most effective)",
+      "Practice crop rotation with non-hosts",
+      "Improve soil drainage",
+      "Avoid waterlogging",
+      "Use disease-free seeds",
+      "Maintain soil health with organic matter"
+    ]
+  },
+  "Cotton_healthy": {
+    "organic": [
+      "Continue regular monitoring",
+      "Maintain good cultural practices"
+    ],
+    "chemical": [
+      "No treatment needed"
+    ],
+    "preventive": [
+      "Regular field inspection",
+      "Maintain balanced nutrition",
+      "Ensure proper irrigation"
+    ]
+  }
+}

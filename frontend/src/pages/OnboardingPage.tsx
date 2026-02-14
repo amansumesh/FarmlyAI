@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LanguageSelector } from '../components/common/LanguageSelector';
@@ -8,7 +8,7 @@ import { useUserStore } from '../store/userStore';
 import { useAuthStore } from '../store/authStore';
 import { cn } from '../utils/cn';
 
-type OnboardingStep = 'language' | 'location' | 'crops' | 'landSize' | 'soilType' | 'complete';
+type OnboardingStep = 'language' | 'name' | 'location' | 'crops' | 'landSize' | 'soilType' | 'complete';
 
 const AVAILABLE_CROPS = [
   'rice', 'wheat', 'cotton', 'sugarcane', 'tomato', 'potato',
@@ -22,10 +22,24 @@ export const OnboardingPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { updateProfile, loading: userLoading } = useUserStore();
   const { setUser, user: authUser } = useAuthStore();
-  const { latitude, longitude, error: geoError, loading: geoLoading, getCurrentLocation } = useGeolocation();
+  const {
+    latitude,
+    longitude,
+    address: geoAddress,
+    city: geoCity,
+    state: geoState,
+    district: geoDistrict,
+    error: geoError,
+    loading: geoLoading,
+    getCurrentLocation
+  } = useGeolocation();
+
+  // Check if user is editing an existing profile
+  const isEditing = authUser?.onboardingCompleted === true;
 
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('language');
   const [selectedLanguage, setSelectedLanguage] = useState<string>(i18n.language);
+  const [name, setName] = useState('');
   const [useManualLocation, setUseManualLocation] = useState(false);
   const [address, setAddress] = useState('');
   const [state, setState] = useState('');
@@ -35,10 +49,77 @@ export const OnboardingPage: React.FC = () => {
   const [soilType, setSoilType] = useState<typeof SOIL_TYPES[number] | ''>('');
   const [error, setError] = useState('');
 
+  // Pre-populate form fields from existing profile when editing
+  useEffect(() => {
+    if (isEditing && authUser) {
+      // Pre-fill name
+      if (authUser.name) {
+        setName(authUser.name);
+      }
+      // Pre-fill language
+      if (authUser.language) {
+        setSelectedLanguage(authUser.language);
+      }
+
+      if (authUser.farmProfile) {
+        // Pre-fill crops
+        if (authUser.farmProfile.crops && authUser.farmProfile.crops.length > 0) {
+          setSelectedCrops(authUser.farmProfile.crops);
+        }
+        // Pre-fill land size
+        if (authUser.farmProfile.landSize) {
+          setLandSize(String(authUser.farmProfile.landSize));
+        }
+        // Pre-fill soil type
+        if (authUser.farmProfile.soilType) {
+          setSoilType(authUser.farmProfile.soilType);
+        }
+        // Pre-fill location
+        if (authUser.farmProfile.location) {
+          const loc = authUser.farmProfile.location;
+          if (loc.address) {
+            setAddress(loc.address);
+            setUseManualLocation(true);
+          }
+          if (loc.state) {
+            setState(loc.state);
+          }
+          if (loc.district) {
+            setDistrict(loc.district);
+          }
+        }
+      }
+
+      // Skip language step when editing — start at name
+      setCurrentStep('name');
+    }
+  }, []); // Run only on mount
+
+  useEffect(() => {
+    if (geoAddress && !useManualLocation) {
+      setAddress(geoAddress);
+    }
+    if (geoCity && !useManualLocation) {
+      setAddress(geoCity);
+    }
+    if (geoState && !state) {
+      setState(geoState);
+    }
+    if (geoDistrict && !district) {
+      setDistrict(geoDistrict);
+    }
+  }, [geoAddress, geoCity, geoState, geoDistrict, useManualLocation, state, district]);
+
   const handleNext = async () => {
     setError('');
 
     if (currentStep === 'language') {
+      setCurrentStep('name');
+    } else if (currentStep === 'name') {
+      if (!name.trim()) {
+        setError('Please enter your name');
+        return;
+      }
       setCurrentStep('location');
     } else if (currentStep === 'location') {
       if (!useManualLocation && !latitude && !longitude) {
@@ -73,8 +154,14 @@ export const OnboardingPage: React.FC = () => {
 
   const handleBack = () => {
     setError('');
-    if (currentStep === 'location') {
-      setCurrentStep('language');
+    if (currentStep === 'name') {
+      if (isEditing) {
+        navigate('/profile');
+      } else {
+        setCurrentStep('language');
+      }
+    } else if (currentStep === 'location') {
+      setCurrentStep('name');
     } else if (currentStep === 'crops') {
       setCurrentStep('location');
     } else if (currentStep === 'landSize') {
@@ -87,6 +174,7 @@ export const OnboardingPage: React.FC = () => {
   const handleComplete = async () => {
     try {
       let locationData: {
+        type: 'Point';
         coordinates: [number, number];
         address?: string;
         state?: string;
@@ -98,6 +186,7 @@ export const OnboardingPage: React.FC = () => {
         // TODO: Implement proper geocoding API in future
         // Default to center of India for MVP
         locationData = {
+          type: 'Point',
           coordinates: [78.9629, 20.5937] as [number, number], // Center of India
           address,
           state,
@@ -105,6 +194,7 @@ export const OnboardingPage: React.FC = () => {
         };
       } else if (latitude && longitude) {
         locationData = {
+          type: 'Point',
           coordinates: [longitude, latitude] as [number, number],
           address,
           state,
@@ -113,6 +203,7 @@ export const OnboardingPage: React.FC = () => {
       }
 
       await updateProfile({
+        name: name.trim(),
         language: selectedLanguage as 'hi' | 'ta' | 'ml' | 'te' | 'kn' | 'en',
         farmProfile: {
           location: locationData,
@@ -123,12 +214,19 @@ export const OnboardingPage: React.FC = () => {
         onboardingCompleted: true
       });
 
-      // Update auth store's user object
+      // Update auth store's user object with ALL profile data
       if (authUser) {
         setUser({
           ...authUser,
+          name: name.trim(),
           language: selectedLanguage as 'hi' | 'ta' | 'ml' | 'te' | 'kn' | 'en',
-          onboardingCompleted: true
+          onboardingCompleted: true,
+          farmProfile: {
+            location: locationData,
+            crops: selectedCrops,
+            landSize: parseFloat(landSize),
+            soilType: soilType as typeof SOIL_TYPES[number]
+          }
         });
       }
 
@@ -155,7 +253,7 @@ export const OnboardingPage: React.FC = () => {
   };
 
   const renderStepIndicator = () => {
-    const steps = ['language', 'location', 'crops', 'landSize', 'soilType'];
+    const steps = ['language', 'name', 'location', 'crops', 'landSize', 'soilType'];
     const currentIndex = steps.indexOf(currentStep);
 
     return (
@@ -213,6 +311,36 @@ export const OnboardingPage: React.FC = () => {
             <Button onClick={handleNext} className="w-full mt-8" size="lg">
               {t('common.next')}
             </Button>
+          </div>
+        )}
+
+        {currentStep === 'name' && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              What's your name?
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Let us know what to call you
+            </p>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-lg"
+              autoFocus
+            />
+            {error && (
+              <p className="text-red-600 text-sm mt-2">{error}</p>
+            )}
+            <div className="flex gap-4 mt-8">
+              <Button onClick={handleBack} variant="secondary" size="lg" className="flex-1">
+                {t('common.back')}
+              </Button>
+              <Button onClick={handleNext} size="lg" className="flex-1">
+                {t('common.next')}
+              </Button>
+            </div>
           </div>
         )}
 

@@ -1,0 +1,31 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+console.log('\n=== PWA Icon Conversion Instructions ===\n');
+console.log('The SVG icons have been generated successfully.');
+console.log('For production, you need to convert them to PNG format.\n');
+console.log('Options:\n');
+console.log('1. Online Conversion (Recommended for quick testing):');
+console.log('   - Visit: https://svgtopng.com');
+console.log('   - Upload: frontend/public/pwa-*.svg files');
+console.log('   - Download PNG versions\n');
+console.log('2. Using Sharp (requires build approval):');
+console.log('   - Run: cd frontend && pnpm approve-builds');
+console.log('   - Select: sharp (press space, then enter)');
+console.log('   - Run: pnpm install');
+console.log('   - Then this script will be updated to convert automatically\n');
+console.log('3. Manual Conversion:');
+console.log('   - Open SVG files in browser');
+console.log('   - Take screenshots at exact dimensions');
+console.log('   - Or use image editors like Photoshop, GIMP, Inkscape\n');
+console.log('Files to convert:');
+console.log('  - pwa-64x64.svg → pwa-64x64.png');
+console.log('  - pwa-192x192.svg → pwa-192x192.png');
+console.log('  - pwa-512x512.svg → pwa-512x512.png');
+console.log('  - apple-touch-icon.svg → apple-touch-icon.png (180x180)\n');
+console.log('Note: For demo/testing, the current SVG icons work in modern browsers.');
+console.log('PNG format is recommended for wider compatibility.\n');

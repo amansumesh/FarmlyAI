@@ -37,10 +37,10 @@ export const Header: React.FC = () => {
             className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-2 transition-colors"
           >
             <div className="bg-green-600 rounded-full w-8 h-8 flex items-center justify-center text-white font-semibold text-sm">
-              {user?.phoneNumber?.slice(-2) || 'U'}
+              {user?.name ? user.name.charAt(0).toUpperCase() : user?.phoneNumber?.slice(-2) || 'U'}
             </div>
             <span className="text-sm font-medium text-gray-700 hidden sm:inline">
-              {user?.phoneNumber}
+              {user?.name || user?.phoneNumber}
             </span>
           </button>
         </div>

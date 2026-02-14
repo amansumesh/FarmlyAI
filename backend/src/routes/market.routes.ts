@@ -14,4 +14,7 @@ router.get('/prices', authenticateToken, MarketController.getMarketPrices);
 // GET /api/market/health - Health check
 router.get('/health', MarketController.healthCheck);
 
+// POST /api/market/clear-cache - Clear cache (authenticated)
+router.post('/clear-cache', authenticateToken, MarketController.clearCache);
+
 export default router;

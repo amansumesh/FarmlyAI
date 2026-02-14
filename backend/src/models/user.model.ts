@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {
   phoneNumber: string;
+  name?: string;
   phoneVerified: boolean;
   language: 'hi' | 'ta' | 'ml' | 'te' | 'kn' | 'en';
   farmProfile: {
@@ -28,6 +29,10 @@ const userSchema = new Schema<IUser>({
     unique: true,
     trim: true,
     match: /^\+\d{1,3}\d{10}$/
+  },
+  name: {
+    type: String,
+    trim: true
   },
   phoneVerified: {
     type: Boolean,

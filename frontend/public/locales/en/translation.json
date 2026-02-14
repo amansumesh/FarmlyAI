@@ -1,0 +1,20 @@
+{
+  "offline": {
+    "title": "You are offline",
+    "message": "Please check your internet connection and try again. Some features may still be available offline.",
+    "retry": "Try Again",
+    "banner": "You are offline. Some features may be limited.",
+    "back_online": "Back online",
+    "available_title": "Available Offline:",
+    "feature_1": "Disease detection (previously loaded)",
+    "feature_2": "Cached market prices",
+    "feature_3": "Previously viewed recommendations",
+    "feature_4": "Government schemes information"
+  },
+  "install": {
+    "title": "Install Farmly AI",
+    "message": "Install the app on your device for quick access and offline features.",
+    "install": "Install",
+    "later": "Later"
+  }
+}

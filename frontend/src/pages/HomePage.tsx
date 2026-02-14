@@ -71,19 +71,30 @@ export const HomePage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
         <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg shadow-md p-6 text-white animate-scale-in">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">
-            {t('onboarding.welcome')}
+            {user?.name ? `${t('onboarding.welcome')}, ${user.name}!` : t('onboarding.welcome')}
           </h1>
           <p className="text-green-100 text-sm md:text-base">
             {t('onboarding.subtitle')}
           </p>
+
           {user?.farmProfile && (
             <div className="mt-4 flex flex-wrap gap-2 text-sm">
-              <span className="bg-white/20 rounded-full px-3 py-1 min-h-[32px] flex items-center">
-                📍 {user.farmProfile.location?.address || 'Farm Location'}
-              </span>
+              {user.farmProfile.location && (
+                <span className="bg-white/20 rounded-full px-3 py-1 min-h-[32px] flex items-center">
+                  📍 {user.farmProfile.location.address || 
+                      (user.farmProfile.location.district && user.farmProfile.location.state 
+                        ? `${user.farmProfile.location.district}, ${user.farmProfile.location.state}`
+                        : user.farmProfile.location.state || 
+                          (user.farmProfile.location.coordinates?.length >= 2
+                            ? `${user.farmProfile.location.coordinates[1].toFixed(4)}°N, ${user.farmProfile.location.coordinates[0].toFixed(4)}°E`
+                            : 'Location not available'))}
+                </span>
+              )}
+
               <span className="bg-white/20 rounded-full px-3 py-1 min-h-[32px] flex items-center">
                 🌾 {user.farmProfile.crops.length} {user.farmProfile.crops.length === 1 ? 'Crop' : 'Crops'}
               </span>
+
               <span className="bg-white/20 rounded-full px-3 py-1 min-h-[32px] flex items-center">
                 📏 {user.farmProfile.landSize} {t('onboarding.acres')}
               </span>

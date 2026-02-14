@@ -28,6 +28,13 @@ export const ProfilePage: React.FC = () => {
       : 'en';
     
     await updateProfile({ language });
+    
+    // Update authStore to sync the language
+    if (user) {
+      const { setUser } = useAuthStore.getState();
+      setUser({ ...user, language });
+    }
+    
     i18n.changeLanguage(languageCode);
     setShowLanguageSelector(false);
   };
@@ -53,11 +60,11 @@ export const ProfilePage: React.FC = () => {
           <div className="p-6">
             <div className="flex items-center gap-4 mb-6">
               <div className="bg-green-600 rounded-full w-16 h-16 flex items-center justify-center text-white font-bold text-2xl">
-                {user.phoneNumber?.slice(-2) || 'U'}
+                {user.name ? user.name.charAt(0).toUpperCase() : user.phoneNumber?.slice(-2) || 'U'}
               </div>
               <div>
                 <p className="text-lg font-semibold text-gray-900">
-                  {user.phoneNumber}
+                  {user.name || user.phoneNumber}
                 </p>
                 <p className="text-sm text-gray-500 capitalize">
                   {t('profile.language')}: {user.language}
@@ -81,7 +88,12 @@ export const ProfilePage: React.FC = () => {
                     </label>
                     <p className="text-gray-900">
                       {user.farmProfile.location?.address || 
-                       (user.farmProfile.location ? `${user.farmProfile.location.lat}, ${user.farmProfile.location.lon}` : t('profile.notSet'))}
+                       (user.farmProfile.location?.district && user.farmProfile.location?.state
+                         ? `${user.farmProfile.location.district}, ${user.farmProfile.location.state}`
+                         : user.farmProfile.location?.state ||
+                           (user.farmProfile.location?.coordinates 
+                             ? `${user.farmProfile.location.coordinates[1].toFixed(4)}°N, ${user.farmProfile.location.coordinates[0].toFixed(4)}°E`
+                             : t('profile.notSet')))}
                     </p>
                   </div>
 

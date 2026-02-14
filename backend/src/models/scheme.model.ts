@@ -1,131 +1,43 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IScheme extends Document {
-  name: {
-    en: string;
-    hi: string;
-    ta: string;
-    ml: string;
-    te: string;
-    kn: string;
-  };
-  description: {
-    en: string;
-    hi: string;
-    ta: string;
-    ml: string;
-    te: string;
-    kn: string;
-  };
-  benefits: {
-    en: string[];
-    hi: string[];
-    ta: string[];
-    ml: string[];
-    te: string[];
-    kn: string[];
-  };
-  eligibility: {
-    landSize?: { min?: number; max?: number };
-    crops?: string[];
-    states?: string[];
-    annualIncome?: { max: number };
-  };
-  applicationProcess: {
-    steps: {
-      en: string[];
-      hi: string[];
-      ta: string[];
-      ml: string[];
-      te: string[];
-      kn: string[];
-    };
-    documents: {
-      en: string[];
-      hi: string[];
-      ta: string[];
-      ml: string[];
-      te: string[];
-      kn: string[];
-    };
-    applicationUrl?: string;
-  };
-  type: 'central' | 'state' | 'district';
-  active: boolean;
-  updatedAt: Date;
+  schemeId: string;
+  name: any; // Localized object or string
+  description: any; // Localized object or string
+  benefits: any; // Localized object or string
+  eligibility: any;
+  documentsRequired: any;
+  howToApply: any;
+  applicationProcess: any;
+  officialUrl: string;
+  lastVerified: Date;
+  sourceCitations: string[];
+  status: "active" | "closed" | "paused";
 }
 
-const schemeSchema = new Schema<IScheme>(
+const SchemeSchema = new Schema<IScheme>(
   {
-    name: {
-      en: { type: String, required: true },
-      hi: { type: String, required: true },
-      ta: { type: String, required: true },
-      ml: { type: String, required: true },
-      te: { type: String, required: true },
-      kn: { type: String, required: true },
-    },
-    description: {
-      en: { type: String, required: true },
-      hi: { type: String, required: true },
-      ta: { type: String, required: true },
-      ml: { type: String, required: true },
-      te: { type: String, required: true },
-      kn: { type: String, required: true },
-    },
-    benefits: {
-      en: [String],
-      hi: [String],
-      ta: [String],
-      ml: [String],
-      te: [String],
-      kn: [String],
-    },
-    eligibility: {
-      landSize: {
-        min: Number,
-        max: Number,
-      },
-      crops: [String],
-      states: [String],
-      annualIncome: {
-        max: Number,
-      },
-    },
-    applicationProcess: {
-      steps: {
-        en: [String],
-        hi: [String],
-        ta: [String],
-        ml: [String],
-        te: [String],
-        kn: [String],
-      },
-      documents: {
-        en: [String],
-        hi: [String],
-        ta: [String],
-        ml: [String],
-        te: [String],
-        kn: [String],
-      },
-      applicationUrl: String,
-    },
-    type: {
-      type: String,
-      enum: ['central', 'state', 'district'],
-      required: true,
-    },
-    active: {
-      type: Boolean,
-      default: true,
-    },
+    schemeId: { type: String, required: true, unique: true },
+    // Updated to support localized content (Object with language keys)
+    name: { type: Schema.Types.Mixed, required: true },
+    description: { type: Schema.Types.Mixed, required: true },
+    benefits: { type: Schema.Types.Mixed, required: true },
+
+    // Eligibility can be complex object or array
+    eligibility: { type: Schema.Types.Mixed, default: {} },
+
+    // Application process details
+    documentsRequired: { type: Schema.Types.Mixed, default: {} },
+    howToApply: { type: Schema.Types.Mixed, default: {} },
+    applicationProcess: { type: Schema.Types.Mixed, default: {} },
+
+    officialUrl: { type: String, required: true },
+    lastVerified: { type: Date, default: Date.now },
+
+    sourceCitations: { type: [String], default: [] },
+    status: { type: String, default: "active" },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-schemeSchema.index({ active: 1, type: 1 });
-
-export const Scheme = mongoose.model<IScheme>('Scheme', schemeSchema);
+export const Scheme = mongoose.model<IScheme>("Scheme", SchemeSchema);

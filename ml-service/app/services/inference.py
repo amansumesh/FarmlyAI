@@ -28,7 +28,7 @@ class DiseaseDetectionService:
             self.model = MockDiseaseDetectionModel()
         else:
             model_path = os.getenv("MODEL_PATH", None)
-            self.model = DiseaseDetectionModel(model_path=model_path)
+            self.model = DiseaseDetectionModel(num_classes=25, model_path=model_path)
         
         self.model.load_model()
         

@@ -42,6 +42,28 @@ export interface WeatherForecastResponse {
   forecast: ForecastDay[];
 }
 
+interface HourlyForecastItem {
+  dt: number;
+  main: {
+    temp: number;
+    humidity: number;
+  };
+  weather: Array<{
+    description: string;
+    icon: string;
+  }>;
+  wind: {
+    speed: number;
+  };
+  clouds: {
+    all: number;
+  };
+  pop?: number;
+  rain?: {
+    '3h'?: number;
+  };
+}
+
 export class WeatherService {
   private static readonly API_BASE_URL = 'https://api.openweathermap.org/data/2.5';
   private static readonly API_KEY = config.openWeather.apiKey;
@@ -156,10 +178,10 @@ export class WeatherService {
   }
 
   private static parseDailyForecasts(
-    hourlyData: any[]
+    hourlyData: HourlyForecastItem[]
   ): ForecastDay[] {
     // Group hourly forecasts by day
-    const dailyMap = new Map<string, any[]>();
+    const dailyMap = new Map<string, HourlyForecastItem[]>();
 
     hourlyData.forEach((item) => {
       const date = new Date(item.dt * 1000).toISOString().split('T')[0];

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { marketService } from '../services/market.service';
+import { getLocale } from '../utils/locale';
 import { MarketPricesResponse } from '../types/market.types';
 import { PriceCard } from '../components/market/PriceCard';
 import { PriceChart } from '../components/market/PriceChart';
@@ -32,7 +33,7 @@ export const MarketPage = () => {
   const [marketData, setMarketData] = useState<MarketPricesResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   console.log('[MarketPage] State:', { loading, error, hasData: !!marketData });
 
   const loadMarketPrices = useCallback(async () => {
@@ -45,8 +46,8 @@ export const MarketPage = () => {
       });
       setMarketData(data);
     } catch (err) {
-      const errorMessage = err instanceof Error && 'response' in err 
-        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message 
+      const errorMessage = err instanceof Error && 'response' in err
+        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
         : undefined;
       setError(errorMessage || t('market.errors.loadFailed'));
       console.error('Failed to load market prices:', err);
@@ -201,24 +202,26 @@ export const MarketPage = () => {
                   <div className="flex-shrink-0 mt-1">{getRecommendationIcon()}</div>
                   <div className="flex-1">
                     <h2 className="text-lg font-bold mb-2">{t('market.aiRecommendation')}</h2>
-                    <p className="text-lg mb-4">{marketData.priceAnalysis.recommendation}</p>
+                    <p className="text-lg mb-4">
+                      {t(`market.recommendations.${marketData.priceAnalysis.trend}`)}
+                    </p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <div>
                         <span className="font-medium">{t('market.avgPrice')}:</span>
                         <span className="ml-2 text-lg font-bold">
-                          ₹{marketData.priceAnalysis.average.toLocaleString('en-IN')}
+                          ₹{marketData.priceAnalysis.average.toLocaleString(getLocale(i18n.language))}
                         </span>
                       </div>
                       <div>
                         <span className="font-medium">{t('market.minPrice')}:</span>
                         <span className="ml-2 text-lg font-bold">
-                          ₹{marketData.priceAnalysis.min.toLocaleString('en-IN')}
+                          ₹{marketData.priceAnalysis.lowest.price.toLocaleString(getLocale(i18n.language))}
                         </span>
                       </div>
                       <div>
                         <span className="font-medium">{t('market.maxPrice')}:</span>
                         <span className="ml-2 text-lg font-bold">
-                          ₹{marketData.priceAnalysis.max.toLocaleString('en-IN')}
+                          ₹{marketData.priceAnalysis.highest.price.toLocaleString(getLocale(i18n.language))}
                         </span>
                       </div>
                       <div>
@@ -254,7 +257,7 @@ export const MarketPage = () => {
             )}
 
             <div className="bg-white border rounded-lg p-4 text-center text-sm text-gray-500">
-              {t('market.lastUpdated')}: {new Date(marketData.updatedAt).toLocaleString('en-IN')}
+              {t('market.lastUpdated')}: {new Date(marketData.updatedAt).toLocaleString(getLocale(i18n.language))}
             </div>
           </>
         )}

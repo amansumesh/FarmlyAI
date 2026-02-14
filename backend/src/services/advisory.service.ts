@@ -220,12 +220,10 @@ export class AdvisoryService {
       title = language === 'hi' ? 'तुरंत सिंचाई आवश्यक' : 'Urgent Irrigation Required';
       description =
         language === 'hi'
-          ? `उच्च तापमान (${currentTemp}°C) और कम आर्द्रता (${currentHumidity}%) के कारण पौधों को पानी की तत्काल आवश्यकता है। ${
-              soilType === 'sandy' ? 'रेतीली मिट्टी' : 'आपकी मिट्टी'
-            } जल्दी सूख जाती है।`
-          : `High temperature (${currentTemp}°C) and low humidity (${currentHumidity}%) require immediate watering. ${
-              soilType === 'sandy' ? 'Sandy soil' : 'Your soil type'
-            } dries quickly.`;
+          ? `उच्च तापमान (${currentTemp}°C) और कम आर्द्रता (${currentHumidity}%) के कारण पौधों को पानी की तत्काल आवश्यकता है। ${soilType === 'sandy' ? 'रेतीली मिट्टी' : 'आपकी मिट्टी'
+          } जल्दी सूख जाती है।`
+          : `High temperature (${currentTemp}°C) and low humidity (${currentHumidity}%) require immediate watering. ${soilType === 'sandy' ? 'Sandy soil' : 'Your soil type'
+          } dries quickly.`;
       actionBy = 'Today';
     } else {
       title = language === 'hi' ? 'सिंचाई अनुसूची' : 'Irrigation Schedule';

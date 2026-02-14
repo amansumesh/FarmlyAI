@@ -12,7 +12,47 @@ interface OTPData {
   expiresAt: number;
 }
 
+// In-memory fallback when Redis is unavailable
+const inMemoryOTPStore = new Map<string, string>();
+// Reserved for future rate limiting fallback
+// const inMemoryRateLimitStore = new Map<string, string>();
+
 class OTPService {
+  private async isRedisAvailable(): Promise<boolean> {
+    try {
+      return redisClient.isOpen;
+    } catch {
+      return false;
+    }
+  }
+
+  private async getFromStore(key: string): Promise<string | null> {
+    const redisAvailable = await this.isRedisAvailable();
+    if (redisAvailable) {
+      return await redisClient.get(key);
+    }
+    return inMemoryOTPStore.get(key) || null;
+  }
+
+  private async setInStore(key: string, value: string, ttl: number): Promise<void> {
+    const redisAvailable = await this.isRedisAvailable();
+    if (redisAvailable) {
+      await redisClient.setEx(key, ttl, value);
+    } else {
+      inMemoryOTPStore.set(key, value);
+      // Clean up after TTL in memory
+      setTimeout(() => inMemoryOTPStore.delete(key), ttl * 1000);
+    }
+  }
+
+  private async deleteFromStore(key: string): Promise<void> {
+    const redisAvailable = await this.isRedisAvailable();
+    if (redisAvailable) {
+      await redisClient.del(key);
+    } else {
+      inMemoryOTPStore.delete(key);
+    }
+  }
   private generateOTP(): string {
     return Math.floor(100000 + Math.random() * 900000).toString();
   }
@@ -43,7 +83,7 @@ class OTPService {
         };
 
         const otpKey = this.getOTPKey(phoneNumber);
-        await redisClient.setEx(otpKey, OTP_TTL, JSON.stringify(otpData));
+        await this.setInStore(otpKey, JSON.stringify(otpData), OTP_TTL);
 
         logger.info(`[DEMO MODE] OTP sent to demo account ${phoneNumber}: ${otp}`);
         return { success: true, expiresIn: OTP_TTL, otp };
@@ -51,7 +91,7 @@ class OTPService {
 
       // Check rate limiting
       const rateLimitKey = this.getRateLimitKey(phoneNumber);
-      const rateLimitCount = await redisClient.get(rateLimitKey);
+      const rateLimitCount = await this.getFromStore(rateLimitKey);
       
       if (rateLimitCount && parseInt(rateLimitCount) >= 5) {
         throw new Error('Too many OTP requests. Please try again later.');
@@ -67,13 +107,13 @@ class OTPService {
         expiresAt
       };
 
-      // Store OTP in Redis
+      // Store OTP
       const otpKey = this.getOTPKey(phoneNumber);
-      await redisClient.setEx(otpKey, OTP_TTL, JSON.stringify(otpData));
+      await this.setInStore(otpKey, JSON.stringify(otpData), OTP_TTL);
 
       // Increment rate limit counter
       const currentCount = rateLimitCount ? parseInt(rateLimitCount) : 0;
-      await redisClient.setEx(rateLimitKey, RATE_LIMIT_TTL, (currentCount + 1).toString());
+      await this.setInStore(rateLimitKey, (currentCount + 1).toString(), RATE_LIMIT_TTL);
 
       // Send OTP via Twilio
       await this.sendSMS(phoneNumber, otp);
@@ -95,7 +135,7 @@ class OTPService {
   async verifyOTP(phoneNumber: string, otp: string): Promise<boolean> {
     try {
       const otpKey = this.getOTPKey(phoneNumber);
-      const storedData = await redisClient.get(otpKey);
+      const storedData = await this.getFromStore(otpKey);
 
       if (!storedData) {
         throw new Error('OTP expired or not found');
@@ -105,27 +145,27 @@ class OTPService {
 
       // Check if OTP has expired
       if (Date.now() > otpData.expiresAt) {
-        await redisClient.del(otpKey);
+        await this.deleteFromStore(otpKey);
         throw new Error('OTP has expired');
       }
 
       // Check max attempts
       if (otpData.attempts >= MAX_ATTEMPTS) {
-        await redisClient.del(otpKey);
+        await this.deleteFromStore(otpKey);
         throw new Error('Maximum OTP verification attempts exceeded');
       }
 
       // Verify OTP
       if (otpData.otp === otp) {
         // Delete OTP after successful verification
-        await redisClient.del(otpKey);
+        await this.deleteFromStore(otpKey);
         logger.info(`OTP verified successfully for ${phoneNumber}`);
         return true;
       }
 
       // Increment attempts
       otpData.attempts += 1;
-      await redisClient.setEx(otpKey, OTP_TTL, JSON.stringify(otpData));
+      await this.setInStore(otpKey, JSON.stringify(otpData), OTP_TTL);
 
       throw new Error('Invalid OTP');
     } catch (error) {

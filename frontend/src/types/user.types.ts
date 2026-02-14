@@ -1,6 +1,7 @@
 export interface UserProfile {
   id: string;
   phoneNumber: string;
+  name?: string;
   phoneVerified: boolean;
   language: 'hi' | 'ta' | 'ml' | 'te' | 'kn' | 'en';
   farmProfile: {
@@ -21,6 +22,7 @@ export interface UserProfile {
 }
 
 export interface UpdateProfileRequest {
+  name?: string;
   language?: 'hi' | 'ta' | 'ml' | 'te' | 'kn' | 'en';
   farmProfile?: {
     location?: {

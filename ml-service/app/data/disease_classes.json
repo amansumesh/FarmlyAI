@@ -1,0 +1,304 @@
+{
+  "classes": [
+    {
+      "id": 0,
+      "name": "Tomato_Bacterial_spot",
+      "disease": "Bacterial Spot",
+      "crop": "Tomato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 1,
+      "name": "Tomato_Early_blight",
+      "disease": "Early Blight",
+      "crop": "Tomato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 2,
+      "name": "Tomato_Late_blight",
+      "disease": "Late Blight",
+      "crop": "Tomato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 3,
+      "name": "Tomato_Leaf_Mold",
+      "disease": "Leaf Mold",
+      "crop": "Tomato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 4,
+      "name": "Tomato_Septoria_leaf_spot",
+      "disease": "Septoria Leaf Spot",
+      "crop": "Tomato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 5,
+      "name": "Tomato_Spider_mites",
+      "disease": "Spider Mites",
+      "crop": "Tomato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 6,
+      "name": "Tomato_Target_Spot",
+      "disease": "Target Spot",
+      "crop": "Tomato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 7,
+      "name": "Tomato_Yellow_Leaf_Curl_Virus",
+      "disease": "Yellow Leaf Curl Virus",
+      "crop": "Tomato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 8,
+      "name": "Tomato_mosaic_virus",
+      "disease": "Mosaic Virus",
+      "crop": "Tomato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 9,
+      "name": "Tomato_healthy",
+      "disease": "Healthy",
+      "crop": "Tomato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 10,
+      "name": "Potato_Early_blight",
+      "disease": "Early Blight",
+      "crop": "Potato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 11,
+      "name": "Potato_Late_blight",
+      "disease": "Late Blight",
+      "crop": "Potato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 12,
+      "name": "Potato_healthy",
+      "disease": "Healthy",
+      "crop": "Potato",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 13,
+      "name": "Rice_Bacterial_leaf_blight",
+      "disease": "Bacterial Leaf Blight",
+      "crop": "Rice",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 14,
+      "name": "Rice_Blast",
+      "disease": "Blast",
+      "crop": "Rice",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 15,
+      "name": "Rice_Brown_spot",
+      "disease": "Brown Spot",
+      "crop": "Rice",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 16,
+      "name": "Rice_Leaf_smut",
+      "disease": "Leaf Smut",
+      "crop": "Rice",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 17,
+      "name": "Rice_healthy",
+      "disease": "Healthy",
+      "crop": "Rice",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 18,
+      "name": "Wheat_Brown_rust",
+      "disease": "Brown Rust",
+      "crop": "Wheat",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 19,
+      "name": "Wheat_Yellow_rust",
+      "disease": "Yellow Rust",
+      "crop": "Wheat",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 20,
+      "name": "Wheat_healthy",
+      "disease": "Healthy",
+      "crop": "Wheat",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 21,
+      "name": "Cotton_Bacterial_blight",
+      "disease": "Bacterial Blight",
+      "crop": "Cotton",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 22,
+      "name": "Cotton_Curl_virus",
+      "disease": "Curl Virus",
+      "crop": "Cotton",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 23,
+      "name": "Cotton_Fussarium_wilt",
+      "disease": "Fusarium Wilt",
+      "crop": "Cotton",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    },
+    {
+      "id": 24,
+      "name": "Cotton_healthy",
+      "disease": "Healthy",
+      "crop": "Cotton",
+      "severity_threshold": {
+        "low": 0.5,
+        "moderate": 0.7,
+        "high": 0.85,
+        "critical": 0.95
+      }
+    }
+  ]
+}

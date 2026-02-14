@@ -1,8 +1,13 @@
 import { useState, useCallback } from 'react';
+import { geocodingService } from '../services/geocoding.service';
 
 interface GeolocationState {
   latitude: number | null;
   longitude: number | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  district: string | null;
   error: string | null;
   loading: boolean;
 }
@@ -15,6 +20,10 @@ export const useGeolocation = (): GeolocationReturn => {
   const [state, setState] = useState<GeolocationState>({
     latitude: null,
     longitude: null,
+    address: null,
+    city: null,
+    state: null,
+    district: null,
     error: null,
     loading: false
   });
@@ -32,10 +41,26 @@ export const useGeolocation = (): GeolocationReturn => {
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        setState(prev => ({
+          ...prev,
+          latitude: lat,
+          longitude: lon,
+          loading: true
+        }));
+
+        const geocodeResult = await geocodingService.reverseGeocode(lat, lon);
+
         setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
+          latitude: lat,
+          longitude: lon,
+          address: geocodeResult?.address || null,
+          city: geocodeResult?.city || null,
+          state: geocodeResult?.state || null,
+          district: geocodeResult?.district || null,
           error: null,
           loading: false
         });
@@ -58,6 +83,10 @@ export const useGeolocation = (): GeolocationReturn => {
         setState({
           latitude: null,
           longitude: null,
+          address: null,
+          city: null,
+          state: null,
+          district: null,
           error: errorMessage,
           loading: false
         });
