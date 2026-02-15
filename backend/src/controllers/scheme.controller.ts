@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { getAllSchemes, getSchemeById, SchemeService } from "../services/scheme.service";
-import { User } from "../models/user.model";
-import { AuthRequest } from "../types/auth.types";
+import { getAllSchemes, getSchemeById, SchemeService } from "../services/scheme.service.js";
+import { User } from "../models/user.model.js";
+import { AuthRequest } from "../types/auth.types.js";
 
 export async function getSchemes(_req: Request, res: Response) {
   try {
