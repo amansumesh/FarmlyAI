@@ -69,7 +69,7 @@ export const PriceChart = ({ data, crop }: PriceChartProps) => {
           <Tooltip content={<CustomTooltip />} />
           <Legend
             wrapperStyle={{ fontSize: '14px', paddingTop: '10px', color: axisColor }}
-            formatter={(value) => <span style={{ color: axisColor }}>{t('market.price')}</span>}
+            formatter={(_value) => <span style={{ color: axisColor }}>{t('market.price')}</span>}
           />
           <Line
             type="monotone"
