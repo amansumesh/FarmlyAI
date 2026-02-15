@@ -18,6 +18,7 @@ export const ChatWidget: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+
   // Clear messages when user changes (logout/login)
   useEffect(() => {
     setMessages([]);
@@ -118,7 +119,7 @@ export const ChatWidget: React.FC = () => {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={t('chat.placeholder') || "Ask anything about farming..."}
+                placeholder={t('chat.voicePlaceholder')}
                 className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 text-sm transition-colors placeholder-gray-500 dark:placeholder-gray-400"
                 disabled={isLoading}
               />

@@ -16,9 +16,9 @@ const languages = [
   { code: 'en', name: 'English', icon: '🇬🇧' }
 ];
 
-export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ 
-  onSelect, 
-  className 
+export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
+  onSelect,
+  className
 }) => {
   const { i18n } = useTranslation();
 
@@ -39,16 +39,16 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
             'flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all',
             'hover:scale-105 active:scale-95',
             i18n.language === language.code
-              ? 'border-green-600 bg-green-50 shadow-md'
-              : 'border-gray-200 bg-white hover:border-green-300'
+              ? 'border-green-600 bg-green-50 dark:bg-green-900/30 dark:border-green-500 shadow-md'
+              : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-green-300 dark:hover:border-green-600'
           )}
         >
           <span className="text-4xl mb-2">{language.icon}</span>
           <span className={cn(
             'text-lg font-semibold',
             i18n.language === language.code
-              ? 'text-green-700'
-              : 'text-gray-700'
+              ? 'text-green-700 dark:text-green-400'
+              : 'text-gray-700 dark:text-gray-200'
           )}>
             {language.name}
           </span>

@@ -263,7 +263,7 @@ export const OnboardingPage: React.FC = () => {
             key={step}
             className={cn(
               'h-2 rounded-full transition-all',
-              index <= currentIndex ? 'w-8 bg-green-600' : 'w-2 bg-gray-300'
+              index <= currentIndex ? 'w-8 bg-green-600 dark:bg-green-500' : 'w-2 bg-gray-300 dark:bg-gray-600'
             )}
           />
         ))}
@@ -273,13 +273,13 @@ export const OnboardingPage: React.FC = () => {
 
   if (currentStep === 'complete') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4 transition-colors duration-200">
+        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center transition-colors duration-200">
           <div className="text-6xl mb-6">🎉</div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             {t('onboarding.allSet')}
           </h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-600 dark:text-gray-300 mb-8">
             {t('onboarding.readyMessage')}
           </p>
           <Button onClick={() => navigate('/home')} className="w-full" size="lg">
@@ -291,20 +291,20 @@ export const OnboardingPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4 py-8">
-      <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4 py-8 transition-colors duration-200">
+      <div className="max-w-2xl w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transition-colors duration-200">
         {currentStep !== 'language' && renderStepIndicator()}
 
         {currentStep === 'language' && (
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2 text-center">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 text-center transition-colors">
               {t('onboarding.welcome')}
             </h1>
-            <p className="text-gray-600 mb-2 text-center">{t('onboarding.subtitle')}</p>
-            <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
+            <p className="text-gray-600 dark:text-gray-400 mb-2 text-center transition-colors">{t('onboarding.subtitle')}</p>
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-6 text-center transition-colors">
               {t('onboarding.selectLanguage')}
             </h2>
-            <p className="text-gray-600 mb-6 text-center">
+            <p className="text-gray-600 dark:text-gray-400 mb-6 text-center transition-colors">
               {t('onboarding.languagePrompt')}
             </p>
             <LanguageSelector onSelect={setSelectedLanguage} />
@@ -316,10 +316,10 @@ export const OnboardingPage: React.FC = () => {
 
         {currentStep === 'name' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">
               What's your name?
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-400 mb-6 transition-colors">
               Let us know what to call you
             </p>
             <input
@@ -327,11 +327,11 @@ export const OnboardingPage: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter your name"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-lg"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-colors"
               autoFocus
             />
             {error && (
-              <p className="text-red-600 text-sm mt-2">{error}</p>
+              <p className="text-red-600 dark:text-red-400 text-sm mt-2 transition-colors">{error}</p>
             )}
             <div className="flex gap-4 mt-8">
               <Button onClick={handleBack} variant="secondary" size="lg" className="flex-1">
@@ -346,10 +346,10 @@ export const OnboardingPage: React.FC = () => {
 
         {currentStep === 'location' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">
               {t('onboarding.locationTitle')}
             </h2>
-            <p className="text-gray-600 mb-6">{t('onboarding.locationPrompt')}</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 transition-colors">{t('onboarding.locationPrompt')}</p>
 
             {!useManualLocation ? (
               <div className="space-y-4">
@@ -362,15 +362,15 @@ export const OnboardingPage: React.FC = () => {
                   📍 {t('onboarding.useCurrentLocation')}
                 </Button>
                 {latitude && longitude && (
-                  <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="text-sm text-green-800">
+                  <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg transition-colors">
+                    <p className="text-sm text-green-800 dark:text-green-300">
                       ✓ Location: {latitude.toFixed(6)}, {longitude.toFixed(6)}
                     </p>
                   </div>
                 )}
                 <button
                   onClick={() => setUseManualLocation(true)}
-                  className="w-full text-green-600 hover:text-green-700 font-medium"
+                  className="w-full text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium transition-colors"
                 >
                   {t('onboarding.enterManually')}
                 </button>
@@ -378,46 +378,46 @@ export const OnboardingPage: React.FC = () => {
             ) : (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                     {t('onboarding.address')}
                   </label>
                   <input
                     type="text"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 transition-colors"
                     placeholder={t('onboarding.address')}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                       {t('onboarding.state')}
                     </label>
                     <input
                       type="text"
                       value={state}
                       onChange={(e) => setState(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 transition-colors"
                       placeholder={t('onboarding.state')}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                       {t('onboarding.district')}
                     </label>
                     <input
                       type="text"
                       value={district}
                       onChange={(e) => setDistrict(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 transition-colors"
                       placeholder={t('onboarding.district')}
                     />
                   </div>
                 </div>
                 <button
                   onClick={() => setUseManualLocation(false)}
-                  className="text-green-600 hover:text-green-700 font-medium text-sm"
+                  className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium text-sm transition-colors"
                 >
                   ← {t('onboarding.useCurrentLocation')}
                 </button>
@@ -443,10 +443,10 @@ export const OnboardingPage: React.FC = () => {
 
         {currentStep === 'crops' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">
               {t('onboarding.cropsTitle')}
             </h2>
-            <p className="text-gray-600 mb-6">{t('onboarding.cropsPrompt')}</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 transition-colors">{t('onboarding.cropsPrompt')}</p>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {AVAILABLE_CROPS.map((crop) => (
@@ -456,16 +456,16 @@ export const OnboardingPage: React.FC = () => {
                   className={cn(
                     'p-4 rounded-lg border-2 transition-all text-left',
                     selectedCrops.includes(crop)
-                      ? 'border-green-600 bg-green-50'
-                      : 'border-gray-200 hover:border-green-300'
+                      ? 'border-green-600 bg-green-50 dark:bg-green-900/30 dark:border-green-500'
+                      : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-green-300 dark:hover:border-green-600'
                   )}
                 >
                   <div className="flex items-center gap-2">
                     <div className={cn(
                       'w-5 h-5 rounded border-2 flex items-center justify-center',
                       selectedCrops.includes(crop)
-                        ? 'border-green-600 bg-green-600'
-                        : 'border-gray-300'
+                        ? 'border-green-600 bg-green-600 dark:border-green-500 dark:bg-green-500'
+                        : 'border-gray-300 dark:border-gray-600'
                     )}>
                       {selectedCrops.includes(crop) && (
                         <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -475,7 +475,7 @@ export const OnboardingPage: React.FC = () => {
                     </div>
                     <span className={cn(
                       'font-medium',
-                      selectedCrops.includes(crop) ? 'text-green-700' : 'text-gray-700'
+                      selectedCrops.includes(crop) ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'
                     )}>
                       {t(`crops.${crop}`)}
                     </span>
@@ -485,8 +485,8 @@ export const OnboardingPage: React.FC = () => {
             </div>
 
             {error && (
-              <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-sm text-red-800">{error}</p>
+              <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg transition-colors">
+                <p className="text-sm text-red-800 dark:text-red-300">{error}</p>
               </div>
             )}
 
@@ -503,13 +503,13 @@ export const OnboardingPage: React.FC = () => {
 
         {currentStep === 'landSize' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">
               {t('onboarding.landSizeTitle')}
             </h2>
-            <p className="text-gray-600 mb-6">{t('onboarding.landSizePrompt')}</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 transition-colors">{t('onboarding.landSizePrompt')}</p>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
                 {t('onboarding.enterLandSize')}
               </label>
               <div className="relative">
@@ -519,18 +519,18 @@ export const OnboardingPage: React.FC = () => {
                   onChange={(e) => setLandSize(e.target.value)}
                   min="0"
                   step="0.1"
-                  className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 transition-colors"
                   placeholder="0.0"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 font-medium transition-colors">
                   {t('onboarding.acres')}
                 </span>
               </div>
             </div>
 
             {error && (
-              <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-sm text-red-800">{error}</p>
+              <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg transition-colors">
+                <p className="text-sm text-red-800 dark:text-red-300">{error}</p>
               </div>
             )}
 
@@ -547,10 +547,10 @@ export const OnboardingPage: React.FC = () => {
 
         {currentStep === 'soilType' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">
               {t('onboarding.soilTypeTitle')}
             </h2>
-            <p className="text-gray-600 mb-6">{t('onboarding.soilTypePrompt')}</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 transition-colors">{t('onboarding.soilTypePrompt')}</p>
 
             <div className="space-y-3">
               {SOIL_TYPES.map((type) => (
@@ -560,24 +560,24 @@ export const OnboardingPage: React.FC = () => {
                   className={cn(
                     'w-full p-4 rounded-lg border-2 transition-all text-left',
                     soilType === type
-                      ? 'border-green-600 bg-green-50'
-                      : 'border-gray-200 hover:border-green-300'
+                      ? 'border-green-600 bg-green-50 dark:bg-green-900/30 dark:border-green-500'
+                      : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-green-300 dark:hover:border-green-600'
                   )}
                 >
                   <div className="flex items-center gap-3">
                     <div className={cn(
                       'w-5 h-5 rounded-full border-2 flex items-center justify-center',
                       soilType === type
-                        ? 'border-green-600'
-                        : 'border-gray-300'
+                        ? 'border-green-600 dark:border-green-500'
+                        : 'border-gray-300 dark:border-gray-600'
                     )}>
                       {soilType === type && (
-                        <div className="w-3 h-3 rounded-full bg-green-600" />
+                        <div className="w-3 h-3 rounded-full bg-green-600 dark:bg-green-500" />
                       )}
                     </div>
                     <span className={cn(
                       'text-lg font-medium',
-                      soilType === type ? 'text-green-700' : 'text-gray-700'
+                      soilType === type ? 'text-green-700 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'
                     )}>
                       {t(`onboarding.soilTypes.${type}`)}
                     </span>
@@ -587,8 +587,8 @@ export const OnboardingPage: React.FC = () => {
             </div>
 
             {error && (
-              <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-sm text-red-800">{error}</p>
+              <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg transition-colors">
+                <p className="text-sm text-red-800 dark:text-red-300">{error}</p>
               </div>
             )}
 

@@ -47,7 +47,7 @@ export const SchemeCard = ({ scheme }: SchemeCardProps) => {
 
       <div className="mb-4">
         <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 transition-colors">
-          {t('schemes.benefits')}:
+          {t('schemes.benefitsTitle')}:
         </h4>
         <ul className="space-y-1">
           {scheme.benefits.map((benefit, index) => (
@@ -73,7 +73,7 @@ export const SchemeCard = ({ scheme }: SchemeCardProps) => {
 
       <div className="mb-4">
         <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 transition-colors">
-          {t('schemes.applicationSteps')}:
+          {t('schemes.applicationStepsTitle')}:
         </h4>
         <ol className="list-decimal list-inside space-y-1">
           {scheme.applicationSteps.map((step, index) => (
@@ -86,7 +86,7 @@ export const SchemeCard = ({ scheme }: SchemeCardProps) => {
 
       <div className="mb-4">
         <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 transition-colors">
-          {t('schemes.requiredDocuments')}:
+          {t('schemes.requiredDocumentsTitle')}:
         </h4>
         <div className="flex flex-wrap gap-2">
           {scheme.requiredDocuments.map((doc, index) => (

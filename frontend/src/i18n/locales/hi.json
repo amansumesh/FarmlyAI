@@ -212,8 +212,11 @@
     "subtitle": "आपके लिए उपलब्ध योजनाओं की खोज करें",
     "match": "मिलान",
     "benefits": "लाभ",
+    "benefitsTitle": "लाभ",
     "applicationSteps": "आवेदन कैसे करें",
+    "applicationStepsTitle": "आवेदन कैसे करें",
     "requiredDocuments": "आवश्यक दस्तावेज",
+    "requiredDocumentsTitle": "आवश्यक दस्तावेज",
     "applyNow": "अभी आवेदन करें",
     "eligibleCount": "आप {{count}} योजना(ओं) के लिए पात्र हैं",
     "noSchemes": "कोई योजना नहीं मिली",
@@ -307,5 +310,8 @@
     "minutesAgo": "{{count}}मि पहले",
     "hoursAgo": "{{count}}घं पहले",
     "daysAgo": "{{count}}दि पहले"
+  },
+  "chat": {
+    "voicePlaceholder": "मुझसे कुछ भी पूछें..."
   }
 }

@@ -7,10 +7,10 @@ interface OTPInputProps {
   error?: string;
 }
 
-export const OTPInput: React.FC<OTPInputProps> = ({ 
-  length = 6, 
+export const OTPInput: React.FC<OTPInputProps> = ({
+  length = 6,
   onComplete,
-  error 
+  error
 }) => {
   const [otp, setOtp] = useState<string[]>(Array(length).fill(''));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -43,7 +43,7 @@ export const OTPInput: React.FC<OTPInputProps> = ({
   const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text').slice(0, length);
-    
+
     if (!/^\d+$/.test(pastedData)) return;
 
     const newOtp = pastedData.split('').concat(Array(length).fill('')).slice(0, length);
@@ -74,16 +74,16 @@ export const OTPInput: React.FC<OTPInputProps> = ({
             onKeyDown={(e) => handleKeyDown(index, e)}
             onPaste={handlePaste}
             className={cn(
-              'w-12 h-14 text-center text-2xl font-semibold border-2 rounded-lg',
+              'w-12 h-14 text-center text-2xl font-semibold border-2 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white',
               'focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors',
-              error ? 'border-red-500' : 'border-gray-300'
+              error ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
             )}
             aria-label={`OTP digit ${index + 1}`}
           />
         ))}
       </div>
       {error && (
-        <p className="mt-2 text-sm text-red-600 text-center">{error}</p>
+        <p className="mt-2 text-sm text-red-600 dark:text-red-400 text-center">{error}</p>
       )}
     </div>
   );

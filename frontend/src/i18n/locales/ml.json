@@ -212,8 +212,11 @@
     "subtitle": "നിങ്ങൾക്ക് യോഗ്യതയുള്ള പദ്ധതികൾ കണ്ടെത്തുക",
     "match": "പൊരുത്തം",
     "benefits": "നേട്ടങ്ങൾ",
+    "benefitsTitle": "നേട്ടങ്ങൾ",
     "applicationSteps": "എങ്ങനെ അപേക്ഷിക്കാം",
+    "applicationStepsTitle": "എങ്ങനെ അപേക്ഷിക്കാം",
     "requiredDocuments": "ആവശ്യമായ രേഖകൾ",
+    "requiredDocumentsTitle": "ആവശ്യമായ രേഖകൾ",
     "applyNow": "ഇപ്പോൾ അപേക്ഷിക്കുക",
     "eligibleCount": "നിങ്ങൾ {{count}} പദ്ധതി(കൾ)ക്ക് യോഗ്യനാണ്",
     "noSchemes": "പദ്ധതികളൊന്നും കണ്ടെത്തിയില്ല",
@@ -307,5 +310,8 @@
     "minutesAgo": "{{count}}മിനിറ്റ് മുമ്പ്",
     "hoursAgo": "{{count}}മണിക്കൂർ മുമ്പ്",
     "daysAgo": "{{count}}ദിവസം മുമ്പ്"
+  },
+  "chat": {
+    "voicePlaceholder": "എന്നോട് എന്തും ചോദിക്കൂ..."
   }
 }

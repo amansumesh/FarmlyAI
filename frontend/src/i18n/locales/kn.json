@@ -212,8 +212,11 @@
     "subtitle": "ನೀವು ಅರ್ಹರಾಗಿರುವ ಯೋಜನೆಗಳನ್ನು ಕಂಡುಹಿಡಿಯಿರಿ",
     "match": "ಹೊಂದಾಣಿಕೆ",
     "benefits": "ಪ್ರಯೋಜನಗಳು",
+    "benefitsTitle": "ಪ್ರಯೋಜನಗಳು",
     "applicationSteps": "ಹೇಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸುವುದು",
+    "applicationStepsTitle": "ಹೇಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸುವುದು",
     "requiredDocuments": "ಅಗತ್ಯ ದಾಖಲೆಗಳು",
+    "requiredDocumentsTitle": "ಅಗತ್ಯ ದಾಖಲೆಗಳು",
     "applyNow": "ಈಗ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ",
     "eligibleCount": "ನೀವು {{count}} ಯೋಜನೆ/ಯೋಜನೆಗಳಿಗೆ ಅರ್ಹರಾಗಿದ್ದೀರಿ",
     "noSchemes": "ಯಾವುದೇ ಯೋಜನೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
@@ -307,5 +310,8 @@
     "minutesAgo": "{{count}}ನಿಮಿ ಹಿಂದೆ",
     "hoursAgo": "{{count}}ಗಂಟೆ ಹಿಂದೆ",
     "daysAgo": "{{count}}ದಿನ ಹಿಂದೆ"
+  },
+  "chat": {
+    "voicePlaceholder": "ನನ್ನನ್ನು ಏನು ಬೇಕಾದರೂ ಕೇಳಿ..."
   }
 }

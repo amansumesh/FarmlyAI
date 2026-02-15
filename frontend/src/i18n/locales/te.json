@@ -212,8 +212,11 @@
     "subtitle": "మీరు అర్హత పొందిన పథకాలను కనుగొనండి",
     "match": "సరిపోలిక",
     "benefits": "ప్రయోజనాలు",
+    "benefitsTitle": "ప్రయోజనాలు",
     "applicationSteps": "ఎలా దరఖాస్తు చేయాలి",
+    "applicationStepsTitle": "ఎలా దరఖాస్తు చేయాలి",
     "requiredDocuments": "అవసరమైన పత్రాలు",
+    "requiredDocumentsTitle": "అవసరమైన పత్రాలు",
     "applyNow": "ఇప్పుడు దరఖాస్తు చేయండి",
     "eligibleCount": "మీరు {{count}} పథకం/పథకాలకు అర్హులు",
     "noSchemes": "పథకాలు ఏవీ కనుగొనబడలేదు",
@@ -307,5 +310,8 @@
     "minutesAgo": "{{count}}నిమి క్రితం",
     "hoursAgo": "{{count}}గంట క్రితం",
     "daysAgo": "{{count}}రోజు క్రితం"
+  },
+  "chat": {
+    "voicePlaceholder": "నన్ను ఏదైనా అడగండి..."
   }
 }

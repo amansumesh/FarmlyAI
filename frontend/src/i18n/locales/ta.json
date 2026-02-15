@@ -212,8 +212,11 @@
     "subtitle": "நீங்கள் தகுதியான திட்டங்களைக் கண்டறியுங்கள்",
     "match": "பொருந்துதல்",
     "benefits": "நன்மைகள்",
+    "benefitsTitle": "நன்மைகள்",
     "applicationSteps": "விண்ணப்பிக்கும் முறை",
+    "applicationStepsTitle": "விண்ணப்பிக்கும் முறை",
     "requiredDocuments": "தேவையான ஆவணங்கள்",
+    "requiredDocumentsTitle": "தேவையான ஆவணங்கள்",
     "applyNow": "இப்போது விண்ணப்பிக்கவும்",
     "eligibleCount": "நீங்கள் {{count}} திட்டத்திற்கு/திட்டங்களுக்கு தகுதியானவர்",
     "noSchemes": "திட்டங்கள் எதுவும் இல்லை",
@@ -307,5 +310,8 @@
     "minutesAgo": "{{count}}நிமி முன்",
     "hoursAgo": "{{count}}மணி முன்",
     "daysAgo": "{{count}}நாள் முன்"
+  },
+  "chat": {
+    "voicePlaceholder": "என்னிடம் எதையும் கேளுங்கள்..."
   }
 }

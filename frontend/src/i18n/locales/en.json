@@ -212,8 +212,11 @@
     "subtitle": "Discover schemes you're eligible for",
     "match": "Match",
     "benefits": "Benefits",
+    "benefitsTitle": "Benefits",
     "applicationSteps": "How to Apply",
+    "applicationStepsTitle": "How to Apply",
     "requiredDocuments": "Required Documents",
+    "requiredDocumentsTitle": "Required Documents",
     "applyNow": "Apply Now",
     "eligibleCount": "You are eligible for {{count}} scheme(s)",
     "noSchemes": "No Schemes Found",
@@ -307,5 +310,8 @@
     "minutesAgo": "{{count}}m ago",
     "hoursAgo": "{{count}}h ago",
     "daysAgo": "{{count}}d ago"
+  },
+  "chat": {
+    "voicePlaceholder": "Ask me anything..."
   }
 }
