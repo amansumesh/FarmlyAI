@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { DiseaseDetectionResponse, DetectDiseaseRequest, AvailableCropsResponse, TreatmentRecommendation } from '../types/disease.types';
 
-const ML_API_URL = import.meta.env.VITE_ML_API_BASE_URL || 'http://localhost:8000';
+const ML_API_URL = import.meta.env.VITE_ML_API_URL || 'http://localhost:8000';
 
 class DiseaseService {
   async getAvailableCrops(): Promise<AvailableCropsResponse> {
@@ -14,7 +14,7 @@ class DiseaseService {
   async detectDisease(request: DetectDiseaseRequest): Promise<DiseaseDetectionResponse> {
     const isOnline = navigator.onLine;
     const mode = request.mode || (isOnline ? 'offline' : 'offline');
-    
+
     if (mode === 'online' && !isOnline) {
       throw new Error('You are offline. Online mode requires an internet connection.');
     }
@@ -53,53 +53,53 @@ class DiseaseService {
         throw new Error(data.error || 'Detection failed');
       }
 
-    if (data.mode === 'offline' && data.predictions) {
-      const recommendations: TreatmentRecommendation[] = [];
+      if (data.mode === 'offline' && data.predictions) {
+        const recommendations: TreatmentRecommendation[] = [];
 
-      const topPrediction = data.top_prediction || data.predictions[0];
-      
-      if (topPrediction?.treatments) {
-        if (topPrediction.treatments.organic?.length > 0) {
-          recommendations.push({
-            type: 'organic',
-            title: 'Organic Treatment',
-            description: 'Natural and organic solutions',
-            steps: topPrediction.treatments.organic
-          });
+        const topPrediction = data.top_prediction || data.predictions[0];
+
+        if (topPrediction?.treatments) {
+          if (topPrediction.treatments.organic?.length > 0) {
+            recommendations.push({
+              type: 'organic',
+              title: 'Organic Treatment',
+              description: 'Natural and organic solutions',
+              steps: topPrediction.treatments.organic
+            });
+          }
+
+          if (topPrediction.treatments.chemical?.length > 0) {
+            recommendations.push({
+              type: 'chemical',
+              title: 'Chemical Treatment',
+              description: 'Chemical pesticides and fungicides',
+              steps: topPrediction.treatments.chemical
+            });
+          }
+
+          if (topPrediction.treatments.preventive?.length > 0) {
+            recommendations.push({
+              type: 'preventive',
+              title: 'Preventive Measures',
+              description: 'Prevent future occurrences',
+              steps: topPrediction.treatments.preventive
+            });
+          }
         }
-        
-        if (topPrediction.treatments.chemical?.length > 0) {
-          recommendations.push({
-            type: 'chemical',
-            title: 'Chemical Treatment',
-            description: 'Chemical pesticides and fungicides',
-            steps: topPrediction.treatments.chemical
-          });
-        }
-        
-        if (topPrediction.treatments.preventive?.length > 0) {
-          recommendations.push({
-            type: 'preventive',
-            title: 'Preventive Measures',
-            description: 'Prevent future occurrences',
-            steps: topPrediction.treatments.preventive
-          });
-        }
+
+        return {
+          ...data,
+          recommendations,
+          localizedDisease: topPrediction?.disease,
+          predictions: data.predictions,
+          createdAt: new Date().toISOString()
+        };
       }
 
       return {
         ...data,
-        recommendations,
-        localizedDisease: topPrediction?.disease,
-        predictions: data.predictions,
         createdAt: new Date().toISOString()
       };
-    }
-
-    return {
-      ...data,
-      createdAt: new Date().toISOString()
-    };
     } catch (error: any) {
       if (error.response?.status === 429) {
         throw new Error('⏱️ AI service is busy. Please wait 1-2 minutes and try again. Free tier allows 15 requests per minute.');
