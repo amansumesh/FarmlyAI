@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getScheme, getSchemes, getEligibleSchemesMatch } from "../controllers/scheme.controller";
-import { authenticateToken } from "../middleware/auth.middleware";
+import { getScheme, getSchemes, getEligibleSchemesMatch } from "../controllers/scheme.controller.js";
+import { authenticateToken } from "../middleware/auth.middleware.js";
 
 const router: ReturnType<typeof Router> = Router();
 
