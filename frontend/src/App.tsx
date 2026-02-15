@@ -14,9 +14,7 @@ const OnboardingPage = lazy(() => import('./pages/OnboardingPage').then(m => ({ 
 import { ChatWidget } from './components/chat/ChatWidget'; // Chat Widget Import
 const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
 const DiseaseDetectionPage = lazy(() => import('./pages/DiseaseDetectionPage').then(m => ({ default: m.DiseaseDetectionPage })));
-const MarketPage = lazy(() => import('./pages/MarketPage').then(m => ({ default: m.MarketPage })));
 const MarketPageV2 = lazy(() => import('./pages/MarketPage.v2').then(m => ({ default: m.MarketPageV2 })));
-const MarketPageSimple = lazy(() => import('./pages/MarketPageSimple').then(m => ({ default: m.MarketPageSimple })));
 const AdvisoryPage = lazy(() => import('./pages/AdvisoryPage').then(m => ({ default: m.AdvisoryPage })));
 const SchemesPage = lazy(() => import('./pages/SchemesPage').then(m => ({ default: m.SchemesPage })));
 const ProfilePage = lazy(() => import('./pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
@@ -46,15 +44,15 @@ function AppRouter() {
   return (
     <Suspense fallback={<LoadingSpinner fullScreen size="lg" text="Loading..." />}>
       <Routes>
-        <Route 
-          path="/" 
+        <Route
+          path="/"
           element={
-            isAuthenticated 
-              ? user?.onboardingCompleted 
-                ? <Navigate to="/home" replace /> 
+            isAuthenticated
+              ? user?.onboardingCompleted
+                ? <Navigate to="/home" replace />
                 : <Navigate to="/onboarding" replace />
               : <LoginPage />
-          } 
+          }
         />
         <Route
           path="/onboarding"
@@ -88,22 +86,7 @@ function AppRouter() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/market-simple"
-          element={
-            <ProtectedRoute requireOnboarding>
-              <MarketPageSimple />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/market-full"
-          element={
-            <ProtectedRoute requireOnboarding>
-              <MarketPage />
-            </ProtectedRoute>
-          }
-        />
+
         <Route
           path="/advisory"
           element={
