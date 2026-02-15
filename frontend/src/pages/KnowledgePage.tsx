@@ -38,18 +38,31 @@ const KnowledgePage: React.FC = () => {
     return item.content[langKey] || item.content['english'];
   };
 
+  const getCropName = (crop: string) => {
+    return t(`knowledge.cropNames.${crop}`, crop);
+  };
+
+  const getDiseaseName = (disease: string) => {
+    return t(`knowledge.diseaseNames.${disease}`, disease);
+  };
+
   const filteredData = useMemo(() => {
     return knowledgeData.filter((item) => {
       const content = getContent(item);
       if (!content) return false;
-      
+
       const searchLower = searchQuery.toLowerCase();
-      
+
       if (selectedCategory !== 'all' && item.category !== selectedCategory) return false;
+
+      const localizedCrop = getCropName(item.crop).toLowerCase();
+      const localizedDisease = getDiseaseName(item.disease).toLowerCase();
 
       return (
         item.crop.toLowerCase().includes(searchLower) ||
         item.disease.toLowerCase().includes(searchLower) ||
+        localizedCrop.includes(searchLower) ||
+        localizedDisease.includes(searchLower) ||
         content.symptoms.toLowerCase().includes(searchLower)
       );
     });
@@ -64,7 +77,7 @@ const KnowledgePage: React.FC = () => {
             {t('knowledge.title')}
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            {filteredData.length} articles available offline
+            {t('knowledge.articlesAvailable', { count: filteredData.length })}
           </p>
         </div>
       </div>
@@ -90,11 +103,10 @@ const KnowledgePage: React.FC = () => {
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-colors ${
-                  isSelected
-                    ? 'bg-green-600 text-white'
-                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700'
-                }`}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-colors ${isSelected
+                  ? 'bg-green-600 text-white'
+                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700'
+                  }`}
               >
                 <Icon size={16} />
                 <span>{cat.label}</span>
@@ -108,8 +120,8 @@ const KnowledgePage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <AnimatePresence>
           {filteredData.map((item) => {
-             const content = getContent(item);
-             return (
+            const content = getContent(item);
+            return (
               <motion.div
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -121,15 +133,15 @@ const KnowledgePage: React.FC = () => {
               >
                 <div className="flex justify-between items-start mb-3">
                   <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded-md">
-                    {item.crop}
+                    {getCropName(item.crop)}
                   </span>
                   <ChevronRight className="text-gray-400 h-5 w-5" />
                 </div>
-                
+
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  {item.disease}
+                  {getDiseaseName(item.disease)}
                 </h3>
-                
+
                 <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
                   {content.symptoms}
                 </p>
@@ -161,17 +173,17 @@ const KnowledgePage: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-6 sm:hidden" />
-              
+
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <span className="text-green-600 dark:text-green-400 font-medium text-sm tracking-wide uppercase">
-                    {selectedItem.crop}
+                    {getCropName(selectedItem.crop)}
                   </span>
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                    {selectedItem.disease}
+                    {getDiseaseName(selectedItem.disease)}
                   </h2>
                 </div>
-                <button 
+                <button
                   onClick={() => setSelectedItem(null)}
                   className="p-2 bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-gray-200 transition-colors"
                 >
@@ -184,7 +196,7 @@ const KnowledgePage: React.FC = () => {
                 <Section title={t('knowledge.treatment')} content={getContent(selectedItem).treatment} color="text-blue-600" />
                 <Section title={t('knowledge.prevention')} content={getContent(selectedItem).prevention} color="text-green-600" />
               </div>
-              
+
               <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
                 <button
                   onClick={() => setSelectedItem(null)}

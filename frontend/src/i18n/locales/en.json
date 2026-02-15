@@ -241,9 +241,14 @@
     "version": "Farmly AI v1.0",
     "tagline": "Smart Farming Platform"
   },
+  "home": {
+    "quickAccess": "Quick Access"
+  },
   "knowledge": {
     "title": "Knowledge Bank",
+    "subtitle": "Offline Farming Guide",
     "searchPlaceholder": "Search crops, diseases...",
+    "articlesAvailable": "{{count}} articles available offline",
     "categories": "Categories",
     "all": "All",
     "cropCultivation": "Crop Cultivation",
@@ -253,7 +258,45 @@
     "symptoms": "Symptoms",
     "treatment": "Treatment",
     "prevention": "Prevention",
-    "readMore": "Read More"
+    "readMore": "Read More",
+    "cropNames": {
+      "Rice (Paddy)": "Rice (Paddy)",
+      "Wheat": "Wheat",
+      "Tomato": "Tomato",
+      "Cotton": "Cotton",
+      "Sugarcane": "Sugarcane",
+      "Potato": "Potato",
+      "Chilli": "Chilli",
+      "Maize": "Maize",
+      "General Farming": "General Farming",
+      "Farmly App": "Farmly App"
+    },
+    "diseaseNames": {
+      "Cultivation Guide": "Cultivation Guide",
+      "Blast Disease": "Blast Disease",
+      "Bacterial Leaf Blight": "Bacterial Leaf Blight",
+      "Brown Plant Hopper": "Brown Plant Hopper",
+      "Sheath Blight": "Sheath Blight",
+      "Rusts (Yellow, Brown, Black)": "Rusts (Yellow, Brown, Black)",
+      "Loose Smut": "Loose Smut",
+      "Early Blight": "Early Blight",
+      "Late Blight": "Late Blight",
+      "Tomato Leaf Curl Virus": "Tomato Leaf Curl Virus",
+      "Pink Bollworm": "Pink Bollworm",
+      "Leaf Curl Virus": "Leaf Curl Virus",
+      "Red Rot": "Red Rot",
+      "Smut": "Smut",
+      "Anthracnose / Fruit Rot": "Anthracnose / Fruit Rot",
+      "Fall Armyworm": "Fall Armyworm",
+      "Soil Health Management": "Soil Health Management",
+      "Drip Irrigation": "Drip Irrigation",
+      "Integrated Pest Management (IPM)": "Integrated Pest Management (IPM)",
+      "Language Selection": "Language Selection",
+      "Voice Query": "Voice Query",
+      "Disease Detection": "Disease Detection",
+      "Offline Mode": "Offline Mode",
+      "Weather Updates": "Weather Updates"
+    }
   },
   "history": {
     "title": "Recent Activity",

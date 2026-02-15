@@ -241,9 +241,14 @@
     "version": "फार्मली एआई v1.0",
     "tagline": "स्मार्ट खेती प्लेटफॉर्म"
   },
+  "home": {
+    "quickAccess": "त्वरित पहुँच"
+  },
   "knowledge": {
     "title": "ज्ञान भंडार",
+    "subtitle": "ऑफ़लाइन खेती गाइड",
     "searchPlaceholder": "फसलें, रोग खोजें...",
+    "articlesAvailable": "{{count}} लेख ऑफ़लाइन उपलब्ध",
     "categories": "श्रेणियाँ",
     "all": "सभी",
     "cropCultivation": "फसल खेती",
@@ -253,7 +258,45 @@
     "symptoms": "लक्षण",
     "treatment": "उपचार",
     "prevention": "रोकथाम",
-    "readMore": "और पढ़ें"
+    "readMore": "और पढ़ें",
+    "cropNames": {
+      "Rice (Paddy)": "धान (चावल)",
+      "Wheat": "गेहूं",
+      "Tomato": "टमाटर",
+      "Cotton": "कपास",
+      "Sugarcane": "गन्ना",
+      "Potato": "आलू",
+      "Chilli": "मिर्च",
+      "Maize": "मक्का",
+      "General Farming": "सामान्य खेती",
+      "Farmly App": "फार्मली ऐप"
+    },
+    "diseaseNames": {
+      "Cultivation Guide": "खेती गाइड",
+      "Blast Disease": "ब्लास्ट रोग",
+      "Bacterial Leaf Blight": "जीवाणु पत्ती अंगमारी",
+      "Brown Plant Hopper": "भूरा पौधा माहू",
+      "Sheath Blight": "शीथ ब्लाइट",
+      "Rusts (Yellow, Brown, Black)": "रस्ट (पीला, भूरा, काला)",
+      "Loose Smut": "खुला कंड",
+      "Early Blight": "अगेती अंगमारी",
+      "Late Blight": "पछेती अंगमारी",
+      "Tomato Leaf Curl Virus": "टमाटर पत्ती मोड़ विषाणु",
+      "Pink Bollworm": "गुलाबी सुंडी",
+      "Leaf Curl Virus": "पत्ती मोड़ विषाणु",
+      "Red Rot": "लाल सड़न",
+      "Smut": "कंड रोग",
+      "Anthracnose / Fruit Rot": "एन्थ्रेक्नोज / फल सड़न",
+      "Fall Armyworm": "सैनिक कीट",
+      "Soil Health Management": "मृदा स्वास्थ्य प्रबंधन",
+      "Drip Irrigation": "ड्रिप सिंचाई",
+      "Integrated Pest Management (IPM)": "एकीकृत कीट प्रबंधन (IPM)",
+      "Language Selection": "भाषा चयन",
+      "Voice Query": "आवाज से पूछें",
+      "Disease Detection": "रोग पहचान",
+      "Offline Mode": "ऑफ़लाइन मोड",
+      "Weather Updates": "मौसम अपडेट"
+    }
   },
   "history": {
     "title": "हाल की गतिविधि",

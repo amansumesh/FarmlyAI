@@ -63,8 +63,8 @@ export const HomePage: React.FC = () => {
       ),
     },
     {
-      title: t('knowledge.title', 'Knowledge Bank'),
-      subtitle: t('knowledge.subtitle', 'Offline Farming Guide'),
+      title: t('knowledge.title'),
+      subtitle: t('knowledge.subtitle'),
       path: '/knowledge',
       gradient: 'from-teal-500 to-teal-600',
       icon: (
@@ -132,7 +132,7 @@ export const HomePage: React.FC = () => {
 
         <div className="animate-scale-in" style={{ animationDelay: '0.2s' }}>
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Quick Access
+            {t('home.quickAccess')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {featureCards.map((card, index) => (
