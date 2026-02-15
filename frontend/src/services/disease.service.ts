@@ -13,7 +13,7 @@ class DiseaseService {
 
   async detectDisease(request: DetectDiseaseRequest): Promise<DiseaseDetectionResponse> {
     const isOnline = navigator.onLine;
-    const mode = request.mode || (isOnline ? 'offline' : 'offline');
+    const mode = request.mode || (isOnline ? 'online' : 'offline');
 
     if (mode === 'online' && !isOnline) {
       throw new Error('You are offline. Online mode requires an internet connection.');

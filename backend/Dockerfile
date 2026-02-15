@@ -2,23 +2,29 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Install python + pip
+RUN apk add --no-cache python3 py3-pip
+
 # Install pnpm
 RUN npm install -g pnpm
 
 # Copy package files
 COPY package.json ./
 
-# Install dependencies (no lockfile in subfolder)
+# Install node deps
 RUN pnpm install
 
-# Copy source code
+# Copy all source code
 COPY . .
 
-# Build the application
+# Install python deps for rag
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Build TS
 RUN pnpm run build
 
-# Expose port
+# Expose backend port
 EXPOSE 4000
 
-# Start the application
-CMD ["pnpm", "start"]
+# Start both RAG + Node backend
+CMD sh -c "python3 rag_service.py & pnpm start"
