@@ -33,11 +33,11 @@ export const LoginPage: React.FC = () => {
 
     try {
       const response = await authService.sendOTP(phoneNumber);
-      
+
       if (response.success) {
         setOtpExpiry(response.expiresIn);
         setStep('otp');
-        
+
         // Show OTP in development mode
         if (response.otp) {
           console.log('Development OTP:', response.otp);
@@ -60,7 +60,7 @@ export const LoginPage: React.FC = () => {
 
     try {
       await login(phoneNumber, otp);
-      
+
       // Navigate based on onboarding status
       const user = useAuthStore.getState().user;
       if (user?.onboardingCompleted) {
@@ -84,10 +84,10 @@ export const LoginPage: React.FC = () => {
 
     try {
       const response = await authService.sendOTP(phoneNumber);
-      
+
       if (response.success) {
         setOtpExpiry(response.expiresIn);
-        
+
         // Show OTP in development mode
         if (response.otp) {
           console.log('Development OTP:', response.otp);
@@ -110,8 +110,8 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4 transition-colors duration-200">
+      <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transition-colors duration-200">
         {/* Logo and Header */}
         <div className="text-center mb-8">
           <div className="inline-block bg-green-600 text-white rounded-full p-4 mb-4">
@@ -129,9 +129,9 @@ export const LoginPage: React.FC = () => {
               />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Farmly AI</h1>
-          <p className="text-gray-600 mt-2">
-            {step === 'phone' 
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white transition-colors">Farmly AI</h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-2 transition-colors">
+            {step === 'phone'
               ? 'Enter your phone number to get started'
               : 'Enter the OTP sent to your phone'
             }
@@ -160,7 +160,7 @@ export const LoginPage: React.FC = () => {
               Send OTP
             </Button>
 
-            <p className="text-xs text-gray-500 text-center">
+            <p className="text-xs text-gray-500 dark:text-gray-400 text-center transition-colors">
               By continuing, you agree to receive SMS messages for verification
             </p>
           </form>
@@ -170,12 +170,12 @@ export const LoginPage: React.FC = () => {
         {step === 'otp' && (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-300 transition-colors">
                 OTP sent to <span className="font-semibold">{phoneNumber}</span>
               </p>
               <button
                 onClick={handleBackToPhone}
-                className="text-sm text-green-600 hover:underline mt-1"
+                className="text-sm text-green-600 dark:text-green-400 hover:underline mt-1 transition-colors"
               >
                 Change number
               </button>
@@ -188,14 +188,14 @@ export const LoginPage: React.FC = () => {
             />
 
             <div className="text-center space-y-2">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-300 transition-colors">
                 {otpExpiry > 0 && `OTP expires in ${Math.floor(otpExpiry / 60)} minutes`}
               </p>
-              
+
               <button
                 onClick={handleResendOTP}
                 disabled={loading}
-                className="text-sm text-green-600 hover:underline disabled:text-gray-400"
+                className="text-sm text-green-600 dark:text-green-400 hover:underline disabled:text-gray-400 dark:disabled:text-gray-500 transition-colors"
               >
                 Resend OTP
               </button>

@@ -12,9 +12,9 @@ interface VoiceInputProps {
   className?: string;
 }
 
-export const VoiceInput: React.FC<VoiceInputProps> = ({ 
+export const VoiceInput: React.FC<VoiceInputProps> = ({
   onQueryComplete,
-  className 
+  className
 }) => {
   const { t, i18n } = useTranslation();
   const { user } = useAuthStore();
@@ -54,48 +54,48 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
 
   const generateSmartResponse = (query: string): string => {
     const lowerQuery = query.toLowerCase();
-    
+
     if (lowerQuery.includes('worm') || lowerQuery.includes('pest') || lowerQuery.includes('insect') || lowerQuery.includes('bug')) {
       return 'I detect you have a pest problem in your tomatoes. For worms/caterpillars:\n\n' +
-             '1. ORGANIC: Spray Neem oil solution (5ml per liter) every 3 days\n' +
-             '2. ORGANIC: Apply Bacillus thuringiensis (BT) spray\n' +
-             '3. CHEMICAL: Use Chlorantraniliprole 18.5% SC @ 0.3ml/liter\n\n' +
-             'Pick and destroy affected fruits. Check plants daily in early morning.';
+        '1. ORGANIC: Spray Neem oil solution (5ml per liter) every 3 days\n' +
+        '2. ORGANIC: Apply Bacillus thuringiensis (BT) spray\n' +
+        '3. CHEMICAL: Use Chlorantraniliprole 18.5% SC @ 0.3ml/liter\n\n' +
+        'Pick and destroy affected fruits. Check plants daily in early morning.';
     }
-    
+
     if (lowerQuery.includes('disease') || lowerQuery.includes('spot') || lowerQuery.includes('yellow') || lowerQuery.includes('curl')) {
       return 'Your tomato plants may have a disease. Common issues:\n\n' +
-             '1. Early Blight (brown spots): Spray Mancozeb @ 2g/liter\n' +
-             '2. Leaf Curl Virus: Remove affected plants, control whiteflies\n' +
-             '3. Yellowing: May need nitrogen - apply urea @ 5g per plant\n\n' +
-             'Ensure proper spacing and avoid overhead watering.';
+        '1. Early Blight (brown spots): Spray Mancozeb @ 2g/liter\n' +
+        '2. Leaf Curl Virus: Remove affected plants, control whiteflies\n' +
+        '3. Yellowing: May need nitrogen - apply urea @ 5g per plant\n\n' +
+        'Ensure proper spacing and avoid overhead watering.';
     }
-    
+
     if (lowerQuery.includes('price') || lowerQuery.includes('market') || lowerQuery.includes('sell')) {
       return 'Today tomato price is ₹25-30 per kg. Prices are good in the nearby market. ' +
-             'There is a possibility of price increase in the next 3 days. ' +
-             'Consider holding for 2-3 more days if your produce is fresh.';
+        'There is a possibility of price increase in the next 3 days. ' +
+        'Consider holding for 2-3 more days if your produce is fresh.';
     }
-    
+
     if (lowerQuery.includes('fertilizer') || lowerQuery.includes('nutrition') || lowerQuery.includes('growth')) {
       return 'For tomato fertilization:\n\n' +
-             '1. Before flowering: NPK 19:19:19 @ 5g per plant weekly\n' +
-             '2. During flowering: NPK 13:0:45 @ 5g per plant\n' +
-             '3. Foliar spray: Micronutrient mix every 15 days\n\n' +
-             'Also apply compost or vermicompost @ 1kg per plant monthly.';
+        '1. Before flowering: NPK 19:19:19 @ 5g per plant weekly\n' +
+        '2. During flowering: NPK 13:0:45 @ 5g per plant\n' +
+        '3. Foliar spray: Micronutrient mix every 15 days\n\n' +
+        'Also apply compost or vermicompost @ 1kg per plant monthly.';
     }
-    
+
     if (lowerQuery.includes('water') || lowerQuery.includes('irrigation') || lowerQuery.includes('drip')) {
       return 'Tomato watering guidelines:\n\n' +
-             '1. Summer: Water daily in morning (2-3 liters per plant)\n' +
-             '2. Winter: Water every 2-3 days\n' +
-             '3. Drip irrigation: 30-45 minutes daily\n\n' +
-             'Avoid water on leaves. Mulch around plants to retain moisture.';
+        '1. Summer: Water daily in morning (2-3 liters per plant)\n' +
+        '2. Winter: Water every 2-3 days\n' +
+        '3. Drip irrigation: 30-45 minutes daily\n\n' +
+        'Avoid water on leaves. Mulch around plants to retain moisture.';
     }
-    
+
     return 'I heard your farming question. For specific advice about tomato cultivation, disease management, or market prices, ' +
-           'please try asking about: pest control, diseases, prices, fertilizers, or watering. ' +
-           'You can also visit your nearest Krishi Vigyan Kendra for personalized guidance.';
+      'please try asking about: pest control, diseases, prices, fertilizers, or watering. ' +
+      'You can also visit your nearest Krishi Vigyan Kendra for personalized guidance.';
   };
 
   const handleSubmit = async () => {
@@ -108,9 +108,9 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
 
     try {
       // Use i18n.language to ensure we use the current UI language, not the potentially stale user profile language
-      const currentLanguage = i18n.language; 
+      const currentLanguage = i18n.language;
       const result = await voiceService.submitVoiceQuery(audioBlob, currentLanguage, liveTranscript.trim() || undefined);
-      
+
       setTranscription(result.query.transcription);
       setResponseText(result.response.text);
       setResponseAudioUrl(result.response.audioUrl);
@@ -121,11 +121,11 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
       }
     } catch (err) {
       console.error('Voice query failed, using demo mode with real transcript:', err);
-      
+
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       const smartResponse = generateSmartResponse(userTranscript);
-      
+
       setTranscription(userTranscript);
       setResponseText(smartResponse);
       setProcessingTime(1520);
@@ -153,29 +153,23 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
   };
 
   return (
-    <div className={cn('bg-white rounded-lg border border-gray-200 p-6', className)}>
-      <div className="mb-4 p-2 bg-blue-50 border border-blue-200 rounded text-center">
-        <p className="text-xs text-blue-700">
-          🎤 <strong>Smart Demo Mode</strong>: Real speech recognition + AI-powered responses (backend not required)
-        </p>
-      </div>
-
+    <div className={cn('bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-200', className)}>
       <div className="text-center">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 transition-colors">
           {t('voice.title')}
         </h3>
-        <p className="text-sm text-gray-600 mb-6">
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 transition-colors">
           {t('voice.subtitle')}
         </p>
 
         {!hasPermission && recordingError && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-800">
+          <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-800 dark:text-red-300 transition-colors">
             {recordingError}
           </div>
         )}
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-800">
+          <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-800 dark:text-red-300 transition-colors">
             {error}
           </div>
         )}
@@ -184,7 +178,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
           <div className="space-y-4">
             <button
               onClick={handleStartRecording}
-              className="mx-auto w-20 h-20 flex items-center justify-center rounded-full bg-green-600 text-white hover:bg-green-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300 shadow-lg"
+              className="mx-auto w-20 h-20 flex items-center justify-center rounded-full bg-green-600 dark:bg-green-700 text-white hover:bg-green-700 dark:hover:bg-green-600 transition-all transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800 shadow-lg"
               aria-label={t('voice.startRecording')}
             >
               <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
@@ -192,7 +186,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
                 <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
               </svg>
             </button>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors">
               {t('voice.tapToRecord')}
             </p>
           </div>
@@ -201,10 +195,10 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
         {isRecording && (
           <div className="space-y-4">
             <div className="relative mx-auto w-20 h-20">
-              <div className="absolute inset-0 rounded-full border-4 border-red-400 animate-ping pointer-events-none" />
+              <div className="absolute inset-0 rounded-full border-4 border-red-400 dark:border-red-600 animate-ping pointer-events-none" />
               <button
                 onClick={handleStopRecording}
-                className="relative z-10 w-full h-full flex items-center justify-center rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors focus:outline-none focus:ring-4 focus:ring-red-300 shadow-lg cursor-pointer"
+                className="relative z-10 w-full h-full flex items-center justify-center rounded-full bg-red-600 dark:bg-red-700 text-white hover:bg-red-700 dark:hover:bg-red-600 transition-colors focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 shadow-lg cursor-pointer"
                 aria-label={t('voice.stopRecording')}
                 type="button"
               >
@@ -212,19 +206,19 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
               </button>
             </div>
             <div className="space-y-2">
-              <p className="text-sm text-gray-600 font-medium animate-pulse">
+              <p className="text-sm text-gray-600 dark:text-gray-400 font-medium animate-pulse transition-colors">
                 {t('voice.recording')}
               </p>
-              <p className="text-2xl font-mono font-bold text-red-600">
+              <p className="text-2xl font-mono font-bold text-red-600 dark:text-red-400 transition-colors">
                 {formatDuration(recordingDuration)}
               </p>
               {liveTranscript && (
-                <div className="mt-3 p-2 bg-gray-50 border border-gray-200 rounded text-left">
-                  <p className="text-xs text-gray-500 mb-1">Live transcript:</p>
-                  <p className="text-sm text-gray-800">{liveTranscript}</p>
+                <div className="mt-3 p-2 bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded text-left transition-colors">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 transition-colors">Live transcript:</p>
+                  <p className="text-sm text-gray-800 dark:text-gray-200 transition-colors">{liveTranscript}</p>
                 </div>
               )}
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400 transition-colors">
                 Tap the red button to stop
               </p>
             </div>
@@ -234,17 +228,17 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
         {recordingState === 'stopped' && audioUrl && !transcription && (
           <div className="space-y-4">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-green-600 dark:text-green-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
               </svg>
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors">
                 {t('voice.recordingComplete')}
               </span>
             </div>
 
-            <AudioPlayer 
-              audioUrl={audioUrl} 
-              className="mb-4" 
+            <AudioPlayer
+              audioUrl={audioUrl}
+              className="mb-4"
               fallbackDuration={recordingDuration}
             />
 
@@ -262,7 +256,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
         {isProcessing && (
           <div className="space-y-3">
             <div className="flex justify-center">
-              <svg className="animate-spin h-10 w-10 text-green-600" viewBox="0 0 24 24">
+              <svg className="animate-spin h-10 w-10 text-green-600 dark:text-green-400 transition-colors" viewBox="0 0 24 24">
                 <circle
                   className="opacity-25"
                   cx="12"
@@ -279,7 +273,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
                 />
               </svg>
             </div>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors">
               {t('voice.processing')}
             </p>
           </div>
@@ -287,27 +281,27 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
 
         {transcription && responseText && (
           <div className="space-y-4 text-left">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-blue-900 mb-2">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 transition-colors">
+              <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2 transition-colors">
                 {t('voice.yourQuestion')}
               </h4>
-              <p className="text-sm text-blue-800">
+              <p className="text-sm text-blue-800 dark:text-blue-200 transition-colors">
                 "{transcription}"
               </p>
             </div>
 
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h4 className="text-sm font-semibold text-green-900 mb-2">
+            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 transition-colors">
+              <h4 className="text-sm font-semibold text-green-900 dark:text-green-300 mb-2 transition-colors">
                 {t('voice.response')}
               </h4>
-              <p className="text-sm text-green-800 whitespace-pre-wrap">
+              <p className="text-sm text-green-800 dark:text-green-200 whitespace-pre-wrap transition-colors">
                 {responseText}
               </p>
             </div>
 
             {responseAudioUrl && responseAudioUrl.length > 0 && (
               <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-2">
+                <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 transition-colors">
                   {t('voice.listenToResponse')}
                 </h4>
                 <AudioPlayer audioUrl={responseAudioUrl} autoPlay />
@@ -315,7 +309,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
             )}
 
             {processingTime > 0 && (
-              <p className="text-xs text-gray-500 text-center">
+              <p className="text-xs text-gray-500 dark:text-gray-400 text-center transition-colors">
                 {t('voice.processedIn', { time: (processingTime / 1000).toFixed(2) })}
               </p>
             )}

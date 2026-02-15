@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Search, BookOpen, ChevronRight, Sprout, Bug, Settings, Leaf } from 'lucide-react';
+import { Search, BookOpen, ChevronRight, Sprout, Bug, Settings, Leaf, ChevronLeft } from 'lucide-react';
+import { Button } from '../components/common/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 import knowledgeDataRaw from '../data/knowledge.json';
 import { KnowledgeItem, LanguageCode } from '../types/knowledge.types';
@@ -10,6 +12,7 @@ const knowledgeData = knowledgeDataRaw as unknown as KnowledgeItem[];
 
 const KnowledgePage: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedItem, setSelectedItem] = useState<KnowledgeItem | null>(null);
@@ -71,7 +74,15 @@ const KnowledgePage: React.FC = () => {
   return (
     <div className="pb-24 pt-6 px-4 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center gap-4 mb-6">
+        <Button
+          onClick={() => navigate('/home')}
+          variant="secondary"
+          size="sm"
+          className="rounded-full w-10 h-10 p-0 flex items-center justify-center shrink-0"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </Button>
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             {t('knowledge.title')}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ChevronLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
@@ -60,10 +61,10 @@ export const DiseaseDetectionPage: React.FC = () => {
 
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
-    
+
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-    
+
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
@@ -129,8 +130,8 @@ export const DiseaseDetectionPage: React.FC = () => {
       const error = err as { response?: { data?: { message?: string } }; message?: string };
       setError(
         error.response?.data?.message ||
-          error.message ||
-          t('disease.errors.analysisFailed')
+        error.message ||
+        t('disease.errors.analysisFailed')
       );
       setPageState('error');
     }
@@ -161,33 +162,23 @@ export const DiseaseDetectionPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
-      <div className="bg-white shadow-sm border-b sticky top-0 z-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20 md:pb-8 transition-colors duration-200">
+      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 transition-colors duration-200">
         <div className="max-w-3xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
-            <button
+            <Button
               onClick={handleGoBack}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              variant="secondary"
+              size="sm"
+              className="rounded-full w-10 h-10 p-0 flex items-center justify-center shrink-0"
             >
-              <svg
-                className="w-6 h-6 text-gray-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
+              <ChevronLeft className="w-5 h-5" />
+            </Button>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white transition-colors">
                 {t('disease.title')}
               </h1>
-              <p className="text-sm text-gray-600">{t('disease.subtitle')}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors">{t('disease.subtitle')}</p>
             </div>
           </div>
         </div>
@@ -196,22 +187,22 @@ export const DiseaseDetectionPage: React.FC = () => {
       <div className="max-w-3xl mx-auto px-4 py-6">
         {pageState === 'selectCrop' && (
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-2">
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6 transition-colors">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 transition-colors">
                 Select Your Crop
               </h2>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-300 transition-colors">
                 Choose the type of plant you want to diagnose
               </p>
             </div>
 
             {!isOnline && (
-              <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+              <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4 transition-colors">
                 <div className="flex gap-3">
-                  <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-orange-600 dark:text-orange-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
-                  <div className="text-sm text-orange-800">
+                  <div className="text-sm text-orange-800 dark:text-orange-200">
                     <p className="font-semibold">Offline Mode</p>
                     <p>Only available crops can be detected. "Other Plants" requires internet.</p>
                   </div>
@@ -224,17 +215,17 @@ export const DiseaseDetectionPage: React.FC = () => {
                 <button
                   key={crop}
                   onClick={() => handleCropSelect(crop as CropType)}
-                  className="bg-white border-2 border-gray-200 hover:border-green-500 hover:bg-green-50 rounded-lg p-4 transition-all text-left group"
+                  className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-500 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg p-4 transition-all text-left group"
                 >
                   <div className="flex items-center gap-4">
                     <div className="text-4xl">{getCropDisplayName(crop).split(' ')[0]}</div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 group-hover:text-green-700">
+                      <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-green-700 dark:group-hover:text-green-400 transition-colors">
                         {getCropDisplayName(crop).split(' ').slice(1).join(' ')}
                       </h3>
-                      <p className="text-sm text-gray-500">Tap to select</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 transition-colors">Tap to select</p>
                     </div>
-                    <svg className="w-6 h-6 text-gray-400 group-hover:text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-gray-400 dark:text-gray-500 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
@@ -269,22 +260,22 @@ export const DiseaseDetectionPage: React.FC = () => {
             <div className="flex items-center gap-3 mb-4">
               <button
                 onClick={handleBackToCropSelection}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
               >
-                <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
               <div className="flex-1">
-                <p className="text-sm text-gray-600">Selected Crop:</p>
-                <p className="font-semibold text-gray-900">{selectedCrop && getCropDisplayName(selectedCrop)}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors">Selected Crop:</p>
+                <p className="font-semibold text-gray-900 dark:text-white transition-colors">{selectedCrop && getCropDisplayName(selectedCrop)}</p>
               </div>
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 transition-colors">
               <div className="flex gap-3">
                 <svg
-                  className="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5"
+                  className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -296,7 +287,7 @@ export const DiseaseDetectionPage: React.FC = () => {
                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <div className="flex-1 text-sm text-blue-800">
+                <div className="flex-1 text-sm text-blue-800 dark:text-blue-200 transition-colors">
                   <p className="font-semibold mb-1">{t('disease.instructions.title')}</p>
                   <ul className="list-disc list-inside space-y-1">
                     <li>{t('disease.instructions.step1')}</li>
@@ -355,10 +346,10 @@ export const DiseaseDetectionPage: React.FC = () => {
             </div>
 
             <div className="text-center space-y-2">
-              <h3 className="text-xl font-semibold text-gray-900">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white transition-colors">
                 {t('disease.analyzing')}
               </h3>
-              <p className="text-gray-600">{t('disease.analyzingSubtitle')}</p>
+              <p className="text-gray-600 dark:text-gray-400 transition-colors">{t('disease.analyzingSubtitle')}</p>
             </div>
 
             {capturedImageData && (
@@ -377,12 +368,12 @@ export const DiseaseDetectionPage: React.FC = () => {
           <>
             {result.mode === 'online' && result.analysis && parsedAIResult ? (
               <>
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4 mb-6 transition-colors">
                   <div className="flex items-center gap-2">
-                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
-                    <p className="text-sm font-semibold text-purple-900">AI-Powered Analysis</p>
+                    <p className="text-sm font-semibold text-purple-900 dark:text-purple-200 transition-colors">AI-Powered Analysis</p>
                   </div>
                 </div>
 
@@ -396,13 +387,13 @@ export const DiseaseDetectionPage: React.FC = () => {
                       onReset={handleReset}
                       onSave={handleSave}
                     />
-                    
-                    <details className="mt-6 bg-gray-50 rounded-lg border border-gray-200">
-                      <summary className="cursor-pointer p-4 font-semibold text-gray-700 hover:bg-gray-100 rounded-lg">
+
+                    <details className="mt-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors">
+                      <summary className="cursor-pointer p-4 font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
                         View Detailed Analysis
                       </summary>
                       <div className="p-4 pt-0">
-                        <div className="prose prose-sm max-w-none text-gray-700">
+                        <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300 dark:prose-invert">
                           <ReactMarkdown>{result.analysis}</ReactMarkdown>
                         </div>
                       </div>
@@ -410,7 +401,7 @@ export const DiseaseDetectionPage: React.FC = () => {
                   </>
                 ) : (
                   <div className="space-y-6">
-                    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-colors">
                       {capturedImageData && (
                         <img
                           src={capturedImageData}
@@ -420,16 +411,16 @@ export const DiseaseDetectionPage: React.FC = () => {
                       )}
                     </div>
 
-                    <div className="bg-white rounded-lg shadow-md p-6">
-                      <h3 className="text-xl font-bold text-gray-900 mb-4">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-colors">
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 transition-colors">
                         Analysis Result
                       </h3>
-                      <div className="prose prose-sm max-w-none text-gray-700">
+                      <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300 dark:prose-invert">
                         <ReactMarkdown>{result.analysis}</ReactMarkdown>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3 pt-4 border-t">
+                    <div className="grid grid-cols-2 gap-3 pt-4 border-t dark:border-gray-700">
                       <Button variant="outline" onClick={handleReset} className="w-full">
                         Analyze Another
                       </Button>
@@ -451,7 +442,7 @@ export const DiseaseDetectionPage: React.FC = () => {
               />
             ) : (
               <div className="text-center py-8">
-                <p className="text-gray-600">No results available</p>
+                <p className="text-gray-600 dark:text-gray-400 transition-colors">No results available</p>
                 <Button onClick={handleReset} variant="outline" className="mt-4">
                   Try Again
                 </Button>
@@ -462,9 +453,9 @@ export const DiseaseDetectionPage: React.FC = () => {
 
         {pageState === 'error' && (
           <div className="flex flex-col items-center justify-center py-16 space-y-6">
-            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center">
+            <div className="w-20 h-20 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center transition-colors">
               <svg
-                className="w-10 h-10 text-red-600"
+                className="w-10 h-10 text-red-600 dark:text-red-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -479,10 +470,10 @@ export const DiseaseDetectionPage: React.FC = () => {
             </div>
 
             <div className="text-center space-y-2">
-              <h3 className="text-xl font-semibold text-gray-900">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white transition-colors">
                 {t('disease.errors.title')}
               </h3>
-              <p className="text-gray-600">{error}</p>
+              <p className="text-gray-600 dark:text-gray-400 transition-colors">{error}</p>
             </div>
 
             <Button onClick={handleReset} variant="outline">

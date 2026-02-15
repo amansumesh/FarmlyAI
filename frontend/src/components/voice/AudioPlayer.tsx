@@ -9,11 +9,11 @@ interface AudioPlayerProps {
   fallbackDuration?: number; // In seconds, used when blob duration isn't available
 }
 
-export const AudioPlayer: React.FC<AudioPlayerProps> = ({ 
-  audioUrl, 
+export const AudioPlayer: React.FC<AudioPlayerProps> = ({
+  audioUrl,
   autoPlay = false,
   className,
-  fallbackDuration 
+  fallbackDuration
 }) => {
   const { t } = useTranslation();
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -36,16 +36,16 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         setCurrentTime(audio.currentTime);
       }
     };
-    
+
     const updateDuration = () => {
       if (!isNaN(audio.duration) && isFinite(audio.duration) && audio.duration > 0) {
         setDuration(audio.duration);
         console.log('Audio duration set:', audio.duration);
       }
     };
-    
+
     const handleEnded = () => setIsPlaying(false);
-    
+
     const handleError = () => {
       console.error('Audio player error - invalid audio source');
       setError(true);
@@ -65,7 +65,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     audio.addEventListener('canplaythrough', updateDuration);
     audio.addEventListener('ended', handleEnded);
     audio.addEventListener('error', handleError);
-    
+
     // Force load metadata
     audio.load();
 
@@ -122,8 +122,8 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
   if (error) {
     return (
-      <div className={cn('bg-red-50 rounded-lg border border-red-200 p-4', className)}>
-        <p className="text-sm text-red-800 text-center">
+      <div className={cn('bg-red-50 dark:bg-red-900/30 rounded-lg border border-red-200 dark:border-red-800 p-4 transition-colors', className)}>
+        <p className="text-sm text-red-800 dark:text-red-300 text-center transition-colors">
           {t('voice.audioError') || 'Unable to load audio'}
         </p>
       </div>
@@ -131,13 +131,13 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   }
 
   return (
-    <div className={cn('bg-white rounded-lg border border-gray-200 p-4', className)}>
+    <div className={cn('bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 transition-colors duration-200', className)}>
       <audio ref={audioRef} src={audioUrl} preload="metadata" />
-      
+
       <div className="flex items-center gap-4">
         <button
           onClick={togglePlayPause}
-          className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-green-600 text-white hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+          className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-green-600 dark:bg-green-700 text-white hover:bg-green-700 dark:hover:bg-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           aria-label={isPlaying ? t('voice.pause') : t('voice.play')}
         >
           {isPlaying ? (
@@ -158,9 +158,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             max={duration || 0}
             value={currentTime}
             onChange={handleSeek}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-600"
+            className="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-600 dark:accent-green-500 transition-colors"
           />
-          <div className="flex justify-between text-xs text-gray-600 mt-1">
+          <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mt-1 transition-colors">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>

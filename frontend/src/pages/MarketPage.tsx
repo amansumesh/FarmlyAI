@@ -77,11 +77,11 @@ export const MarketPage = () => {
   };
 
   const getRecommendationColor = () => {
-    if (!marketData?.priceAnalysis) return 'bg-gray-100 text-gray-800';
+    if (!marketData?.priceAnalysis) return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
     const trend = marketData.priceAnalysis.trend;
-    if (trend === 'rising') return 'bg-green-100 text-green-800 border-green-300';
-    if (trend === 'falling') return 'bg-red-100 text-red-800 border-red-300';
-    return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+    if (trend === 'rising') return 'bg-green-100 text-green-800 border-green-300 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800';
+    if (trend === 'falling') return 'bg-red-100 text-red-800 border-red-300 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800';
+    return 'bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-800';
   };
 
   const getRecommendationIcon = () => {
@@ -127,7 +127,7 @@ export const MarketPage = () => {
   console.log('[MarketPage] Rendering JSX...');
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center gap-4 mb-6">
           <Button
@@ -145,17 +145,17 @@ export const MarketPage = () => {
             </svg>
             {t('common.back')}
           </Button>
-          <h1 className="text-3xl font-bold text-gray-900">{t('market.title')}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white transition-colors">{t('market.title')}</h1>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6 transition-colors duration-200">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 transition-colors">
             {t('market.selectCrop')}
           </label>
           <select
             value={selectedCrop}
             onChange={(e) => setSelectedCrop(e.target.value)}
-            className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full md:w-64 px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
           >
             {AVAILABLE_CROPS.map((crop) => (
               <option key={crop} value={crop}>
@@ -168,14 +168,14 @@ export const MarketPage = () => {
         {loading && (
           <div className="flex flex-col items-center justify-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-            <p className="mt-4 text-gray-600">{t('common.loading')}</p>
+            <p className="mt-4 text-gray-600 dark:text-gray-400 transition-colors">{t('common.loading')}</p>
           </div>
         )}
 
         {error && (
-          <div className="bg-red-50 border border-red-300 rounded-lg p-4 mb-6">
+          <div className="bg-red-50 dark:bg-red-900/30 border border-red-300 dark:border-red-800 rounded-lg p-4 mb-6 transition-colors">
             <div className="flex items-center gap-3">
-              <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -184,8 +184,8 @@ export const MarketPage = () => {
                 />
               </svg>
               <div>
-                <h3 className="font-semibold text-red-800">{t('common.error')}</h3>
-                <p className="text-sm text-red-700">{error}</p>
+                <h3 className="font-semibold text-red-800 dark:text-red-200 transition-colors">{t('common.error')}</h3>
+                <p className="text-sm text-red-700 dark:text-red-300 transition-colors">{error}</p>
               </div>
             </div>
             <Button onClick={loadMarketPrices} variant="secondary" className="mt-3">
@@ -197,7 +197,7 @@ export const MarketPage = () => {
         {!loading && !error && marketData && (
           <>
             {marketData.priceAnalysis && (
-              <div className={`border rounded-lg p-6 mb-6 ${getRecommendationColor()}`}>
+              <div className={`border rounded-lg p-6 mb-6 ${getRecommendationColor()} transition-colors`}>
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 mt-1">{getRecommendationIcon()}</div>
                   <div className="flex-1">
@@ -235,7 +235,7 @@ export const MarketPage = () => {
             )}
 
             <div className="mb-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 transition-colors">
                 {t('market.nearbyMarkets')} ({marketData.markets.length})
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -256,7 +256,7 @@ export const MarketPage = () => {
               </div>
             )}
 
-            <div className="bg-white border rounded-lg p-4 text-center text-sm text-gray-500">
+            <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-lg p-4 text-center text-sm text-gray-500 dark:text-gray-400 transition-colors">
               {t('market.lastUpdated')}: {new Date(marketData.updatedAt).toLocaleString(getLocale(i18n.language))}
             </div>
           </>

@@ -76,9 +76,9 @@ export const HomePage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8 animate-fade-in">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20 md:pb-8 animate-fade-in transition-colors duration-200">
       <Header />
-      
+
       <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
         <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg shadow-md p-6 text-white animate-scale-in">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">
@@ -92,13 +92,13 @@ export const HomePage: React.FC = () => {
             <div className="mt-4 flex flex-wrap gap-2 text-sm">
               {user.farmProfile.location && (
                 <span className="bg-white/20 rounded-full px-3 py-1 min-h-[32px] flex items-center">
-                  📍 {user.farmProfile.location.address || 
-                      (user.farmProfile.location.district && user.farmProfile.location.state 
-                        ? `${user.farmProfile.location.district}, ${user.farmProfile.location.state}`
-                        : user.farmProfile.location.state || 
-                          (user.farmProfile.location.coordinates?.length >= 2
-                            ? `${user.farmProfile.location.coordinates[1].toFixed(4)}°N, ${user.farmProfile.location.coordinates[0].toFixed(4)}°E`
-                            : 'Location not available'))}
+                  📍 {user.farmProfile.location.address ||
+                    (user.farmProfile.location.district && user.farmProfile.location.state
+                      ? `${user.farmProfile.location.district}, ${user.farmProfile.location.state}`
+                      : user.farmProfile.location.state ||
+                      (user.farmProfile.location.coordinates?.length >= 2
+                        ? `${user.farmProfile.location.coordinates[1].toFixed(4)}°N, ${user.farmProfile.location.coordinates[0].toFixed(4)}°E`
+                        : 'Location not available'))}
                 </span>
               )}
 
@@ -113,16 +113,16 @@ export const HomePage: React.FC = () => {
           )}
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 animate-scale-in" style={{ animationDelay: '0.1s' }}>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 animate-scale-in transition-colors duration-200" style={{ animationDelay: '0.1s' }}>
           <div className="flex items-center gap-2 mb-4">
             <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
             </svg>
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white transition-colors duration-200">
               {t('voice.title')}
             </h2>
           </div>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 transition-colors duration-200">
             {t('voice.subtitle')}
           </p>
           <VoiceInput onQueryComplete={handleVoiceQueryComplete} />
@@ -156,9 +156,9 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 animate-scale-in" style={{ animationDelay: '0.4s' }}>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 animate-scale-in transition-colors duration-200" style={{ animationDelay: '0.4s' }}>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white transition-colors duration-200">
               {t('history.title')}
             </h2>
           </div>

@@ -23,18 +23,18 @@ export const ProfilePage: React.FC = () => {
   const handleLanguageChange = async (languageCode: string) => {
     const validLanguages = ['hi', 'ta', 'ml', 'te', 'kn', 'en'] as const;
     type ValidLanguage = typeof validLanguages[number];
-    const language = validLanguages.includes(languageCode as ValidLanguage) 
+    const language = validLanguages.includes(languageCode as ValidLanguage)
       ? languageCode as ValidLanguage
       : 'en';
-    
+
     await updateProfile({ language });
-    
+
     // Update authStore to sync the language
     if (user) {
       const { setUser } = useAuthStore.getState();
       setUser({ ...user, language });
     }
-    
+
     i18n.changeLanguage(languageCode);
     setShowLanguageSelector(false);
   };
@@ -48,25 +48,25 @@ export const ProfilePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20 md:pb-8 transition-colors duration-200">
       <Header />
-      
+
       <div className="max-w-3xl mx-auto px-4 py-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 transition-colors">
           {t('profile.title')}
         </h1>
 
-        <div className="bg-white rounded-lg shadow-md divide-y divide-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md divide-y divide-gray-200 dark:divide-gray-700 transition-colors duration-200">
           <div className="p-6">
             <div className="flex items-center gap-4 mb-6">
               <div className="bg-green-600 rounded-full w-16 h-16 flex items-center justify-center text-white font-bold text-2xl">
                 {user.name ? user.name.charAt(0).toUpperCase() : user.phoneNumber?.slice(-2) || 'U'}
               </div>
               <div>
-                <p className="text-lg font-semibold text-gray-900">
+                <p className="text-lg font-semibold text-gray-900 dark:text-white transition-colors">
                   {user.name || user.phoneNumber}
                 </p>
-                <p className="text-sm text-gray-500 capitalize">
+                <p className="text-sm text-gray-500 dark:text-gray-400 capitalize transition-colors">
                   {t('profile.language')}: {user.language}
                 </p>
               </div>
@@ -74,38 +74,38 @@ export const ProfilePage: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-1">
+                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1 transition-colors">
                   {t('profile.phoneNumber')}
                 </label>
-                <p className="text-gray-900">{user.phoneNumber}</p>
+                <p className="text-gray-900 dark:text-white transition-colors">{user.phoneNumber}</p>
               </div>
 
               {user.farmProfile && (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                    <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1 transition-colors">
                       {t('advisory.location')}
                     </label>
-                    <p className="text-gray-900">
-                      {user.farmProfile.location?.address || 
-                       (user.farmProfile.location?.district && user.farmProfile.location?.state
-                         ? `${user.farmProfile.location.district}, ${user.farmProfile.location.state}`
-                         : user.farmProfile.location?.state ||
-                           (user.farmProfile.location?.coordinates 
-                             ? `${user.farmProfile.location.coordinates[1].toFixed(4)}°N, ${user.farmProfile.location.coordinates[0].toFixed(4)}°E`
-                             : t('profile.notSet')))}
+                    <p className="text-gray-900 dark:text-white transition-colors">
+                      {user.farmProfile.location?.address ||
+                        (user.farmProfile.location?.district && user.farmProfile.location?.state
+                          ? `${user.farmProfile.location.district}, ${user.farmProfile.location.state}`
+                          : user.farmProfile.location?.state ||
+                          (user.farmProfile.location?.coordinates
+                            ? `${user.farmProfile.location.coordinates[1].toFixed(4)}°N, ${user.farmProfile.location.coordinates[0].toFixed(4)}°E`
+                            : t('profile.notSet')))}
                     </p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                    <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1 transition-colors">
                       {t('onboarding.cropsTitle')}
                     </label>
                     <div className="flex flex-wrap gap-2">
                       {user.farmProfile.crops.map((crop) => (
                         <span
                           key={crop}
-                          className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"
+                          className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 rounded-full text-sm transition-colors"
                         >
                           {t(`crops.${crop}`)}
                         </span>
@@ -115,19 +115,19 @@ export const ProfilePage: React.FC = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
+                      <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1 transition-colors">
                         {t('onboarding.landSizeTitle')}
                       </label>
-                      <p className="text-gray-900">
+                      <p className="text-gray-900 dark:text-white transition-colors">
                         {user.farmProfile.landSize} {t('onboarding.acres')}
                       </p>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
+                      <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1 transition-colors">
                         {t('onboarding.soilTypeTitle')}
                       </label>
-                      <p className="text-gray-900 capitalize">
+                      <p className="text-gray-900 dark:text-white capitalize transition-colors">
                         {user.farmProfile.soilType ? t(`onboarding.soilTypes.${user.farmProfile.soilType}`) : t('profile.notSet')}
                       </p>
                     </div>
@@ -173,7 +173,7 @@ export const ProfilePage: React.FC = () => {
             <Button
               onClick={handleLogout}
               variant="secondary"
-              className="w-full text-red-600 hover:bg-red-50"
+              className="w-full text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -183,7 +183,7 @@ export const ProfilePage: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
+        <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400 transition-colors">
           <p>{t('profile.version')}</p>
           <p className="mt-1">{t('profile.tagline')}</p>
         </div>

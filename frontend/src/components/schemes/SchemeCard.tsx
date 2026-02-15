@@ -9,51 +9,51 @@ export const SchemeCard = ({ scheme }: SchemeCardProps) => {
   const { t } = useTranslation();
 
   const getMatchColor = (match: number) => {
-    if (match >= 80) return 'bg-green-100 text-green-800';
-    if (match >= 50) return 'bg-yellow-100 text-yellow-800';
-    return 'bg-gray-100 text-gray-800';
+    if (match >= 80) return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300';
+    if (match >= 50) return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300';
+    return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
   };
 
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'central':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300';
       case 'state':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300';
       case 'district':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
     }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-4 hover:shadow-lg transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-4 hover:shadow-lg transition-all duration-200 border border-transparent dark:border-gray-700">
       <div className="flex justify-between items-start mb-3">
-        <h3 className="text-lg font-semibold text-gray-900 flex-1 pr-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex-1 pr-4 transition-colors">
           {scheme.name}
         </h3>
         <div className="flex gap-2 flex-shrink-0">
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getMatchColor(scheme.eligibilityMatch)}`}>
+          <span className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${getMatchColor(scheme.eligibilityMatch)}`}>
             {scheme.eligibilityMatch}% {t('schemes.match')}
           </span>
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${getTypeColor(scheme.type)}`}>
+          <span className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${getTypeColor(scheme.type)}`}>
             {t(`schemes.types.${scheme.type}`)}
           </span>
         </div>
       </div>
 
-      <p className="text-gray-600 text-sm mb-4">{scheme.description}</p>
+      <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 transition-colors">{scheme.description}</p>
 
       <div className="mb-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-2">
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 transition-colors">
           {t('schemes.benefits')}:
         </h4>
         <ul className="space-y-1">
           {scheme.benefits.map((benefit, index) => (
-            <li key={index} className="flex items-start text-sm text-gray-700">
+            <li key={index} className="flex items-start text-sm text-gray-700 dark:text-gray-300 transition-colors">
               <svg
-                className="w-5 h-5 text-green-600 mr-2 flex-shrink-0 mt-0.5"
+                className="w-5 h-5 text-green-600 dark:text-green-500 mr-2 flex-shrink-0 mt-0.5 transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -72,12 +72,12 @@ export const SchemeCard = ({ scheme }: SchemeCardProps) => {
       </div>
 
       <div className="mb-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-2">
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 transition-colors">
           {t('schemes.applicationSteps')}:
         </h4>
         <ol className="list-decimal list-inside space-y-1">
           {scheme.applicationSteps.map((step, index) => (
-            <li key={index} className="text-sm text-gray-700">
+            <li key={index} className="text-sm text-gray-700 dark:text-gray-300 transition-colors">
               {step}
             </li>
           ))}
@@ -85,14 +85,14 @@ export const SchemeCard = ({ scheme }: SchemeCardProps) => {
       </div>
 
       <div className="mb-4">
-        <h4 className="text-sm font-semibold text-gray-900 mb-2">
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 transition-colors">
           {t('schemes.requiredDocuments')}:
         </h4>
         <div className="flex flex-wrap gap-2">
           {scheme.requiredDocuments.map((doc, index) => (
             <span
               key={index}
-              className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
+              className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full transition-colors"
             >
               {doc}
             </span>
@@ -106,7 +106,7 @@ export const SchemeCard = ({ scheme }: SchemeCardProps) => {
             href={scheme.applicationUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 dark:hover:bg-green-500 transition-colors"
           >
             {t('schemes.applyNow')}
             <svg

@@ -53,6 +53,9 @@ importers:
       form-data:
         specifier: ^4.0.5
         version: 4.0.5
+      groq:
+        specifier: ^5.9.0
+        version: 5.9.0
       groq-sdk:
         specifier: ^0.37.0
         version: 0.37.0
@@ -2784,6 +2787,10 @@ packages:
 
   groq-sdk@0.37.0:
     resolution: {integrity: sha512-lT72pcT8b/X5XrzdKf+rWVzUGW1OQSKESmL8fFN5cTbsf02gq6oFam4SVeNtzELt9cYE2Pt3pdGgSImuTbHFDg==}
+
+  groq@5.9.0:
+    resolution: {integrity: sha512-pwd8ZowCZEJesJtJ/pwGRCsLb00hCAgxmP7kQ0vBR1edDHqVxw7lZSGTXsz6TijWZGhQ6o0/vSJ1JChDNalyvA==}
+    engines: {node: '>=20.19 <22 || >=22.12'}
 
   gtoken@7.1.0:
     resolution: {integrity: sha512-pCcEwRi+TKpMlxAQObHDQ56KawURgyAf6jtIY046fJ5tIv3zDe/LEIubckAO8fj6JnAxLdmWkUfNyulQ2iKdEw==}
@@ -7338,6 +7345,8 @@ snapshots:
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
+
+  groq@5.9.0: {}
 
   gtoken@7.1.0:
     dependencies:

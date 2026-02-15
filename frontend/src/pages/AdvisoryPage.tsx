@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { ChevronLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { advisoryService } from '../services/advisory.service';
@@ -27,10 +28,10 @@ export const AdvisoryPage = () => {
       );
       setAdvisoryData(data);
     } catch (err) {
-      const errorMessage = err instanceof Error && 'response' in err 
-        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message 
+      const errorMessage = err instanceof Error && 'response' in err
+        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
         : undefined;
-      
+
       if (errorMessage === 'Please complete your farm profile first') {
         setError(t('advisory.errors.profileIncomplete'));
       } else if (errorMessage === 'Farm location is required for personalized recommendations') {
@@ -56,10 +57,10 @@ export const AdvisoryPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center transition-colors duration-200">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mb-4"></div>
-          <p className="text-gray-600">{t('common.loading')}</p>
+          <p className="text-gray-600 dark:text-gray-400 transition-colors">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -67,8 +68,8 @@ export const AdvisoryPage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6 text-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4 transition-colors duration-200">
+        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center transition-colors duration-200">
           <svg
             className="w-16 h-16 text-red-500 mx-auto mb-4"
             fill="none"
@@ -82,8 +83,8 @@ export const AdvisoryPage = () => {
               d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">{t('common.error')}</h2>
-          <p className="text-gray-600 mb-4">{error}</p>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 transition-colors">{t('common.error')}</h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-4 transition-colors">{error}</p>
           <div className="flex gap-2 justify-center">
             <Button onClick={loadAdvisory} variant="primary">
               {t('common.retry')}
@@ -91,10 +92,10 @@ export const AdvisoryPage = () => {
             {(error === t('advisory.errors.profileIncomplete') ||
               error === t('advisory.errors.locationRequired') ||
               error === t('advisory.errors.cropsRequired')) && (
-              <Button onClick={handleCompleteProfile} variant="secondary">
-                {t('advisory.completeProfile')}
-              </Button>
-            )}
+                <Button onClick={handleCompleteProfile} variant="secondary">
+                  {t('advisory.completeProfile')}
+                </Button>
+              )}
           </div>
         </div>
       </div>
@@ -106,32 +107,33 @@ export const AdvisoryPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-8">
-      <div className="bg-green-600 text-white p-6 shadow-md">
-        <div className="max-w-4xl mx-auto">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 mb-4 hover:opacity-80 transition-opacity"
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20 md:pb-8 transition-colors duration-200">
+      <div className="bg-green-600 text-white p-6 shadow-md transition-colors">
+        <div className="max-w-4xl mx-auto flex items-center gap-4">
+          <Button
+            onClick={() => navigate('/home')}
+            variant="secondary"
+            size="sm"
+            className="rounded-full w-10 h-10 p-0 flex items-center justify-center shrink-0 bg-white/20 hover:bg-white/30 text-white border-transparent focus:ring-green-400 dark:bg-white/20 dark:hover:bg-white/30"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            <span>{t('common.back')}</span>
-          </button>
-          <h1 className="text-2xl font-bold mb-2">{t('advisory.title')}</h1>
-          <p className="text-green-100">{t('advisory.subtitle')}</p>
+            <ChevronLeft className="w-5 h-5" />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold mb-2">{t('advisory.title')}</h1>
+            <p className="text-green-100">{t('advisory.subtitle')}</p>
+          </div>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-6 space-y-6">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-colors duration-200">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 transition-colors">
             {t('advisory.farmContext')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg transition-colors">
+                <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -141,15 +143,15 @@ export const AdvisoryPage = () => {
                 </svg>
               </div>
               <div>
-                <p className="text-sm text-gray-600">{t('advisory.crop')}</p>
-                <p className="font-medium text-gray-900 capitalize">
+                <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors">{t('advisory.crop')}</p>
+                <p className="font-medium text-gray-900 dark:text-white capitalize transition-colors">
                   {advisoryData.basedOn.crop}
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg transition-colors">
+                <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -159,15 +161,15 @@ export const AdvisoryPage = () => {
                 </svg>
               </div>
               <div>
-                <p className="text-sm text-gray-600">{t('advisory.location')}</p>
-                <p className="font-medium text-gray-900">
+                <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors">{t('advisory.location')}</p>
+                <p className="font-medium text-gray-900 dark:text-white transition-colors">
                   {advisoryData.basedOn.location}
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-amber-100 rounded-lg">
-                <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg transition-colors">
+                <svg className="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -177,8 +179,8 @@ export const AdvisoryPage = () => {
                 </svg>
               </div>
               <div>
-                <p className="text-sm text-gray-600">{t('advisory.soilType')}</p>
-                <p className="font-medium text-gray-900 capitalize">
+                <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors">{t('advisory.soilType')}</p>
+                <p className="font-medium text-gray-900 dark:text-white capitalize transition-colors">
                   {advisoryData.basedOn.soilType}
                 </p>
               </div>
@@ -186,12 +188,12 @@ export const AdvisoryPage = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-colors duration-200">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white transition-colors">
               {t('advisory.currentWeather')}
             </h2>
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-gray-600 dark:text-gray-400 transition-colors">
               {advisoryData.weather.location.name}
             </span>
           </div>
@@ -203,30 +205,30 @@ export const AdvisoryPage = () => {
                 className="w-16 h-16"
               />
               <div>
-                <p className="text-3xl font-bold text-gray-900">
+                <p className="text-3xl font-bold text-gray-900 dark:text-white transition-colors">
                   {advisoryData.weather.current.temp}°C
                 </p>
-                <p className="text-sm text-gray-600 capitalize">
+                <p className="text-sm text-gray-600 dark:text-gray-400 capitalize transition-colors">
                   {advisoryData.weather.current.description}
                 </p>
               </div>
             </div>
             <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4 ml-4">
               <div>
-                <p className="text-xs text-gray-600">{t('weather.humidity')}</p>
-                <p className="font-medium text-gray-900">
+                <p className="text-xs text-gray-600 dark:text-gray-400 transition-colors">{t('weather.humidity')}</p>
+                <p className="font-medium text-gray-900 dark:text-white transition-colors">
                   {advisoryData.weather.current.humidity}%
                 </p>
               </div>
               <div>
-                <p className="text-xs text-gray-600">{t('weather.windSpeed')}</p>
-                <p className="font-medium text-gray-900">
+                <p className="text-xs text-gray-600 dark:text-gray-400 transition-colors">{t('weather.windSpeed')}</p>
+                <p className="font-medium text-gray-900 dark:text-white transition-colors">
                   {advisoryData.weather.current.windSpeed} m/s
                 </p>
               </div>
               <div>
-                <p className="text-xs text-gray-600">{t('weather.feelsLike')}</p>
-                <p className="font-medium text-gray-900">
+                <p className="text-xs text-gray-600 dark:text-gray-400 transition-colors">{t('weather.feelsLike')}</p>
+                <p className="font-medium text-gray-900 dark:text-white transition-colors">
                   {advisoryData.weather.current.feels_like}°C
                 </p>
               </div>
@@ -236,12 +238,12 @@ export const AdvisoryPage = () => {
 
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white transition-colors">
               {t('advisory.recommendations')}
             </h2>
             <button
               onClick={loadAdvisory}
-              className="flex items-center gap-2 text-green-600 hover:text-green-700 font-medium"
+              className="flex items-center gap-2 text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 font-medium transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -256,7 +258,7 @@ export const AdvisoryPage = () => {
           </div>
 
           {advisoryData.recommendations.length === 0 ? (
-            <div className="bg-white rounded-lg shadow-md p-8 text-center">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center transition-colors duration-200">
               <svg
                 className="w-16 h-16 text-gray-400 mx-auto mb-4"
                 fill="none"
@@ -270,7 +272,7 @@ export const AdvisoryPage = () => {
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
-              <p className="text-gray-600">{t('advisory.noRecommendations')}</p>
+              <p className="text-gray-600 dark:text-gray-400 transition-colors">{t('advisory.noRecommendations')}</p>
             </div>
           ) : (
             <div className="space-y-4">
