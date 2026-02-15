@@ -12,6 +12,7 @@ export interface IScheme extends Document {
   officialUrl: string;
   lastVerified: Date;
   sourceCitations: string[];
+  type: string;
   status: "active" | "closed" | "paused";
 }
 
@@ -35,6 +36,7 @@ const SchemeSchema = new Schema<IScheme>(
     lastVerified: { type: Date, default: Date.now },
 
     sourceCitations: { type: [String], default: [] },
+    type: { type: String, default: "central" },
     status: { type: String, default: "active" },
   },
   { timestamps: true }

@@ -3,7 +3,7 @@ import { getAllSchemes, getSchemeById, SchemeService } from "../services/scheme.
 import { User } from "../models/user.model";
 import { AuthRequest } from "../types/auth.types";
 
-export async function getSchemes(req: Request, res: Response) {
+export async function getSchemes(_req: Request, res: Response) {
   try {
     const schemes = await getAllSchemes();
     res.json({ success: true, schemes });
@@ -21,9 +21,9 @@ export async function getScheme(req: Request, res: Response) {
       return res.status(404).json({ success: false, message: "Scheme not found" });
     }
 
-    res.json({ success: true, scheme });
+    return res.json({ success: true, scheme });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Failed to fetch scheme" });
+    return res.status(500).json({ success: false, message: "Failed to fetch scheme" });
   }
 }
 
@@ -42,9 +42,9 @@ export async function getEligibleSchemesMatch(req: Request, res: Response) {
     }
 
     const result = await SchemeService.getEligibleSchemes(user, (language as string) || 'en');
-    res.json({ success: true, data: result });
+    return res.json({ success: true, data: result });
   } catch (err) {
     console.error("Error in getEligibleSchemesMatch:", err);
-    res.status(500).json({ success: false, message: "Failed to fetch eligible schemes" });
+    return res.status(500).json({ success: false, message: "Failed to fetch eligible schemes" });
   }
 }

@@ -1,4 +1,4 @@
-import { Scheme, IScheme } from '../models/scheme.model.js';
+import { Scheme } from '../models/scheme.model.js';
 import { IUser } from '../models/user.model.js';
 import { logger } from '../utils/logger.js';
 import {
