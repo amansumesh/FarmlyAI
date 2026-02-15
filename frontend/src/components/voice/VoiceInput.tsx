@@ -16,7 +16,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
   onQueryComplete,
   className 
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useAuthStore();
   const {
     isRecording,
@@ -107,7 +107,9 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
     const userTranscript = liveTranscript.trim() || 'No speech detected';
 
     try {
-      const result = await voiceService.submitVoiceQuery(audioBlob, user.language);
+      // Use i18n.language to ensure we use the current UI language, not the potentially stale user profile language
+      const currentLanguage = i18n.language; 
+      const result = await voiceService.submitVoiceQuery(audioBlob, currentLanguage, liveTranscript.trim() || undefined);
       
       setTranscription(result.query.transcription);
       setResponseText(result.response.text);

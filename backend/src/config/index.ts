@@ -14,8 +14,8 @@ export const config = {
   },
   
   jwt: {
-    secret: process.env.JWT_SECRET || 'dev-secret-change-in-production',
-    refreshSecret: process.env.JWT_REFRESH_SECRET || 'dev-refresh-secret',
+    secret: process.env.JWT_SECRET || '', 
+    refreshSecret: process.env.JWT_REFRESH_SECRET || '',
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '30d',
   },
@@ -45,6 +45,7 @@ export const config = {
   
   groq: {
     apiKey: process.env.GROQ_API_KEY || '',
+    modelId: 'gemini-2.5-flash',
   },
   
   mlService: {
@@ -67,3 +68,14 @@ export const config = {
     otp: '123456', // Fixed OTP for demo accounts
   },
 };
+
+// Validate required environment variables in production
+if (config.nodeEnv === 'production') {
+  const missingKeys = [];
+  if (!config.jwt.secret) missingKeys.push('JWT_SECRET');
+  if (!config.jwt.refreshSecret) missingKeys.push('JWT_REFRESH_SECRET');
+  
+  if (missingKeys.length > 0) {
+    console.error(`Missing required environment variables: ${missingKeys.join(', ')}`);
+  }
+}

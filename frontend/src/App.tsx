@@ -11,6 +11,7 @@ import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { useAuthStore } from './store/authStore';
 
 const OnboardingPage = lazy(() => import('./pages/OnboardingPage').then(m => ({ default: m.OnboardingPage })));
+import { ChatWidget } from './components/chat/ChatWidget'; // Chat Widget Import
 const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
 const DiseaseDetectionPage = lazy(() => import('./pages/DiseaseDetectionPage').then(m => ({ default: m.DiseaseDetectionPage })));
 const MarketPage = lazy(() => import('./pages/MarketPage').then(m => ({ default: m.MarketPage })));
@@ -19,6 +20,7 @@ const MarketPageSimple = lazy(() => import('./pages/MarketPageSimple').then(m =>
 const AdvisoryPage = lazy(() => import('./pages/AdvisoryPage').then(m => ({ default: m.AdvisoryPage })));
 const SchemesPage = lazy(() => import('./pages/SchemesPage').then(m => ({ default: m.SchemesPage })));
 const ProfilePage = lazy(() => import('./pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
+const KnowledgePage = lazy(() => import('./pages/KnowledgePage'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -126,6 +128,14 @@ function AppRouter() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/knowledge"
+          element={
+            <ProtectedRoute requireOnboarding>
+              <KnowledgePage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
@@ -140,6 +150,7 @@ function App() {
           <Toaster position="top-center" richColors closeButton />
           <OfflineBanner />
           <AppRouter />
+          <ChatWidget />
           <InstallPrompt />
         </BrowserRouter>
       </QueryClientProvider>

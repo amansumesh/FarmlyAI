@@ -20,7 +20,6 @@ build/
 backend/credentials/
 frontend/credentials/
 ml-service/credentials/
-
 !package.json
 !package-lock.json
 !tsconfig.json
@@ -83,5 +82,9 @@ dmypy.json
 backend/uploads/
 uploads/
 
-# ignore env backups
-backend/.env.backup
+
+# Backend
+backend/dist/
+
+# Frontend
+frontend/dev-dist/
