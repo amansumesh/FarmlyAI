@@ -36,7 +36,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, onFileS
     const file = e.target.files?.[0];
     if (file) {
       onFileSelect(file);
-      
+
       const reader = new FileReader();
       reader.onload = (event) => {
         if (event.target?.result) {
@@ -54,7 +54,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, onFileS
 
   return (
     <div className="space-y-4">
-      <div className="relative bg-black rounded-lg overflow-hidden aspect-[4/3]">
+      <div className="relative bg-black rounded-lg overflow-hidden aspect-video">
         {!capturedImage ? (
           <>
             <video
@@ -66,7 +66,7 @@ export const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, onFileS
               autoPlay
               playsInline
             />
-            
+
             {!isStreaming && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
                 <div className="text-center space-y-4">
