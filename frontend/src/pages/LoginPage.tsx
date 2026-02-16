@@ -24,8 +24,8 @@ export const LoginPage: React.FC = () => {
     clearError();
 
     // Validate phone number
-    if (!phoneNumber.match(/^\+\d{1,3}\d{10}$/)) {
-      setError('Please enter a valid phone number (e.g., +919876543210)');
+    if (!phoneNumber.match(/^\+91\d{10}$/)) {
+      setError('Please enter a valid 10-digit number');
       return;
     }
 

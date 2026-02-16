@@ -8,12 +8,12 @@ import { logger } from '../utils/logger.js';
 // Validation schemas
 const sendOTPSchema = z.object({
   phoneNumber: z.string()
-    .regex(/^\+\d{1,3}\d{10}$/, 'Invalid phone number format. Use +91XXXXXXXXXX')
+    .regex(/^\+91\d{10}$/, 'Invalid phone number format. Use +91XXXXXXXXXX')
 });
 
 const verifyOTPSchema = z.object({
   phoneNumber: z.string()
-    .regex(/^\+\d{1,3}\d{10}$/, 'Invalid phone number format'),
+    .regex(/^\+91\d{10}$/, 'Invalid phone number format. Use +91XXXXXXXXXX'),
   otp: z.string()
     .length(6, 'OTP must be 6 digits')
     .regex(/^\d{6}$/, 'OTP must contain only digits')
