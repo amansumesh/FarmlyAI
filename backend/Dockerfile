@@ -1,26 +1,24 @@
-FROM node:20-slim
+FROM node:20-alpine
 
 WORKDIR /app
 
-# install python + venv
-RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
-
-# install pnpm
+# Install pnpm
 RUN npm install -g pnpm
 
+# Copy package files
 COPY package.json ./
+
+# Install dependencies (no lockfile in subfolder)
 RUN pnpm install
 
+# Copy source code
 COPY . .
 
-# create venv + install python requirements
-RUN python3 -m venv /venv
-ENV PATH="/venv/bin:$PATH"
-
-RUN pip install --no-cache-dir -r requirements.txt
-
+# Build the application
 RUN pnpm run build
 
+# Expose port
 EXPOSE 4000
 
-CMD sh -c "python rag_service.py & pnpm start"
+# Start the application
+CMD ["pnpm", "start"]
