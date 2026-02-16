@@ -71,7 +71,7 @@ class OTPService {
 
   async sendOTP(phoneNumber: string): Promise<{ success: boolean; expiresIn: number; otp?: string }> {
     try {
-      // Demo mode: Use fixed OTP for demo accounts
+      // Demo mode: Use fixed OTP for demo accounts but still send SMS
       if (this.isDemoAccount(phoneNumber)) {
         const otp = config.demo.otp;
         const expiresAt = Date.now() + (OTP_TTL * 1000);
@@ -85,6 +85,9 @@ class OTPService {
         const otpKey = this.getOTPKey(phoneNumber);
         await this.setInStore(otpKey, JSON.stringify(otpData), OTP_TTL);
 
+        // Send SMS to phone even for demo accounts
+        await this.sendSMS(phoneNumber, otp);
+
         logger.info(`[DEMO MODE] OTP sent to demo account ${phoneNumber}: ${otp}`);
         return { success: true, expiresIn: OTP_TTL, otp };
       }
@@ -92,7 +95,7 @@ class OTPService {
       // Check rate limiting
       const rateLimitKey = this.getRateLimitKey(phoneNumber);
       const rateLimitCount = await this.getFromStore(rateLimitKey);
-      
+
       if (rateLimitCount && parseInt(rateLimitCount) >= 5) {
         throw new Error('Too many OTP requests. Please try again later.');
       }
@@ -175,13 +178,12 @@ class OTPService {
   }
 
   private async sendSMS(phoneNumber: string, otp: string): Promise<void> {
-    // In development mode, just log the OTP
+    // Always log OTP in development mode for debugging
     if (config.nodeEnv === 'development') {
       logger.info(`[DEVELOPMENT] OTP for ${phoneNumber}: ${otp}`);
-      return;
     }
 
-    // Production: Use Twilio to send SMS
+    // Always attempt to send SMS via Twilio if configured
     try {
       // Check if Twilio is configured
       if (!config.twilio.accountSid || !config.twilio.authToken || !config.twilio.phoneNumber) {
@@ -190,7 +192,7 @@ class OTPService {
         return;
       }
 
-      // Dynamically import Twilio (optional dependency)
+      // Dynamically import Twilio
       const twilio = await import('twilio').then(m => m.default);
       const client = twilio(config.twilio.accountSid, config.twilio.authToken);
 
@@ -203,7 +205,7 @@ class OTPService {
       logger.info(`SMS sent successfully to ${phoneNumber}`);
     } catch (error) {
       logger.error('Error sending SMS via Twilio:', error);
-      // Fallback: log OTP for development
+      // Fallback: log OTP so it's not lost
       logger.info(`[FALLBACK] OTP for ${phoneNumber}: ${otp}`);
     }
   }
