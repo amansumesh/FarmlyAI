@@ -1,7 +1,7 @@
 {
   "tomato": {
     "name": "Tomato",
-    "model_path": "../Crop disese classification/Tomato Disease Clssifier/models/1",
+    "model_path": "Crop disese classification/Tomato Disease Clssifier/models/1",
     "classes": [
       "Tomato_Bacterial_spot",
       "Tomato_Early_blight",
@@ -29,7 +29,7 @@
   },
   "potato": {
     "name": "Potato",
-    "model_path": "../Crop disese classification/Potato Disease Classifier/models/1",
+    "model_path": "Crop disese classification/Potato Disease Classifier/models/1",
     "classes": [
       "Potato___Early_blight",
       "Potato___Late_blight",
@@ -43,7 +43,7 @@
   },
   "pepperbell": {
     "name": "Bell Pepper",
-    "model_path": "../Crop disese classification/Pepperbell Disease Classifier/models/1",
+    "model_path": "Crop disese classification/Pepperbell Disease Classifier/models/1",
     "classes": [
       "Pepper__bell___Bacterial_spot",
       "Pepper__bell___healthy"
