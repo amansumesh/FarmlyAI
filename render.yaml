@@ -1,0 +1,39 @@
+services:
+  # 1. The Python RAG Service
+  - type: web
+    name: farmly-rag-service
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn rag_service:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12
+      - key: QDRANT_URL
+        sync: false
+      - key: QDRANT_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: PORT
+        value: 10000
+
+  # 2. Your Node.js Main API
+  - type: web
+    name: farmly-main-backend
+    env: node
+    rootDir: backend
+    buildCommand: pnpm install && pnpm run build
+    startCommand: pnpm run start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.0
+      - key: RAG_SERVICE_URL
+        fromService:
+          name: farmly-rag-service
+          type: web
+          property: host
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
