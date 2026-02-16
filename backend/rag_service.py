@@ -33,7 +33,7 @@ if not GROQ_API_KEY:
 
 os.environ["OPENAI_API_KEY"] = GROQ_API_KEY
 
-PORT = 5001
+PORT = int(os.getenv("PORT", 5001))
 
 # ---------------------------
 # Logging
